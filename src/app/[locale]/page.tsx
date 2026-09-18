@@ -46,7 +46,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: L
         />
         <HomeCategoryCards locale={locale} />
       </Section>
-      <Section tone="soft" className="partners-section">
+      <Section className="partners-section">
         <SectionHeading
           eyebrow={locale === "da" ? "Samarbejder" : "Collaborations"}
           title={locale === "da" ? "Byer og partnere, der arbejder med bedre mobilitetsdata." : "Cities and partners working with better mobility data."}

@@ -45,7 +45,7 @@ const copy = {
   en: {
     area: "Area",
     date: "Date range",
-    allAreas: "Parking network",
+    allAreas: "All parking lots",
     allDates: "All dates",
     featureTitle: "From mobility data to a clear picture",
     featureIntro:
@@ -82,7 +82,7 @@ const copy = {
   da: {
     area: "Område",
     date: "Datoperiode",
-    allAreas: "Parkeringsnetværk",
+    allAreas: "Alle parkeringsområder",
     allDates: "Alle datoer",
     featureTitle: "Fra mobilitetsdata til et klart billede",
     featureIntro:
@@ -153,7 +153,7 @@ export function InsightsDataLab({ locale }: { locale: Locale }) {
                 <option value="all">{text.allAreas}</option>
                 {demoData.areas.map((item, index) => (
                   <option key={item.area} value={item.area}>
-                    {friendlyAreaLabel(item.area, index, locale)}
+                    {friendlyAreaLabel(index, locale)}
                   </option>
                 ))}
               </select>
@@ -231,12 +231,8 @@ export function InsightsDataLab({ locale }: { locale: Locale }) {
   );
 }
 
-function friendlyAreaLabel(area: string, index: number, locale: Locale) {
-  if (area === "zoo") {
-    return locale === "da" ? "Samlet parkeringsnetværk" : "Parking network";
-  }
-
-  return locale === "da" ? `Parkeringsområde ${index + 1}` : `Parking area ${index + 1}`;
+function friendlyAreaLabel(index: number, locale: Locale) {
+  return locale === "da" ? `Parkeringszone ${index + 1}` : `Parking zone ${index + 1}`;
 }
 
 function formatDate(date: string, locale: Locale) {

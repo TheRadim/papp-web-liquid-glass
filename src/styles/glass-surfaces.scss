@@ -26,7 +26,6 @@ button.project-category-card,
 .contact-form,
 .insights-data-lab__preview,
 .insights-data-lab__card,
-.insights-data-lab__text-panel,
 .camera-installation__grid > article,
 .camera-explorer__viewer,
 .app-feature-selector__dock,
@@ -226,10 +225,7 @@ button.project-category-card:focus-visible {
   .app-feature-selector__icon { border-radius: 18px; }
 }
 
-.testimonial-carousel {
-  @include frosted-surface;
-  padding-block: clamp(1.5rem, 3vw, 2.5rem);
-}
+.testimonial-carousel { padding-block: 1rem; }
 /* Preserve the monitor's dark dashboard and chart geometry. */
 .insight-dashboard__tabs button { border-radius: 999px; }
 .insight-dashboard__panel,
@@ -237,4 +233,46 @@ button.project-category-card:focus-visible {
   border-radius: 14px;
   border-color: rgba(255, 255, 255, 0.12);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+/* Keep editorial text open; use the glass material on actionable controls. */
+.testimonial-arrow {
+  @include frosted-surface;
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+}
+.testimonial-arrow:hover {
+  background: rgba(235, 246, 252, 0.96);
+  color: var(--papp-blue);
+}
+.testimonial-arrow:focus-visible { outline: 2px solid var(--papp-blue); outline-offset: 3px; }
+.partners-section { background: #fff; }
+
+/* No progress line: one gentle glass pulse moves from step 1 to step 4. */
+.project-workflow::before,
+.project-workflow::after { display: none; }
+.project-workflow .project-workflow__step > span {
+  background: rgba(248, 252, 255, 0.95);
+  color: var(--papp-blue);
+  border: 1px solid #fff;
+  box-shadow: 0 4px 14px rgba(55, 81, 126, 0.1), inset 0 1px 1px #fff;
+  animation: workflow-glass-pulse 8s ease-in-out infinite;
+}
+.project-workflow .project-workflow__step:nth-child(2) > span { animation-delay: 2s; }
+.project-workflow .project-workflow__step:nth-child(3) > span { animation-delay: 4s; }
+.project-workflow .project-workflow__step:nth-child(4) > span { animation-delay: 6s; }
+@keyframes workflow-glass-pulse {
+  0%, 25%, 100% { transform: scale(1); box-shadow: 0 4px 14px rgba(55, 81, 126, 0.1), inset 0 1px 1px #fff; }
+  12% { transform: scale(1.06); box-shadow: 0 0 0 6px rgba(71, 178, 228, 0.075), 0 5px 18px rgba(55, 81, 126, 0.14), inset 0 1px 1px #fff; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .project-workflow .project-workflow__step > span { animation: none; }
+}
+@media (max-width: 767.98px) {
+  .project-category-grid--filters { gap: 12px; }
+  .project-category-grid--filters .project-category-card { min-height: 104px; padding: 16px; border-radius: 24px; }
+  .project-category-grid--filters .project-category-card p { display: none; }
+  .project-category-grid--filters .project-category-card svg { margin-bottom: 10px; }
+  .project-category-grid--filters .project-category-card h2 { margin: 0; }
 }
