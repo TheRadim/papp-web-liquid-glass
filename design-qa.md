@@ -26,3 +26,6 @@ First comparison passed; no visual correction cycle required.
 
 ## Checks
 Lint, nine existing tests and static Pages build passed. Responsive viewport override reset after testing.
+
+## Shared surfaces follow-up
+Extended the approved glass treatment to About/team/timeline, project filters and cards, homepage solution panels, product panels, forms and footer. Inspected desktop projects (camera filter selected), About February 2021 link, Insights controls/cards, and homepage footer; inspected contact fields at 390 × 844 and verified no horizontal overflow. No browser errors observed. Found and corrected missing inner padding on Insights chart cards; recapture confirmed inset text. Filter selection and timeline links still work; form input focus tested without submitting. Shared surfaces use native blur to avoid a WebGL context per card. Original repository remains untouched.

@@ -1,0 +1,132 @@
+/* Shared surfaces for the parallel glass edition. Native backdrop compositing
+   keeps long pages light: no separate WebGL renderer per card. */
+:root {
+  --glass-fill: rgba(250, 251, 252, 0.76);
+  --glass-edge: rgba(255, 255, 255, 0.94);
+  --glass-shadow: 0 12px 36px rgba(55, 81, 126, 0.085), inset 0 1px 1px #fff;
+  --glass-radius: 28px;
+}
+
+@mixin frosted-surface {
+  border: 1px solid var(--glass-edge);
+  border-radius: var(--glass-radius);
+  background: var(--glass-fill);
+  box-shadow: var(--glass-shadow);
+  -webkit-backdrop-filter: blur(18px) saturate(100%);
+  backdrop-filter: blur(18px) saturate(100%);
+}
+
+.home-solution-row,
+.project-card,
+button.project-category-card,
+.process-card,
+.review-note,
+.team-card,
+.history-story__card,
+.contact-form,
+.insights-data-lab__preview,
+.insights-data-lab__card,
+.insights-data-lab__text-panel,
+.camera-installation__grid > article,
+.camera-explorer__viewer,
+.app-feature-selector__dock,
+.mobility-city__panel,
+.project-quote-card {
+  @include frosted-surface;
+}
+
+.home-solution-row {
+  padding: clamp(1.1rem, 3vw, 2.4rem);
+}
+.home-solution-row__visual,
+.project-card__media,
+.history-story__media,
+.camera-installation__grid img {
+  border-radius: 18px;
+  overflow: hidden;
+}
+
+button.project-category-card:hover,
+button.project-category-card.is-active {
+  border-color: #fff;
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow: 0 12px 30px rgba(55, 81, 126, 0.14), inset 0 0 0 1px rgba(55, 81, 126, 0.13);
+  transform: translateY(-2px);
+}
+button.project-category-card.is-active h2 { color: var(--papp-blue); }
+button.project-category-card:focus-visible {
+  outline: 2px solid var(--papp-blue);
+  outline-offset: 4px;
+}
+
+.history-story__stream > li.is-active .history-story__card {
+  border-color: #fff;
+  background: rgba(255, 255, 255, 0.88);
+  box-shadow: 0 20px 50px rgba(55, 81, 126, 0.12), inset 0 1px 1px #fff;
+}
+.history-story__stream > li.is-passed .history-story__card { opacity: 0.48; }
+.history-story__nav a {
+  border-radius: 18px;
+  padding: 10px 14px;
+  transition: background 220ms ease, box-shadow 220ms ease, color 220ms ease;
+}
+.history-story__nav li.is-active a {
+  background: rgba(255, 255, 255, 0.86);
+  box-shadow: 0 5px 18px rgba(55, 81, 126, 0.08), inset 0 1px 0 #fff;
+}
+.team-card:hover { border-color: #fff; box-shadow: 0 16px 40px rgba(55, 81, 126, 0.12); }
+
+.contact-form input:not([type="checkbox"]),
+.contact-form textarea,
+.contact-form select,
+.insights-data-lab__controls select {
+  border: 1px solid rgba(55, 81, 126, 0.12);
+  border-radius: 15px;
+  background: rgba(255, 255, 255, 0.72);
+  box-shadow: inset 0 1px 2px rgba(55, 81, 126, 0.025);
+}
+.contact-form input:not([type="checkbox"]):focus,
+.contact-form textarea:focus,
+.contact-form select:focus,
+.insights-data-lab__controls select:focus-visible {
+  outline: 2px solid rgba(47, 146, 197, 0.55);
+  outline-offset: 2px;
+  background: #fff;
+  border-color: transparent;
+}
+.papp-button,
+.contact-form__submit { border-radius: 999px; }
+.camera-explorer__controls button { border-radius: 50%; }
+
+.site-footer {
+  padding: 20px 0;
+  border: 0;
+  background: transparent;
+}
+.site-footer > .container {
+  @include frosted-surface;
+  padding: 24px 28px;
+  width: calc(100% - 32px);
+}
+.footer-social a {
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid #fff;
+  box-shadow: 0 3px 10px rgba(55, 81, 126, 0.06);
+  border-radius: 50%;
+}
+.footer-camera-credit { margin-bottom: 0; }
+
+@media (max-width: 767.98px) {
+  :root { --glass-radius: 22px; }
+  .home-solution-row { padding: 1rem; }
+  .site-footer > .container { width: calc(100% - 20px); padding: 24px 18px; }
+}
+@media (prefers-reduced-transparency: reduce) {
+  :root { --glass-fill: #f8fafc; }
+}
+@supports not (backdrop-filter: blur(1px)) {
+  :root { --glass-fill: #f8fafc; }
+}
+
+.insights-data-lab__card { padding: clamp(1.15rem, 2.6vw, 2rem); }
+.camera-explorer__viewer { padding: clamp(0.75rem, 2vw, 1.5rem); }
