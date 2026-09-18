@@ -59,6 +59,7 @@ export function TestimonialsSection({ locale }: TestimonialsSectionProps) {
         <button type="button" className="testimonial-arrow testimonial-arrow--left" onClick={previous} aria-label={locale === "da" ? "Forrige" : "Previous"}>
           <ChevronLeft aria-hidden="true" size={22} />
         </button>
+        <div className="testimonial-viewport">
         <div className="testimonial-track" style={{ transform: `translateX(-${active * 100}%)` }}>
           {testimonials.map((testimonial, index) => (
             <article className={`testimonial-card ${index === active ? "is-active" : ""}`} key={testimonial.slug}>
@@ -70,6 +71,7 @@ export function TestimonialsSection({ locale }: TestimonialsSectionProps) {
               </div>
             </article>
           ))}
+        </div>
         </div>
         <button type="button" className="testimonial-arrow testimonial-arrow--right" onClick={next} aria-label={locale === "da" ? "Næste" : "Next"}>
           <ChevronRight aria-hidden="true" size={22} />

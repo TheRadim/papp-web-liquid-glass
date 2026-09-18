@@ -1,6 +1,6 @@
 import type { CSSProperties } from "react";
 
-const balls = Array.from({ length: 50 }, (_, index) => {
+const balls = Array.from({ length: 7 }, (_, index) => {
   const seed = (index * 37) % 101;
   const colors = [
     "rgba(0, 126, 181, 0.3)",
@@ -11,10 +11,10 @@ const balls = Array.from({ length: 50 }, (_, index) => {
 
   return {
     color: colors[index % colors.length],
-    delay: `${(index % 11) * -0.37}s`,
-    duration: `${2.6 + (index % 9) * 0.36}s`,
+    delay: `${index * -4}s`,
+    duration: `${24 + index * 3}s`,
     left: `${(seed * 17) % 100}%`,
-    size: `${0.35 + (index % 7) * 0.18}rem`,
+    size: `${10 + (index % 4) * 3}rem`,
     top: `${(seed * 29) % 100}%`,
     x: `${(index % 2 === 0 ? -1 : 1) * (3 + (index % 9))}rem`,
     y: `${2 + (index % 10)}rem`

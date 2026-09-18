@@ -52,13 +52,6 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
             </p>
             <h1>{pick(locale, project.title)}</h1>
             <p className="hero-lead">{pick(locale, project.summary)}</p>
-            <div className="project-article-meta">
-              <span>{project.clientName}</span>
-              <span>{pick(locale, categoryLabels[project.category])}</span>
-              {project.technologies?.slice(0, 3).map((technology) => (
-                <span key={technology}>{technology}</span>
-              ))}
-            </div>
           </div>
           <Image
             className="project-article-hero__image"
@@ -73,17 +66,6 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
       </section>
       <Section className="project-article-section">
         <div className="project-article-layout">
-          <aside className="project-article-aside">
-            <p className="eyebrow">{locale === "da" ? "Overblik" : "Overview"}</p>
-            <ul className="tag-list">
-              {project.technologies?.map((technology) => (
-                <li key={technology}>{technology}</li>
-              ))}
-            </ul>
-            <Button href={`/${locale}/contact`} variant="secondary">
-              {locale === "da" ? "Tal om et lignende projekt" : "Discuss a similar project"}
-            </Button>
-          </aside>
           <div className="project-article-body">
             {project.challenge ? (
               <article>
@@ -112,6 +94,11 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
                 <cite>{testimonial.organisation}</cite>
               </blockquote>
             ) : null}
+            <div className="project-article-cta">
+              <Button href={`/${locale}/contact`} variant="secondary">
+                {locale === "da" ? "Tal om et lignende projekt" : "Discuss a similar project"}
+              </Button>
+            </div>
           </div>
         </div>
       </Section>

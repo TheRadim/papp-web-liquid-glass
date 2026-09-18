@@ -276,3 +276,67 @@ button.project-category-card:focus-visible {
   .project-category-grid--filters .project-category-card svg { margin-bottom: 10px; }
   .project-category-grid--filters .project-category-card h2 { margin: 0; }
 }
+
+/* A continuous white page canvas; glass belongs to the individual controls. */
+body,
+.papp-section--soft,
+.partners-section,
+.project-intelligence-section,
+.project-listing-section,
+.app-promo,
+.camera-explorer,
+.camera-installation,
+.subpage-hero,
+.project-article-hero,
+.insights-data-lab,
+.sensor-product-lab,
+.contact-page-section { background: #fff; }
+.app-promo::before { display: none; }
+.app-promo .app-phone { filter: none; }
+.app-phone-stage,
+.app-promo__grid { background: transparent; border: 0; box-shadow: none; }
+
+/* Clip the moving slides only. Sibling arrows retain their full soft shadow. */
+.testimonial-carousel { overflow: visible; }
+.testimonial-viewport { overflow: hidden; }
+.testimonial-arrow {
+  transition: background 400ms ease-in-out, color 400ms ease-in-out, box-shadow 400ms ease-in-out, transform 400ms ease-in-out;
+}
+.testimonial-arrow:hover { transform: translateY(-1px); }
+
+.project-workflow .project-workflow__step > span { animation-duration: 16s; }
+.project-workflow .project-workflow__step:nth-child(2) > span { animation-delay: 4s; }
+.project-workflow .project-workflow__step:nth-child(3) > span { animation-delay: 8s; }
+.project-workflow .project-workflow__step:nth-child(4) > span { animation-delay: 12s; }
+@keyframes workflow-glass-pulse {
+  0%, 30%, 100% { transform: scale(1); box-shadow: 0 4px 14px rgba(55, 81, 126, 0.1), inset 0 1px 1px #fff; }
+  15% { transform: scale(1.025); box-shadow: 0 0 0 3px rgba(71, 178, 228, 0.035), 0 5px 16px rgba(55, 81, 126, 0.115), inset 0 1px 1px #fff; }
+}
+
+.contact-floating-balls { filter: blur(55px); opacity: 0.24; }
+.contact-floating-balls__ball { opacity: 0.5; }
+@media (prefers-reduced-motion: reduce) {
+  .contact-floating-balls__ball { animation: none; }
+  .testimonial-arrow { transition: none; }
+}
+
+/* Case studies read as an article, with one column and one concluding action. */
+.project-article-hero__inner { max-width: 800px; text-align: left; }
+.project-article-hero__image { display: block; max-width: 960px; margin: 2rem auto 0; box-shadow: none; }
+.project-article-layout { display: block; max-width: 760px; margin-inline: auto; }
+.project-article-body { max-width: none; gap: 2.5rem; }
+.project-article-body article { border: 0; padding-bottom: 0; }
+.project-article-body article > .eyebrow { display: none; }
+.project-article-body article p { line-height: 1.8; }
+.project-article-body .project-quote-card {
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  backdrop-filter: none;
+  padding: 1rem 0;
+}
+.project-article-gallery-section .container { max-width: 984px; }
+.project-article-gallery-section { padding-top: 0; }
+.offering-use-cases-section { padding-block: 1.5rem 2.5rem; }
+.offering-use-cases { border: 0; }
+.project-article-hero h1 { font-size: clamp(2rem, 4vw, 3.25rem); line-height: 1.14; }
