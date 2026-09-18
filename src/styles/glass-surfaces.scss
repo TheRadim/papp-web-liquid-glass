@@ -130,3 +130,111 @@ button.project-category-card:focus-visible {
 
 .insights-data-lab__card { padding: clamp(1.15rem, 2.6vw, 2rem); }
 .camera-explorer__viewer { padding: clamp(0.75rem, 2vw, 1.5rem); }
+
+/* Site-wide refinement: broad panels, inset media and compact controls each
+   have their own radius so the same material works at different scales. */
+:root {
+  --glass-radius: 36px;
+  --papp-radius: 32px;
+}
+
+.offering-feature,
+.project-workflow__step,
+.process-flow__step,
+.project-article-aside,
+.contact-map,
+.app-feature-selector__buttons,
+.camera-explorer__features article,
+.sensor-product-lab__copy li {
+  @include frosted-surface;
+}
+.process-flow__step::before { display: none; }
+.project-workflow__step,
+.process-flow__step { border-radius: 28px; }
+.process-timeline__stream > li.is-active .process-flow__step {
+  border-color: #fff;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: var(--glass-shadow);
+}
+.project-article-meta span {
+  @include frosted-surface;
+  border-radius: 999px;
+}
+.project-gallery img,
+.history-story__media,
+.home-solution-row__visual,
+.project-card__media,
+.insights-data-lab__plot { border-radius: 24px; }
+
+.sensor-product-lab__copy ol { gap: 12px; }
+.sensor-product-lab__copy li { border-radius: 26px; }
+.sensor-product-lab__copy li button { padding: 1.2rem; border-radius: inherit; }
+.sensor-product-lab__copy li:has(button:hover),
+.sensor-product-lab__copy li:has(button:focus-visible) {
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 12px 32px rgba(55, 81, 126, 0.13), inset 0 1px 1px #fff;
+}
+.sensor-product-lab__copy li button:focus-visible {
+  outline: 2px solid var(--papp-blue);
+  outline-offset: 3px;
+}
+.camera-explorer__features { display: grid; gap: 14px; align-content: start; }
+.camera-explorer__features article { padding: 1.35rem; border-radius: 28px; }
+.camera-explorer__features p { margin-left: 0; }
+
+.app-feature-selector__buttons { border-radius: 30px; }
+.app-feature-selector__icon {
+  border-radius: 21px;
+  border-color: rgba(255, 255, 255, 0.95);
+  background: rgba(250, 252, 253, 0.86);
+  box-shadow: 0 4px 12px rgba(55, 81, 126, 0.09), inset 0 1px 1px #fff;
+}
+.app-feature-selector__buttons button:hover .app-feature-selector__icon,
+.app-feature-selector__buttons button.is-active .app-feature-selector__icon {
+  background: rgba(236, 248, 253, 0.96);
+  border-color: #fff;
+  outline: 2px solid rgba(55, 81, 126, 0.14);
+}
+.app-feature-selector__buttons button:focus-visible .app-feature-selector__icon {
+  outline: 2px solid var(--papp-blue);
+  outline-offset: 3px;
+}
+.mobility-city__control,
+.mobility-city__learn,
+.mobility-city__back,
+.mobility-city__close,
+.insights-data-lab__segmented > div { border-radius: 999px; }
+.mobility-city__control {
+  @include frosted-surface;
+  border-radius: 999px;
+}
+.mobility-city__control.is-active {
+  background: rgba(255, 255, 255, 0.96);
+  border-color: #fff;
+  box-shadow: 0 4px 14px rgba(55, 81, 126, 0.13), inset 0 0 0 1px rgba(55, 81, 126, 0.17);
+}
+.insights-data-lab__segmented > div { padding: 4px; gap: 4px; }
+.insights-data-lab__segmented button { border: 0; border-radius: 999px; }
+.insights-data-lab__segmented button.is-active {
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(55, 81, 126, 0.1);
+}
+@media (max-width: 767.98px) {
+  :root { --glass-radius: 28px; --papp-radius: 26px; }
+  .sensor-product-lab__copy li button { padding: 1rem; }
+  .camera-explorer__features article { padding: 1.2rem; }
+  .app-feature-selector__icon { border-radius: 18px; }
+}
+
+.testimonial-carousel {
+  @include frosted-surface;
+  padding-block: clamp(1.5rem, 3vw, 2.5rem);
+}
+/* Preserve the monitor's dark dashboard and chart geometry. */
+.insight-dashboard__tabs button { border-radius: 999px; }
+.insight-dashboard__panel,
+.insight-dashboard__kpis article {
+  border-radius: 14px;
+  border-color: rgba(255, 255, 255, 0.12);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
