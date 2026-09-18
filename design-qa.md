@@ -1,30 +1,28 @@
-**Findings**
-- No actionable P0/P1/P2 findings remain after the motion-led polish pass.
+# Liquid-glass navigation review
 
-**Source Visual Truth**
-- User references: Motion-style magnetic filings screenshots, Motion graph example direction, flat SaaS/corporate direction from the current website iteration, and the supplied animated `Done.svg`.
-- Direction used: subtle cursor-responsive abstract field in Papp blue/coral, animated hero title, animated lightweight line chart, flatter supporting sections, circular timeline dots, placeholder-based team grid, and text-only login.
+final result: passed
 
-**Implementation Evidence**
-- Local preview URL: `http://localhost:3000/en`.
-- Desktop homepage screenshot captured in the in-app browser after the chart animation settled.
-- Mobile breakpoint checked at `390x844`.
+## Visual target and evidence
+- User-supplied toolbar reference: codex-clipboard-e795b164-e86a-4fb4-8eec-a11e2de06d5d.png (453 × 61 pixels).
+- Supporting reference: the supplied Papp sidebar and numerical glass settings.
+- Implementation: qa/desktop-menu.png (1280 × 720 CSS viewport) and qa/mobile-menu.png (390 × 844 CSS viewport), browser screenshots at native capture density.
+- The toolbar source and desktop implementation were displayed together for comparison. This is a style adaptation to a marketing website, not a pixel-identical recreation of the reference analytics application. Compare the focused top-bar surface, rounded silhouette, subdued shadow and control treatment; different app content and widths are intentional.
 
-**Checked Changes**
-- Homepage: added a cursor-responsive filing field, one-line desktop title, animated line-chart card, and removed the heavier old hero mini-map treatment.
-- About: timeline progress now interpolates between actual cards, dots are circular, timeline heading is centered, and team cards use intentional placeholders instead of inconsistent portraits.
-- Projects: removed the project-proof/stat block while preserving portfolio filters and project cards.
-- Contact: simplified the form surface and added an animated Done SVG success state.
-- Header: removed the login icon and replaced the mobile menu icon with animated hamburger lines.
+## Findings
+No actionable P0/P1/P2 findings in the scoped navigation change.
+- Typography: existing brand font retained; compact, legible controls and wordmark.
+- Layout: inset 64px desktop bar and 58px phone bar, 34px corners, rounded dropdown. No cropped navigation controls at inspected widths.
+- Colour: existing coral and blue preserved, neutral frost, white active pill. Zero shader chromatic aberration, distortion, specular and edge highlight.
+- Images: existing vector brand asset retained, no substitute artwork.
+- Copy: existing navigation and destinations retained. Added Papp Mobility wordmark.
+- Interaction: keyboard entry into Solutions, product navigation, mobile menu, Technology expansion and Escape dismissal verified. Phone login stays in the menu. Desktop login remains visible.
+- Browser error log: no errors during inspected navigation.
 
-**Verification**
-- `npm run lint`: passed.
-- `npm run pages:build`: passed.
-- Browser checks: homepage hero, about timeline progress, projects portfolio, contact success state, and mobile menu all rendered/interacted correctly.
+## Implementation detail and limits
+The library renders only the decorative surface using the supplied settings; native backdrop blur samples live page content. This avoids rasterising the entire page, including WebGL models and charts. It is not a full-page optical refraction simulation. The CSS surface also works without WebGL. Mobile Safari hardware was not available for device testing.
 
-**Known Notes**
-- `yarn lint` is currently blocked because the package is not represented in a Yarn lockfile; the repository has `package-lock.json`, and the npm scripts pass.
-- The small `N` badge visible in local screenshots is the Next.js development indicator and is not part of the static export.
+## Comparison history
+First comparison passed; no visual correction cycle required.
 
-**Final Result**
-- final result: passed
+## Checks
+Lint, nine existing tests and static Pages build passed. Responsive viewport override reset after testing.

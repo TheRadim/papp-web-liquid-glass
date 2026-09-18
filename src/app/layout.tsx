@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import "@/styles/globals.scss";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://www.pappmobility.com"),
+  metadataBase: new URL("https://theradim.github.io/papp-web-liquid-glass/"),
+  robots: { index: false, follow: false },
   title: {
     default: "Papp Mobility",
     template: "%s"

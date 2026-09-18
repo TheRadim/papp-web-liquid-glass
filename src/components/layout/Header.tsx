@@ -13,6 +13,8 @@ import { pick } from "@/lib/i18n/locales";
 import { withBasePath } from "@/lib/site/basePath";
 import { LanguageSwitcher } from "@/components/layout/LanguageSwitcher";
 
+import { GlassSurface } from "@/components/layout/GlassSurface";
+
 interface HeaderProps {
   locale: Locale;
 }
@@ -159,8 +161,10 @@ export function Header({ locale }: HeaderProps) {
       </a>
       <div className="container">
         <nav className="nav-shell" ref={navRef} aria-label="Primary">
+          <GlassSurface />
           <Link className="brand-link" href={`/${locale}`} aria-label="Papp Mobility home">
             <Image src={withBasePath(company.logo)} alt="" width={46} height={46} priority />
+            <span className="brand-wordmark">Papp Mobility</span>
           </Link>
 
           <div

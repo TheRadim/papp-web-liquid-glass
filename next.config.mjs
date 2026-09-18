@@ -8,10 +8,10 @@ const githubPages = process.env.GITHUB_PAGES === "1";
 const nextConfig = {
   output: githubPages ? "export" : undefined,
   trailingSlash: githubPages,
-  basePath: githubPages ? "/papp-web" : undefined,
-  assetPrefix: githubPages ? "/papp-web/" : undefined,
+  basePath: githubPages ? "/papp-web-liquid-glass" : undefined,
+  assetPrefix: githubPages ? "/papp-web-liquid-glass/" : undefined,
   env: {
-    NEXT_PUBLIC_SITE_BASE_PATH: githubPages ? "/papp-web" : ""
+    NEXT_PUBLIC_SITE_BASE_PATH: githubPages ? "/papp-web-liquid-glass" : ""
   },
   reactStrictMode: true,
   images: {
