@@ -38,3 +38,10 @@ Phone project filter descriptions hidden below 768px; 12px gaps and compact icon
 
 ## Seamless backgrounds and editorial simplification
 Unified the actual section canvas to white across home, projects, sensor/camera/Insights and services (computed backgrounds checked in browser). Removed homepage phone drop shadow and decorative band. Testimonials now clip only the slide viewport, keeping sibling arrow shadows visible; 400ms ease-in-out hover transitions verified. Workflow pulse extended to 16 seconds with much lower scale/halo intensity. Contact has seven large orbs with 55px blur and low opacity, moving over 24–42 seconds. Project articles now have a single readable column, no sticky sidebar/repeated tags, no article divider lines, and one concluding CTA; inspected desktop and 390px mobile without horizontal overflow. Shared Ideal for row now appears exactly once on each of five offering pages. Lint, all 12 tests and static export passed.
+
+## Product and viewport refinement — 18 September 2026
+- Removed the shared Ideal for section from every offering; centred sensor/camera introductions and About underline; reduced product hero titles and removed camera viewer surface.
+- Shared project-card links cover the image and copy, with named accessible links and visible keyboard focus.
+- App and Contact content now share viewport height with the header/footer, with height-responsive phone, form and spacing. Natural scrolling remains on narrow/short screens.
+- Browser checks: App footer fits at 1280×720, 1024×768 and 1440×900; Contact footer fits at 1280×720 and 1440×900. Phone 390×844 remains readable with natural scroll. Camera and sensor desktop titles each occupy one line; introductions centred; camera shadow none; About underline at heading midpoint; related-project navigation works.
+- Lint, 12 tests and static Pages export passed. Original repository untouched.

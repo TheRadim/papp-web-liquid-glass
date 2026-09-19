@@ -175,6 +175,7 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
       <Section className="about-hero-section">
         <div className="about-hero-block">
           <SectionHeading
+            align="center"
             eyebrow={locale === "da" ? "Om Papp" : "About Papp"}
             title={locale === "da" ? "Historien om Papp Mobility" : "The Story of Papp Mobility"}
             body={

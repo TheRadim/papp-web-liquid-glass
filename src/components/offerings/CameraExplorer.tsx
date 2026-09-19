@@ -102,7 +102,7 @@ export function CameraExplorer({ locale }: { locale: Locale }) {
   return (
     <section className="camera-explorer papp-section">
       <div className="container">
-        <div className="section-heading section-heading--start">
+        <div className="section-heading section-heading--center">
           <p className="eyebrow">{text.eyebrow}</p>
           <h2>{text.title}</h2>
           <p>{text.intro}</p>

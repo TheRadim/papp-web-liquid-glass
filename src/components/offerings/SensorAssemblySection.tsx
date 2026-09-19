@@ -142,7 +142,7 @@ export function SensorAssemblySection({ locale }: { locale: Locale }) {
   return (
     <section className="sensor-product-lab papp-section" ref={sectionRef}>
       <div className="container">
-        <div className="sensor-product-lab__heading section-heading section-heading--start">
+        <div className="sensor-product-lab__heading section-heading section-heading--center">
           <p className="eyebrow">{text.eyebrow}</p>
           <h2>{text.title}</h2>
           <p>{text.intro}</p>

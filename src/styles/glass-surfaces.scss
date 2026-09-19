@@ -340,3 +340,37 @@ body,
 .offering-use-cases-section { padding-block: 1.5rem 2.5rem; }
 .offering-use-cases { border: 0; }
 .project-article-hero h1 { font-size: clamp(2rem, 4vw, 3.25rem); line-height: 1.14; }
+
+/* Product introductions share a quieter, centred hierarchy. */
+.subpage-hero h1 { font-size: clamp(1.85rem, 3.1vw, 2.7rem); line-height: 1.15; }
+.sensor-product-lab__heading,
+.camera-explorer .section-heading { margin-inline: auto; text-align: center; }
+.sensor-product-lab__heading p,
+.camera-explorer .section-heading p { margin-inline: auto; }
+.camera-explorer__viewer { background: transparent; border: 0; box-shadow: none; backdrop-filter: none; padding: 0; }
+.project-card { position: relative; }
+.project-card__link::after { content: ""; position: absolute; inset: 0; border-radius: inherit; }
+.project-card:has(.project-card__link:focus-visible) { outline: 2px solid var(--papp-blue); outline-offset: 4px; }
+
+/* Size the content and footer together, allowing natural overflow at smaller sizes. */
+.site-shell:has(.app-feature-page),
+.site-shell:has(.contact-page-section) { min-height: 100svh; }
+main:has(.app-feature-page),
+main:has(.contact-page-section) { display: flex; flex-direction: column; }
+.app-feature-page.app-feature-section,
+.contact-page-section { min-height: 0; flex: 1; display: grid; align-content: center; }
+.app-feature-page.app-feature-section { padding-block: clamp(1rem, 2.5svh, 2.5rem); }
+@media (min-width: 992px) {
+  .app-feature-page .app-feature-selector__phone img { height: clamp(205px, calc(100svh - 525px), 460px); width: auto; }
+  .app-feature-page .app-feature-selector { gap: clamp(.8rem, 2svh, 1.5rem); }
+  .contact-page-section { padding-block: clamp(1.25rem, 3svh, 3.5rem); }
+  .contact-page-grid { gap: clamp(2.5rem, 6vw, 6rem); }
+  .contact-page-section .contact-form { padding: clamp(1.2rem, 2.5svh, 2.25rem); gap: clamp(.75rem, 1.6svh, 1.3rem); }
+  .contact-page-section .contact-map { max-height: clamp(130px, 18svh, 220px); }
+}
+.contact-page-grid { min-height: 0; }
+@media (min-width: 992px) {
+  .app-feature-page > .container > .section-heading { margin-bottom: 1rem; }
+  .contact-page-section .contact-form textarea { height: clamp(112px, calc(100svh - 610px), 210px); min-height: 112px; }
+  .contact-page-section .contact-map { width: 100%; aspect-ratio: auto; height: clamp(130px, 18svh, 220px); }
+}

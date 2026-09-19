@@ -25,7 +25,7 @@ export function ProjectCard({ project, locale }: ProjectCardProps) {
         <h3>{pick(locale, project.title)}</h3>
         <p className="project-card__client">{project.clientName}</p>
         <p>{pick(locale, project.summary)}</p>
-        <Link href={`/${locale}/projects/${project.slug}`}>{locale === "da" ? "Se projekt" : "View project"}</Link>
+        <Link className="project-card__link" aria-label={`${locale === "da" ? "Se projekt" : "View project"}: ${pick(locale, project.title)}`} href={`/${locale}/projects/${project.slug}`}>{locale === "da" ? "Se projekt" : "View project"}</Link>
       </div>
     </article>
   );

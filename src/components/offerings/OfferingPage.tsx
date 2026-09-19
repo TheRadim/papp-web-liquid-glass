@@ -39,15 +39,6 @@ export function OfferingPage({ locale, offering, afterHero, hideDetailSections =
 
       {afterHero}
 
-      <Section className="offering-use-cases-section">
-        <div className="offering-use-cases">
-          <span className="eyebrow">{locale === "da" ? "Velegnet til" : "Ideal for"}</span>
-          <ul aria-label={locale === "da" ? "Brugsscenarier" : "Use cases"}>
-            {offering.useCases.map((useCase) => <li key={pick(locale, useCase)}>{pick(locale, useCase)}</li>)}
-          </ul>
-        </div>
-      </Section>
-
       {!hideDetailSections ? (
         <Section>
           <div className="offering-benefits">
