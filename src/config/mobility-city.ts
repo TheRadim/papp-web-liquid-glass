@@ -3,7 +3,7 @@ import type { Locale } from "@/content/types";
 import { withBasePath } from "@/lib/site/basePath";
 import type { MobilityArea, MobilityView } from "@/types/mobility-city";
 
-export const MOBILITY_CITY_MODEL_URL = withBasePath("/models/model-onehouse.glb");
+export const MOBILITY_CITY_MODEL_URL = withBasePath("/models/papp-city-draft.glb");
 
 export const CITY_OBJECT_NAMES = {
   base: "parking",
@@ -32,10 +32,10 @@ export const MOBILITY_AREA_ANCHORS: Record<MobilityArea, string> = {
 
 export const MOBILITY_MARKERS: Record<MobilityArea, { position: [number, number, number] }> = {
   sensors: {
-    position: [0.99, 0.2, -1.32]
+    position: [-0.89, 0.16, -1.14]
   },
   cameras: {
-    position: [0.31, 0.64, -2.15]
+    position: [0.40, 0.68, -1.79]
   },
   insights: {
     position: [-1.62, 1.3, -1.05]
@@ -49,13 +49,13 @@ export const CAMERA_VIEWS: Record<MobilityView, { position: [number, number, num
     fov: 46
   },
   sensors: {
-    position: [1.84, 0.55, -1.34],
-    target: [1.14, 0.12, -0.72],
-    fov: 10
+    position: [0.1, 0.85, -2.5],
+    target: [-0.89, 0.04, -1.14],
+    fov: 38
   },
   cameras: {
-    position: [0.48, 1.4, -3.14],
-    target: [0.08, 0.82, -2.06],
+    position: [0.8, 1.2, -3.1],
+    target: [0.4, 0.45, -1.79],
     fov: 38
   },
   insights: {

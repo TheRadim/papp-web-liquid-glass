@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import type { Locale, SeoContent } from "@/content/types";
 import { pick } from "@/lib/i18n/locales";
 
-const siteUrl = "https://www.pappmobility.com";
+const siteUrl = "https://theradim.github.io/papp-web-liquid-glass";
+const socialImage = `${siteUrl}/images/social/papp-mobility.png`;
 
 export function pageMetadata(locale: Locale, seo: SeoContent, path: string): Metadata {
   const title = pick(locale, seo.title);
@@ -26,7 +27,8 @@ export function pageMetadata(locale: Locale, seo: SeoContent, path: string): Met
       url: canonical,
       siteName: "Papp Mobility",
       locale,
-      images: seo.socialImage ? [seo.socialImage] : ["/images/hero/mobility-city-visual.png"]
-    }
+      images: [{ url: socialImage, width: 1200, height: 630, alt: "Papp Mobility" }]
+    },
+    twitter: { card: "summary_large_image", title, description, images: [socialImage] }
   };
 }

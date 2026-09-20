@@ -45,3 +45,9 @@ Unified the actual section canvas to white across home, projects, sensor/camera/
 - App and Contact content now share viewport height with the header/footer, with height-responsive phone, form and spacing. Natural scrolling remains on narrow/short screens.
 - Browser checks: App footer fits at 1280×720, 1024×768 and 1440×900; Contact footer fits at 1280×720 and 1440×900. Phone 390×844 remains readable with natural scroll. Camera and sensor desktop titles each occupy one line; introductions centred; camera shadow none; About underline at heading midpoint; related-project navigation works.
 - Lint, 12 tests and static Pages export passed. Original repository untouched.
+
+## Clearer glass and draft city — 20 September 2026
+- Content and footer surfaces use more transparent graduated glass fills; additional camera controls, chart controls, app icons and form fields use the shared glass treatment. Header styling unchanged, and previously unboxed sections remain unboxed.
+- Imported supplied pappcity.glb unchanged as a draft city asset; repositioned sensor/camera markers and focus views to match its geometry. Desktop sensor selection and 390px mobile camera selection render and open their information panels; no browser errors observed.
+- Supplied brand artwork now forms a 1200×630 uncropped social preview. Open Graph and Twitter metadata use an absolute GitHub Pages image URL and consistent glass-site canonical URLs.
+- Lint, all 12 tests, and production export passed; production preview checked on desktop and phone. Original website untouched.
