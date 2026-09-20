@@ -357,6 +357,13 @@ body,
 .site-shell:has(.contact-page-section) { min-height: 100svh; }
 main:has(.app-feature-page),
 main:has(.contact-page-section) { display: flex; flex-direction: column; }
+/* The route-transition wrapper must pass the available height to its section. */
+main:has(.app-feature-page) > .page-transition,
+main:has(.contact-page-section) > .page-transition {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
 .app-feature-page.app-feature-section,
 .contact-page-section { min-height: 0; flex: 1; display: grid; align-content: center; }
 .app-feature-page.app-feature-section { padding-block: clamp(1rem, 2.5svh, 2.5rem); }

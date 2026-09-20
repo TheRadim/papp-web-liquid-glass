@@ -51,3 +51,8 @@ Unified the actual section canvas to white across home, projects, sensor/camera/
 - Imported supplied pappcity.glb unchanged as a draft city asset; repositioned sensor/camera markers and focus views to match its geometry. Desktop sensor selection and 390px mobile camera selection render and open their information panels; no browser errors observed.
 - Supplied brand artwork now forms a 1200×630 uncropped social preview. Open Graph and Twitter metadata use an absolute GitHub Pages image URL and consistent glass-site canonical URLs.
 - Lint, all 12 tests, and production export passed; production preview checked on desktop and phone. Original website untouched.
+
+## Vertical centring — 20 September 2026
+- Made the App/Contact route-transition wrapper flex to pass remaining main-area height through to each section.
+- Production preview at 1440×1000: Contact margins above/below content both 102.28px; App both 31.55px; footer ends at viewport bottom. At 390×844 App remains top-accessible and scrolls naturally.
+- Static production build passed.
