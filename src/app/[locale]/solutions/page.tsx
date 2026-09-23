@@ -4,6 +4,7 @@ import { getOfferings } from "@/lib/content/accessors";
 import { pageMetadata } from "@/lib/seo/metadata";
 import { Section } from "@/components/layout/Section";
 import { SectionHeading } from "@/components/ui/SectionHeading";
+import { SolutionOutcomes } from "@/components/offerings/SolutionOutcomes";
 import { OfferingFeature } from "@/components/offerings/OfferingFeature";
 import { MobilityCityVisual } from "@/components/hero/MobilityCityVisual";
 
@@ -35,12 +36,13 @@ export default async function SolutionsPage({ params }: { params: Promise<{ loca
             title={locale === "da" ? "Fra måling til næste beslutning." : "From measurement to the next decision."}
             body={
               locale === "da"
-                ? "Papp kombinerer sensorer, kameraer, Papp Insights, analyse og rådgivning, så mobilitetsdata bliver lette at forstå og handle på."
-                : "Papp combines sensors, cameras, Papp Insights, analysis and advisory so mobility data becomes easier to understand and act on."
+                ? "Forstå, hvordan steder bruges, find ledig kapacitet og omsæt målt adfærd til et klart næste skridt."
+                : "Understand how places are used, uncover capacity and turn measured behaviour into a clear next step."
             }
             align="center"
           />
         </div>
+        <SolutionOutcomes locale={locale} />
         <div className="solutions-city-panel">
           <MobilityCityVisual locale={locale} className="mobility-city--solutions" />
         </div>

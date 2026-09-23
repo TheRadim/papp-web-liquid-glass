@@ -8,6 +8,7 @@ export const testimonials: Testimonial[] = [
       da: "Samarbejdet med Papp Mobility giver os den nødvendige data for at kunne lave et beslutningsgrundlag til Aarhus Byråd i forbindelse med en forsøgsordning med erhvervsparkeringspladser i midtbyen. Deres data og sparring er en stor hjælp i arbejdet med at sikre bedre balance mellem behov og kapacitet og om ordningen har potentiale til at gøres permanent."
     },
     organisation: "Aarhus Kommune",
+    organisationLogo: "/images/partners/aarhus.svg",
     published: true,
     contentStatus: "approved"
   },
@@ -18,6 +19,7 @@ export const testimonials: Testimonial[] = [
       da: "Samarbejdet med Papp Mobility startede som ét projekt, men har åbnet op for flere nye indsatser, herunder hvordan adfærden er i bymidten og mulighederne for at skabe et hyggeligere byrum for turister og borgere. Deres data giver os opmærksomhedspunkter, vi kan arbejde videre med i den langsigtede byudvikling."
     },
     organisation: "Faaborg-Midtfyn Kommune",
+    organisationLogo: "/images/partners/faaborg.svg",
     published: true,
     contentStatus: "approved"
   },
@@ -28,6 +30,7 @@ export const testimonials: Testimonial[] = [
       da: "I 2025 indledte vi et dataprojekt med Papp Mobility for at få bedre indsigt i brugen af et parkeringsareal under omstrukturering. De første data giver allerede et mere nuanceret billede af belægning, flow og parkeringsintervaller, hvilket bliver et vigtigt grundlag for at udnytte pladsen mere effektivt fremover."
     },
     organisation: "Ishøj Kommune",
+    organisationLogo: "/images/partners/ishoej.svg",
     published: true,
     contentStatus: "approved"
   },
@@ -38,6 +41,7 @@ export const testimonials: Testimonial[] = [
       da: "Vi har fået adgang til præcise og brugbare data, der har styrket vores arbejde med parkering og mobilitet. Papp Mobility leverer detaljeret indsigt, vi kan handle på og det gør en forskel. Papp yder en god service."
     },
     organisation: "Herning Kommune",
+    organisationLogo: "/images/partners/herning.svg",
     published: true,
     contentStatus: "approved"
   },
@@ -48,6 +52,7 @@ export const testimonials: Testimonial[] = [
       da: "Papp Mobility har ydet kompetent vejledning og leveret en løsning, der i en testfase har vist lovende resultater. Det har givet Thisted Kommune mulighed for at indtænke løsningen i en langsigtet strategi for at reducere søgetrafik i kystbyerne og optimere udnyttelse af eksisterende parkeringspladser i kommunens hovedby."
     },
     organisation: "Thisted Kommune",
+    organisationLogo: "/images/partners/thisted.svg",
     published: true,
     contentStatus: "approved"
   },
@@ -58,6 +63,7 @@ export const testimonials: Testimonial[] = [
       da: "Papp Mobility leverer værdifuld indsigt i, hvordan søgetrafik påvirker vores bymidte. Med deres hjælp har vi fået et klart billede af, hvor og hvornår der skal sættes ind for at skabe bedre flow og mindre trængsel."
     },
     organisation: "Varde Kommune",
+    organisationLogo: "/images/partners/varde.svg",
     published: true,
     contentStatus: "approved"
   },

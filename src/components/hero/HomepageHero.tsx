@@ -1,6 +1,7 @@
 import type { Locale } from "@/content/types";
 import type { HomeContent } from "@/content/home/home";
 import { Button } from "@/components/ui/Button";
+import { CapabilityStatement } from "@/components/hero/CapabilityStatement";
 import { HeroMotionField } from "@/components/hero/HeroMotionField";
 
 interface HomepageHeroProps {
@@ -28,7 +29,7 @@ export function HomepageHero({ locale, content }: HomepageHeroProps) {
             </h1>
             {content.lead ? <p className="hero-lead">{content.lead}</p> : null}
             <div className="hero-secondary">
-              {content.body ? <p>{content.body}</p> : null}
+              <CapabilityStatement locale={locale} />
               <div className="hero-actions">
                 <Button href={`/${locale}/solutions`} variant="primary" className="hero-action hero-action--blue">
                   {content.primaryCta}

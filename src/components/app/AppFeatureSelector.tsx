@@ -18,6 +18,7 @@ interface AppFeatureSelectorProps {
   locale: Locale;
 }
 
+const AUTO_CYCLE_MS = 2500; // 2 seconds stable + 0.5 second crossfade.
 const icons = [MapPinned, Navigation, Search, Map, SlidersHorizontal, MapPinned];
 export function AppFeatureSelector({ features, locale }: AppFeatureSelectorProps) {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -53,13 +54,13 @@ export function AppFeatureSelector({ features, locale }: AppFeatureSelectorProps
   }
 
   useEffect(() => {
-    if (userSelected || features.length < 2) {
+    if (userSelected || features.length < 2 || window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       return;
     }
 
     const timer = window.setInterval(() => {
       setActiveIndex((current) => (current + 1) % features.length);
-    }, 4000);
+    }, AUTO_CYCLE_MS);
 
     return () => window.clearInterval(timer);
   }, [features.length, userSelected]);

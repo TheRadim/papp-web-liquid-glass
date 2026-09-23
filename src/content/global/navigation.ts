@@ -9,8 +9,8 @@ export const navLabels = {
   login: { en: "Log in", da: "Log ind" },
   menu: { en: "Menu", da: "Menu" },
   close: { en: "Close", da: "Luk" },
-  technology: { en: "Technology", da: "Teknologi" },
-  expertise: { en: "Expertise", da: "Ekspertise" }
+  technology: { en: "Products", da: "Produkter" },
+  expertise: { en: "Services", da: "Ydelser" }
 };
 
 export function primaryNavigation(locale: Locale) {
@@ -67,16 +67,16 @@ export const solutionGroups = [
       {
         label: { en: "Analysis", da: "Analyse" },
         description: {
-          en: "Interpret data, compare periods and communicate findings.",
-          da: "Fortolk data, sammenlign perioder og formidl resultater."
+          en: "Reports and recommendations for municipalities and public decision-makers.",
+          da: "Rapporter og anbefalinger til kommuner og offentlige beslutningstagere."
         },
         href: { en: "/en/services/analysis", da: "/da/services/analysis" }
       },
       {
         label: { en: "Consultancy", da: "Rådgivning" },
         description: {
-          en: "Plan measurement projects and turn insight into decisions.",
-          da: "Planlæg måleprojekter og omsæt indsigt til beslutninger."
+          en: "Hands-on workshops and practical advice for businesses.",
+          da: "Praktiske workshops og rådgivning til virksomheder."
         },
         href: { en: "/en/services/consultancy", da: "/da/services/consultancy" }
       }

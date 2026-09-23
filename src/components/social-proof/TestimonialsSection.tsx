@@ -1,5 +1,7 @@
 "use client";
 
+import Image from "next/image";
+import { withBasePath } from "@/lib/site/basePath";
 import { useEffect, useRef, useState } from "react";
 import { ChevronLeft, ChevronRight, Quote } from "lucide-react";
 import type { Locale } from "@/content/types";
@@ -14,6 +16,7 @@ interface TestimonialsSectionProps {
 
 export function TestimonialsSection({ locale }: TestimonialsSectionProps) {
   const testimonials = getTestimonials(locale);
+  const [failedLogos, setFailedLogos] = useState<Record<string, boolean>>({});
   const [active, setActive] = useState(0);
   const touchStartX = useRef<number | null>(null);
 
@@ -66,7 +69,7 @@ export function TestimonialsSection({ locale }: TestimonialsSectionProps) {
               <Quote aria-hidden="true" size={34} />
               <p>{pick(locale, testimonial.quote)}</p>
               <div>
-                <span>{testimonial.organisation.slice(0, 1)}</span>
+                {testimonial.organisationLogo && !failedLogos[testimonial.slug] ? <Image className="testimonial-logo" src={withBasePath(testimonial.organisationLogo)} alt="" width={200} height={72} onError={() => setFailedLogos((current) => ({ ...current, [testimonial.slug]: true }))} /> : null}
                 <strong>{testimonial.organisation}</strong>
               </div>
             </article>

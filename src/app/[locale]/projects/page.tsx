@@ -53,7 +53,7 @@ export default async function ProjectsPage({ params }: { params: Promise<{ local
           <div className="projects-hero">
             <SectionHeading
               eyebrow={locale === "da" ? "Projekter" : "Projects"}
-              title={locale === "da" ? "Mobility projects built around real behaviour." : "Mobility projects built around real behaviour."}
+              title={locale === "da" ? "Mobilitetsprojekter baseret på reel adfærd." : "Mobility projects built around real behaviour."}
               body={
                 locale === "da"
                   ? "Vi hjælper byer, operatører og partnere med at bruge sensorer, kameraer og analyse til at forstå parkering og bevægelse i praksis."
@@ -62,10 +62,24 @@ export default async function ProjectsPage({ params }: { params: Promise<{ local
             />
           </div>
         </Section>
-        <Section className="project-work-section">
+      </div>
+      <Section tone="soft" className="project-listing-section">
+        <SectionHeading
+          eyebrow={locale === "da" ? "Portfolio" : "Portfolio"}
+          title={locale === "da" ? "Udvalgte projekter." : "Selected projects."}
+          body={
+            locale === "da"
+              ? "Filtrer projekterne efter teknologi og projektform, og gå videre til de enkelte cases."
+              : "Filter the projects by technology and project type, then open the individual cases."
+          }
+          align="center"
+        />
+        <ProjectPortfolioFilter locale={locale} projects={projects} />
+      </Section>
+      <Section className="project-work-section">
           <SectionHeading
             eyebrow={locale === "da" ? "Sådan arbejder vi" : "How we work"}
-            title={locale === "da" ? "From local question to practical recommendation." : "From local question to practical recommendation."}
+            title={locale === "da" ? "Fra lokalt spørgsmål til konkret anbefaling." : "From local question to practical recommendation."}
             body={
               locale === "da"
                 ? "En enkel proces, der forbinder målinger, analyse og rådgivning uden at gøre projektet tungere end nødvendigt."
@@ -85,20 +99,6 @@ export default async function ProjectsPage({ params }: { params: Promise<{ local
             ))}
           </div>
         </Section>
-      </div>
-      <Section tone="soft" className="project-listing-section">
-        <SectionHeading
-          eyebrow={locale === "da" ? "Portfolio" : "Portfolio"}
-          title={locale === "da" ? "Udvalgte projekter." : "Selected projects."}
-          body={
-            locale === "da"
-              ? "Filtrer projekterne efter teknologi og projektform, og gå videre til de enkelte cases."
-              : "Filter the projects by technology and project type, then open the individual cases."
-          }
-          align="center"
-        />
-        <ProjectPortfolioFilter locale={locale} projects={projects} />
-      </Section>
     </>
   );
 }

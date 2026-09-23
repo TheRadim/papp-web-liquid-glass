@@ -129,7 +129,6 @@ export function CameraExplorer({ locale }: { locale: Locale }) {
             <p className="camera-explorer__hint">{text.drag} <a href="#camera-model-credit" aria-label={locale === "da" ? "Kreditering af kameramodel" : "Camera model attribution"}><sup>*</sup></a></p>
             <div className="camera-explorer__controls">
               <button type="button" aria-label={text.previous} onClick={() => void rotate(-1)}>←</button>
-              <input type="range" min="0" max={FRAME_COUNT - 1} value={frame} aria-label={text.angle} onChange={(event) => { cancelAnimation(); setFrame(Number(event.target.value)); }} />
               <button type="button" aria-label={text.next} onClick={() => void rotate(1)}>→</button>
             </div>
           </div>

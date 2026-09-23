@@ -20,7 +20,7 @@ const categories = [
     cta: { en: "Explore technology", da: "Udforsk teknologi" }
   },
   {
-    title: { en: "Insights technical hub", da: "Insights teknisk hub" },
+    title: { en: "Papp Insights", da: "Papp Insights" },
     eyebrow: { en: "Platform", da: "Platform" },
     body: {
       en: "Papp Insights brings measurements together in live views, historical comparisons and reporting workflows.",
@@ -35,15 +35,15 @@ const categories = [
     cta: { en: "Open Insights", da: "Åbn Insights" }
   },
   {
-    title: { en: "Consultancy and guidance", da: "Rådgivning og ekspertise" },
-    eyebrow: { en: "Expertise", da: "Ekspertise" },
+    title: { en: "Consultancy & workshops", da: "Rådgivning og workshops" },
+    eyebrow: { en: "For businesses", da: "For virksomheder" },
     body: {
-      en: "Measurement design, analysis and practical recommendations when decisions need a clearer data basis.",
-      da: "Måledesign, analyse og praktiske anbefalinger, når beslutninger kræver et tydeligere datagrundlag."
+      en: "Hands-on workshops to clarify your business’s mobility questions, interpret existing information and agree practical next steps.",
+      da: "Praktiske workshops, hvor vi afklarer virksomhedens mobilitetsspørgsmål, fortolker eksisterende viden og aftaler næste skridt."
     },
     benefits: {
-      en: ["Measurement design", "Interpretation and reporting", "Practical next-step recommendations"],
-      da: ["Måledesign", "Fortolkning og rapportering", "Praktiske anbefalinger til næste skridt"]
+      en: ["Understand the current situation", "Identify missing data", "Agree practical next steps"],
+      da: ["Forstå den nuværende situation", "Identificér manglende data", "Aftal praktiske næste skridt"]
     },
     image: "/images/corporate/insights-meeting-city.jpg",
     href: "/services/consultancy",

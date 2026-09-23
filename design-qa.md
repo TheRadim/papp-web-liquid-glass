@@ -56,3 +56,12 @@ Unified the actual section canvas to white across home, projects, sensor/camera/
 - Made the App/Contact route-transition wrapper flex to pass remaining main-area height through to each section.
 - Production preview at 1440×1000: Contact margins above/below content both 102.28px; App both 31.55px; footer ends at viewport bottom. At 390×844 App remains top-accessible and scrolls naturally.
 - Static production build passed.
+
+## Offering clarity and meeting requests — 23 September 2026
+- Increased navigation/dropdown and city-card frost opacity, including the scrolled header state. Preserved existing visual language and animations; tightened the five-step homepage stream and portfolio introduction.
+- Added a stationary-sentence capability rotation with pause/reduced-motion support, client logos with contain sizing/fallback, outcome-first Solutions copy, separate public-sector reports and business workshops, and shared consultant meeting requests.
+- Sensor exterior uses a safe cloned untextured material override, dark grey with opaque surfaces throughout hover. Camera range control removed; direct drag changed displayed frame 24 to 47 in phone-size browser testing, with arrow controls retained.
+- Added a filter-driven fleet fuel profile from structured demo rows. App cycle is 2.5 seconds with a verified 0.5-second image transition.
+- Browser checks at 1440px desktop and 390px phone covered hero wrapping, menu keyboard expansion, all six loaded municipality logos, city popup contrast, camera dragging, sensor appearance, chart layout, project order, service CTAs and date/time/duration selection. No console errors observed on Insights.
+- Meeting dates begin next week; tests cover Copenhagen midnight, DST, year boundaries, invalid slots and email payload. Recipient: radim.theiner@papp.nu. Static hosting has no email delivery service: UI prepares an email and explicitly asks the visitor to send it; it never claims the request was sent or the meeting reserved. No test emails sent.
+- ESLint, all 17 tests and production static export passed. No new dependencies. Original website/repository untouched.

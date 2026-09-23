@@ -29,6 +29,7 @@ type PlotCollection = {
   hourly: PlotSpec;
   heatmap: PlotSpec;
   structure: PlotSpec;
+  fleet: PlotSpec;
 };
 
 const rows = demoData.rows as DemoRow[];
@@ -222,6 +223,8 @@ export function InsightsDataLab({ locale }: { locale: Locale }) {
           </div>
           <PlotCard plot={plots.structure} />
         </div>
+        <PlotCard className="insights-data-lab__card--wide" plot={plots.fleet} />
+        <p className="insights-data-lab__note">{locale === "da" ? "Demodata: Fordelingen bygger på besøg, ikke unikke køretøjer. Segmentering kan understøtte ladeplanlægning og prognoser; den viser ikke personers demografi." : "Demo data: this profile counts visits, not unique vehicles. Segmentation can support charging plans and predictions; it does not infer personal demographics."}</p>
         <div className="insights-outcome-note">
           <h3>{text.outcomeTitle}</h3>
           <p>{text.outcome}</p>
@@ -334,7 +337,15 @@ function buildPlots(filteredRows: DemoRow[], locale: Locale): PlotCollection {
     yaxis: { fixedrange: true, gridcolor: "rgba(68,68,68,0.08)", zeroline: false }
   });
 
+  const fuels = ["EV", "Hybrid", "ICE", "Other"];
+  const fuelCounts = fuels.map((fuel) => filteredRows.filter((row) => row.fuel === fuel).length);
   return {
+    fleet: {
+      title: locale === "da" ? "Fra trafikmængde til flådeprofil." : "From traffic counts to a fleet profile.",
+      subtitle: locale === "da" ? "Forstå sammensætningen af besøg i det valgte område og tidsrum. Brug filtrene til at undersøge forskelle." : "Understand the mix of visits in the selected area and period. Use the filters to explore differences.",
+      data: [{ type: "bar", x: locale === "da" ? ["El", "Hybrid", "Forbrænding", "Andet"] : ["Electric", "Hybrid", "Combustion", "Other"], y: fuelCounts, marker: { color: ["#2f92c5", "#83cbe9", "#37517e", "#b9c3cc"] }, hovertemplate: "%{x}: %{y}<extra></extra>" }],
+      layout: { ...lightLayout(), height: 320, yaxis: { fixedrange: true, title: { text: locale === "da" ? "Besøg" : "Visits" }, rangemode: "tozero" } }
+    },
     hourly: {
       title: text.hourly,
       subtitle: text.hourlySub,

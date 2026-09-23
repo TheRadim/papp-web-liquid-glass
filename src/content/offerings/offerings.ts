@@ -123,74 +123,140 @@ export const offerings: Offering[] = [
       }
     }
   },
-  {
-    slug: "analysis",
-    category: "analysis",
-    name: { en: "Analysis", da: "Analyse" },
-    eyebrow: { en: "Expertise", da: "Ekspertise" },
-    shortDescription: {
-      en: "Turn raw mobility data into clear maps, graphs, reports and recommendations.",
-      da: "Omsæt rå mobilitetsdata til klare kort, grafer, rapporter og anbefalinger."
-    },
-    introduction: {
-      en: "Papp structures and analyses your data so teams can explain demand, compare periods and support decisions with evidence.",
-      da: "Papp strukturerer og analyserer jeres data, så teams kan forklare efterspørgsel, sammenligne perioder og understøtte beslutninger med dokumentation."
-    },
-    benefits: [
-      { en: "Pattern and period comparisons", da: "Mønstre og periodesammenligninger" },
-      { en: "Clear reporting for decision-makers", da: "Klar rapportering til beslutningstagere" },
-      { en: "Project questions answered with evidence", da: "Projektspørgsmål besvaret med datagrundlag" }
-    ],
-    useCases: [
-      { en: "Before-and-after analysis", da: "Før- og efteranalyse" },
-      { en: "Utilisation review", da: "Gennemgang af udnyttelse" },
-      { en: "Planning recommendations", da: "Planlægningsanbefalinger" }
-    ],
-    heroImage: analysisVisual,
-    relatedProjectSlugs: ["dataoptimering-faaborg"],
-    contentStatus: "draft",
-    seo: {
-      title: { en: "Mobility Analysis | Papp Mobility", da: "Mobilitetsanalyse | Papp Mobility" },
-      description: {
-        en: "Turn mobility data into practical analysis, reporting and decision support.",
-        da: "Omsæt mobilitetsdata til praktisk analyse, rapportering og beslutningsstøtte."
-      }
-    }
+{
+  "slug": "analysis",
+  "category": "analysis",
+  "name": {
+    "en": "Analysis & reports",
+    "da": "Analyse og rapporter"
   },
-  {
-    slug: "consultancy",
-    category: "consultancy",
-    name: { en: "Consultancy", da: "Rådgivning" },
-    eyebrow: { en: "Expertise", da: "Ekspertise" },
-    shortDescription: {
-      en: "Perspective and direction for teams that need to turn insight into workable mobility choices.",
-      da: "Perspektiv og retning til teams, der skal omsætte indsigt til brugbare mobilitetsvalg."
+  "eyebrow": {
+    "en": "For the public sector · B2G",
+    "da": "Til den offentlige sektor · B2G"
+  },
+  "shortDescription": {
+    "en": "A report you can put on the table. Evidence for the next public decision.",
+    "da": "En rapport, I kan lægge på bordet. Dokumentation til den næste politiske beslutning."
+  },
+  "introduction": {
+    "en": "For municipalities, cities and public organisations: we turn a parking, traffic or mobility question into measured evidence, clear conclusions and practical recommendations.",
+    "da": "Til kommuner, byer og offentlige organisationer: Vi omsætter spørgsmål om parkering, trafik og mobilitet til målinger, klare konklusioner og praktiske anbefalinger."
+  },
+  "benefits": [
+    {
+      "en": "A documented measurement approach and transparent data basis.",
+      "da": "En dokumenteret målemetode og et gennemsigtigt datagrundlag."
     },
-    introduction: {
-      en: "We start with your situation, choose the right measurement setup together and stay close while findings become decisions.",
-      da: "Vi tager udgangspunkt i jeres situation, finder den rigtige måleopsætning sammen og følger med, når resultaterne skal blive til beslutninger."
+    {
+      "en": "Readable findings, maps and comparisons with limitations clearly explained.",
+      "da": "Forståelige resultater, kort og sammenligninger med tydelige forbehold."
     },
-    benefits: [
-      { en: "Measurement design", da: "Måledesign" },
-      { en: "Technology selection", da: "Valg af teknologi" },
-      { en: "Interpretation and next-step planning", da: "Fortolkning og planlægning af næste skridt" }
-    ],
-    useCases: [
-      { en: "Municipal mobility projects", da: "Kommunale mobilitetsprojekter" },
-      { en: "Private operator planning", da: "Planlægning for private operatører" },
-      { en: "Engineering partner support", da: "Support til ingeniørpartnere" }
-    ],
-    heroImage: consultancyVisual,
-    relatedProjectSlugs: ["erhvervsparkering-aalborg"],
-    contentStatus: "draft",
-    seo: {
-      title: { en: "Mobility Consultancy | Papp Mobility", da: "Mobilitetsrådgivning | Papp Mobility" },
-      description: {
-        en: "Plan mobility measurement and turn insight into practical decisions with Papp.",
-        da: "Planlæg mobilitetsmåling og omsæt indsigt til praktiske beslutninger med Papp."
-      }
+    {
+      "en": "A concrete report with conclusions and recommendations for officials, committees and politicians.",
+      "da": "En konkret rapport med konklusioner og anbefalinger til embedsfolk, udvalg og politikere."
+    }
+  ],
+  "process": [
+    {
+      "en": "Define the question and what evidence the decision needs.",
+      "da": "Afklar spørgsmålet og det nødvendige beslutningsgrundlag."
+    },
+    {
+      "en": "Plan measurements, collect data and validate the results.",
+      "da": "Planlæg målinger, indsaml data og validér resultaterne."
+    },
+    {
+      "en": "Analyse patterns, explain findings and assess possible actions.",
+      "da": "Analysér mønstre, forklar resultater og vurder handlemuligheder."
+    },
+    {
+      "en": "Deliver the report and walk decision-makers through the recommendations.",
+      "da": "Aflever rapporten og gennemgå anbefalingerne med beslutningstagerne."
+    }
+  ],
+  "useCases": [],
+  "heroImage": "/images/corporate/insights-meeting-city.jpg",
+  "relatedProjectSlugs": [
+    "dataoptimering-faaborg"
+  ],
+  "contentStatus": "draft",
+  "seo": {
+    "title": {
+      "en": "Analysis & reports for municipalities | Papp Mobility",
+      "da": "Analyse og rapporter til kommuner | Papp Mobility"
+    },
+    "description": {
+      "en": "Evidence, mobility measurement and tangible reports for public decisions.",
+      "da": "Dokumentation, mobilitetsmåling og konkrete rapporter til offentlige beslutninger."
     }
   }
+},
+{
+  "slug": "consultancy",
+  "category": "consultancy",
+  "name": {
+    "en": "Consultancy & workshops",
+    "da": "Rådgivning og workshops"
+  },
+  "eyebrow": {
+    "en": "For businesses · B2B",
+    "da": "Til virksomheder · B2B"
+  },
+  "shortDescription": {
+    "en": "Work through your mobility question with us. Leave with a practical next step.",
+    "da": "Arbejd med jeres mobilitetsspørgsmål sammen med os. Gå videre med et konkret næste skridt."
+  },
+  "introduction": {
+    "en": "Hands-on workshops for businesses with parking, mobility or location questions. We bring your team together to understand the situation, explore options and decide what to do next.",
+    "da": "Praktiske workshops til virksomheder med spørgsmål om parkering, mobilitet eller beliggenhed. Vi samler jeres team for at forstå situationen, udforske muligheder og aftale næste skridt."
+  },
+  "benefits": [
+    {
+      "en": "A shared understanding of the problem and the information you already have.",
+      "da": "En fælles forståelse af problemet og den viden, I allerede har."
+    },
+    {
+      "en": "Clarity about missing data, possible approaches and the trade-offs.",
+      "da": "Klarhed om manglende data, mulige tilgange og afvejninger."
+    },
+    {
+      "en": "Practical advice and agreed next steps your team can act on.",
+      "da": "Praktisk rådgivning og aftalte næste skridt, som jeres team kan handle på."
+    }
+  ],
+  "process": [
+    {
+      "en": "Bring your team, your questions and the information you already have.",
+      "da": "Medbring jeres team, spørgsmål og den viden, I allerede har."
+    },
+    {
+      "en": "Map the current situation together in a focused workshop.",
+      "da": "Kortlæg den nuværende situation sammen i en fokuseret workshop."
+    },
+    {
+      "en": "Explore options, interpret available data and identify what is missing.",
+      "da": "Udforsk muligheder, fortolk eksisterende data og identificér, hvad der mangler."
+    },
+    {
+      "en": "Agree practical next steps, ownership and any follow-up measurements.",
+      "da": "Aftal konkrete næste skridt, ansvar og eventuelle opfølgende målinger."
+    }
+  ],
+  "useCases": [],
+  "heroImage": "/images/corporate/parking-consultation-charger.jpg",
+  "relatedProjectSlugs": [],
+  "contentStatus": "draft",
+  "seo": {
+    "title": {
+      "en": "Business consultancy & workshops | Papp Mobility",
+      "da": "Virksomhedsrådgivning og workshops | Papp Mobility"
+    },
+    "description": {
+      "en": "Collaborative workshops and mobility advice for private businesses.",
+      "da": "Samarbejdsbaserede workshops og mobilitetsrådgivning til private virksomheder."
+    }
+  }
+}
 ];
 
 export function getOfferings() {
