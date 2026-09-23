@@ -27,12 +27,12 @@ export const solutionGroups = [
     label: navLabels.technology,
     items: [
       {
-        label: { en: "Parking Sensors", da: "Parkeringssensorer" },
+        label: { en: "Papp Insights", da: "Papp Insights" },
         description: {
-          en: "Space-level data for occupancy, duration and utilisation.",
-          da: "Data på pladsniveau om belægning, varighed og udnyttelse."
+          en: "The platform that brings live and historical data together.",
+          da: "Platformen der samler live og historiske data."
         },
-        href: { en: "/en/products/sensors", da: "/da/products/sensors" }
+        href: { en: "/en/products/insights", da: "/da/products/insights" }
       },
       {
         label: { en: "Camera Analytics", da: "Kameraanalyse" },
@@ -43,12 +43,12 @@ export const solutionGroups = [
         href: { en: "/en/products/cameras", da: "/da/products/cameras" }
       },
       {
-        label: { en: "Papp Insights", da: "Papp Insights" },
+        label: { en: "On-ground sensors", da: "Jordmonterede sensorer" },
         description: {
-          en: "The platform that brings live and historical data together.",
-          da: "Platformen der samler live og historiske data."
+          en: "Space-level data for occupancy, duration and utilisation.",
+          da: "Data på pladsniveau om belægning, varighed og udnyttelse."
         },
-        href: { en: "/en/products/insights", da: "/da/products/insights" }
+        href: { en: "/en/products/sensors", da: "/da/products/sensors" }
       },
       {
         label: { en: "Papp App", da: "Papp App" },

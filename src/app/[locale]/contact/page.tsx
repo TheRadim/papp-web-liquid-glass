@@ -3,7 +3,6 @@ import type { Locale } from "@/content/types";
 import { pageMetadata } from "@/lib/seo/metadata";
 import { Section } from "@/components/layout/Section";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { MeetingRequest } from "@/components/contact/MeetingRequest";
 import { ContactForm } from "@/components/contact/ContactForm";
 import { ContactFloatingBalls } from "@/components/contact/ContactFloatingBalls";
 
@@ -51,7 +50,7 @@ export default async function ContactPage({ params }: { params: Promise<{ locale
             />
           </div>
         </div>
-        <div className="contact-page-options"><ContactForm locale={locale} /><MeetingRequest locale={locale} source="contact" /></div>
+        <ContactForm locale={locale} />
       </div>
     </Section>
   );

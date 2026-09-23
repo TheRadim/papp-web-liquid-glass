@@ -48,6 +48,7 @@ export function TestimonialsSection({ locale }: TestimonialsSectionProps) {
 
   return (
     <Section className="testimonials-section">
+      <svg width="0" height="0" aria-hidden="true" style={{ position: "absolute" }}><defs><filter id="papp-testimonial-blue" colorInterpolationFilters="sRGB"><feFlood floodColor="#47b2e4" /><feComposite in2="SourceAlpha" operator="in" /></filter></defs></svg>
       <SectionHeading
         title={locale === "da" ? "Samarbejde, der gør mobilitetsdata lettere at handle på." : "Collaboration that makes mobility data easier to act on."}
         align="center"
@@ -69,8 +70,8 @@ export function TestimonialsSection({ locale }: TestimonialsSectionProps) {
               <Quote aria-hidden="true" size={34} />
               <p>{pick(locale, testimonial.quote)}</p>
               <div>
-                {testimonial.organisationLogo && !failedLogos[testimonial.slug] ? <Image className="testimonial-logo" src={withBasePath(testimonial.organisationLogo)} alt="" width={200} height={72} onError={() => setFailedLogos((current) => ({ ...current, [testimonial.slug]: true }))} /> : null}
-                <strong>{testimonial.organisation}</strong>
+                {testimonial.organisationLogo && !failedLogos[testimonial.slug] ? <Image className="testimonial-logo" src={withBasePath(testimonial.organisationLogo)} alt={testimonial.organisation} width={200} height={72} onError={() => setFailedLogos((current) => ({ ...current, [testimonial.slug]: true }))} /> : null}
+                {!testimonial.organisationLogo || failedLogos[testimonial.slug] ? <strong>{testimonial.organisation}</strong> : null}
               </div>
             </article>
           ))}

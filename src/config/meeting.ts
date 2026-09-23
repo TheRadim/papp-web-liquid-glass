@@ -6,3 +6,12 @@ export const meetingAvailability = {
   durations: [30, 60],
   weeksAhead: 12
 } as const;
+
+export const meetingTopics = [
+  { en: "Parking & capacity", da: "Parkering og kapacitet" },
+  { en: "Traffic & people counting", da: "Trafik- og persontælling" },
+  { en: "Insights & data analysis", da: "Insights og dataanalyse" },
+  { en: "Reports & decision support", da: "Rapporter og beslutningsstøtte" },
+  { en: "Business workshops", da: "Workshops for virksomheder" },
+  { en: "Other", da: "Andet" }
+];

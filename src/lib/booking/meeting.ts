@@ -22,11 +22,25 @@ export function validMeetingSlot(date: string, time: string, duration: number, n
 }
 
 export interface MeetingRequestData {
-  name: string; company: string; email: string; phone: string; date: string; time: string; duration: number; message: string; source: string;
+  name: string; company?: string; email: string; phone?: string; topic?: string; date: string; time: string; duration: number; message: string; source: string;
 }
 export function meetingEmail(request: MeetingRequestData) {
   const date = new Intl.DateTimeFormat("en-GB", { day: "2-digit", month: "short", year: "numeric", timeZone: "UTC" }).format(new Date(`${request.date}T12:00:00Z`));
   const subject = `Meeting request — ${request.duration} min — ${date} ${request.time}`;
-  const body = [`Meeting request with Martine (subject to confirmation)`, `Name: ${request.name}`, `Company: ${request.company}`, `Email: ${request.email}`, `Phone: ${request.phone || "Not supplied"}`, `Date: ${request.date}`, `Time: ${request.time} (${availability.timezone})`, `Duration: ${request.duration} minutes`, `Source: ${request.source}`, "", request.message].join("\n");
+  const body = [`Meeting request with Martine (subject to confirmation)`, `Name: ${request.name}`, ...(request.company ? [`Company: ${request.company}`] : []), `Email: ${request.email}`, ...(request.phone ? [`Phone: ${request.phone}`] : []), `Topic: ${request.topic || "General enquiry"}`, `Date: ${request.date}`, `Time: ${request.time} (${availability.timezone})`, `Duration: ${request.duration} minutes`, `Source: ${request.source}`, "", request.message].join("\n");
   return { subject, body, href: `mailto:${availability.recipient}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}` };
+}
+
+/** Monday-first month grid, using date-only UTC arithmetic. */
+export function calendarMonth(month: string) {
+  const first = new Date(`${month}-01T12:00:00Z`);
+  const offset = (first.getUTCDay() + 6) % 7;
+  const last = new Date(first);
+  last.setUTCMonth(last.getUTCMonth() + 1, 0);
+  const cellCount = Math.ceil((offset + last.getUTCDate()) / 7) * 7;
+  return Array.from({ length: cellCount }, (_, index) => {
+    const day = new Date(first);
+    day.setUTCDate(1 - offset + index);
+    return day.toISOString().slice(0, 10);
+  });
 }

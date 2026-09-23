@@ -9,7 +9,7 @@ export interface MobilityCityProductContent {
 
 export const mobilityCityProducts: Record<MobilityArea, MobilityCityProductContent> = {
   sensors: {
-    name: { en: "Parking Sensors", da: "Parkeringssensorer" },
+    name: { en: "On-ground sensors", da: "Jordmonterede sensorer" },
     description: {
       en: "Understand occupancy and utilisation at individual parking spaces.",
       da: "Forstå belægning og udnyttelse på de enkelte parkeringspladser."

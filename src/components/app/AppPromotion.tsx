@@ -16,7 +16,7 @@ export function AppPromotion({ locale, content, showCta = true }: AppPromotionPr
     <section className={`app-promo ${showCta ? "app-promo--homepage" : "app-promo--page"}`}>
       <div className="container app-promo__grid">
         <div className="app-phone-stage">
-          <Image className="app-phone" src={withBasePath("/images/app/papp-app-phone.png")} alt="" width={580} height={1112} />
+          <Image className="app-phone" src={withBasePath("/images/app/feature-1.webp")} alt={locale === "da" ? "Papp App viser ledige parkeringspladser" : "Papp App showing available parking spaces"} width={600} height={1300} />
         </div>
         <div>
           <p className="eyebrow">{content.eyebrow}</p>

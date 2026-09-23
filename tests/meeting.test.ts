@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { meetingDates, validMeetingSlot, meetingEmail } from "../src/lib/booking/meeting";
+import { meetingDates, validMeetingSlot, meetingEmail, calendarMonth } from "../src/lib/booking/meeting";
 
 describe("meeting requests in Denmark time", () => {
   it("starts on Wednesday and Thursday of the following week", () => {
@@ -21,6 +21,19 @@ describe("meeting requests in Denmark time", () => {
     expect(validMeetingSlot("2026-09-01", "10:00", 30, now)).toBe(false);
     expect(meetingDates(now, -1)).toEqual([]);
     expect(meetingDates(now, 12)).toEqual([]);
+  });
+  it("builds a complete Monday-first month including leap day", () => {
+    const days = calendarMonth("2028-02");
+    expect(days).toHaveLength(35);
+    expect(days[0]).toBe("2028-01-31");
+    expect(days).toContain("2028-02-29");
+    expect(new Set(days).size).toBe(35);
+  });
+  it("includes a selected topic without requiring company or phone", () => {
+    const email = meetingEmail({ name: "Test", email: "test@example.com", topic: "Parking & capacity", date: "2026-10-01", time: "09:00", duration: 60, message: "", source: "consultancy" });
+    expect(email.body).toContain("Topic: Parking & capacity");
+    expect(email.body).not.toContain("undefined");
+    expect(email.body).not.toContain("Company:");
   });
   it("preserves request details and encodes the email handoff", () => {
     const request = meetingEmail({ name:"A & B",company:"Example",email:"test@example.com",phone:"",date:"2026-10-01",time:"10:00",duration:30,message:"Capacity?",source:"analysis" });

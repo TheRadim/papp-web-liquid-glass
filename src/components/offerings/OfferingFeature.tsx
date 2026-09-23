@@ -12,7 +12,7 @@ interface OfferingFeatureProps {
 
 export function OfferingFeature({ offering, locale, index }: OfferingFeatureProps) {
   const isService = offering.category === "analysis" || offering.category === "consultancy";
-  const href = isService ? `/${locale}/services/${offering.slug}` : `/${locale}/products/${offering.slug}`;
+  const href = offering.slug === "app" ? `/${locale}/app` : isService ? `/${locale}/services/${offering.slug}` : `/${locale}/products/${offering.slug}`;
 
   return (
     <section id={`solution-${offering.slug}`} className={`offering-feature ${index % 2 ? "offering-feature--reverse" : ""}`}>

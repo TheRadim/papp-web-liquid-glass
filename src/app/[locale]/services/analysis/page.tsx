@@ -2,8 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import type { Locale } from "@/content/types";
 import { getOfferingBySlug } from "@/lib/content/accessors";
-import { MeetingRequest } from "@/components/contact/MeetingRequest";
-import { Section } from "@/components/layout/Section";
+import { ServiceStory } from "@/components/offerings/ServiceStory";
 import { OfferingPage } from "@/components/offerings/OfferingPage";
 import { pageMetadata } from "@/lib/seo/metadata";
 
@@ -18,5 +17,5 @@ export default async function AnalysisPage({ params }: { params: Promise<{ local
   const { locale } = await params;
   const offering = getOfferingBySlug(locale, "analysis");
   if (!offering) notFound();
-  return <OfferingPage locale={locale} offering={offering} afterHero={<Section className="service-meeting-section"><MeetingRequest locale={locale} source="analysis" /></Section>} />;
+  return <OfferingPage locale={locale} offering={offering} hideDetailSections afterHero={<ServiceStory locale={locale} kind="analysis" />} />;
 }

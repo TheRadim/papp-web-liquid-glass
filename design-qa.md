@@ -65,3 +65,12 @@ Unified the actual section canvas to white across home, projects, sensor/camera/
 - Browser checks at 1440px desktop and 390px phone covered hero wrapping, menu keyboard expansion, all six loaded municipality logos, city popup contrast, camera dragging, sensor appearance, chart layout, project order, service CTAs and date/time/duration selection. No console errors observed on Insights.
 - Meeting dates begin next week; tests cover Copenhagen midnight, DST, year boundaries, invalid slots and email payload. Recipient: radim.theiner@papp.nu. Static hosting has no email delivery service: UI prepares an email and explicitly asks the visitor to send it; it never claims the request was sent or the meeting reserved. No test emails sent.
 - ESLint, all 17 tests and production static export passed. No new dependencies. Original website/repository untouched.
+
+## Homepage, services and calendar refinement — 24 September 2026
+- Faster 2-second capability rotation, reserved phrase width and no pause control; desktop sentence stays on one line and phone wraps without horizontal overflow. Reduced-motion support retained.
+- Light iMac examples now include real Natural Earth geographic outlines, structured illustrative country/manufacturer shares and nine days of activity peaks. Checked map/manufacturer views on desktop and activity on 390px phone; examples clearly labelled. Source attribution stored with map data.
+- Testimonial logos use Papp blue with no duplicate organisation label; fallback retained. Homepage and Solutions App imagery use the current feature-1 phone asset.
+- Meeting requests now open into a month calendar with date, duration and time selection, followed by topic/name/email/context. Verified desktop and phone selection, next-week availability and focus transfer. Contact restored without booking. Email handoff remains explicit; no messages sent.
+- Distinct report-focused Analysis and workshop-focused Consultancy stories precede booking. Solutions restores title/model first, then concise outcomes and Insights/Cameras/On-ground sensors/App ordering. Projects background animation removed; About timeline labels inherit body typography.
+- Contact at 1440×900 remains aligned with footer visible; new homepage phone checked at 390px. Solutions model renders. No homepage console errors or horizontal overflow observed.
+- ESLint, 19 tests and production Pages export passed. Original repository/site untouched.

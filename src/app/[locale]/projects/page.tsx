@@ -5,7 +5,6 @@ import { pageMetadata } from "@/lib/seo/metadata";
 import { Section } from "@/components/layout/Section";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { ProjectPortfolioFilter } from "@/components/projects/ProjectPortfolioFilter";
-import { ProjectHeroNet } from "@/components/projects/ProjectHeroNet";
 
 const workSteps = [
   {
@@ -48,7 +47,6 @@ export default async function ProjectsPage({ params }: { params: Promise<{ local
   return (
     <>
       <div className="projects-net-zone">
-        <ProjectHeroNet />
         <Section className="projects-page">
           <div className="projects-hero">
             <SectionHeading

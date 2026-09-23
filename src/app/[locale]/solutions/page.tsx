@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import type { Locale } from "@/content/types";
+import type { Locale, Offering } from "@/content/types";
 import { getOfferings } from "@/lib/content/accessors";
 import { pageMetadata } from "@/lib/seo/metadata";
 import { Section } from "@/components/layout/Section";
@@ -25,7 +25,11 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: L
 
 export default async function SolutionsPage({ params }: { params: Promise<{ locale: Locale }> }) {
   const { locale } = await params;
-  const offerings = getOfferings();
+  const order = ["insights", "cameras", "sensors", "analysis", "consultancy"];
+  const offerings = [...getOfferings()].sort((a, b) => order.indexOf(a.slug) - order.indexOf(b.slug));
+
+  const app: Offering = { ...offerings[0], slug: "app", name: { en: "Papp App", da: "Papp App" }, eyebrow: { en: "For drivers", da: "Til bilister" }, heroImage: "/images/app/feature-1.webp", introduction: { en: "Help drivers find available parking before they arrive. A public view of the places where Papp measures occupancy.", da: "Hjælp bilister med at finde ledig parkering, før de ankommer. Et offentligt overblik over de steder, hvor Papp måler belægning." }, benefits: [{ en: "Live availability at participating locations", da: "Aktuel ledighed på tilknyttede lokationer" }, { en: "Available for iPhone and Android", da: "Til iPhone og Android" }] };
+  offerings.splice(3, 0, app);
 
   return (
     <>
@@ -42,11 +46,11 @@ export default async function SolutionsPage({ params }: { params: Promise<{ loca
             align="center"
           />
         </div>
-        <SolutionOutcomes locale={locale} />
         <div className="solutions-city-panel">
           <MobilityCityVisual locale={locale} className="mobility-city--solutions" />
         </div>
       </Section>
+      <Section className="solutions-outcomes-section"><SolutionOutcomes locale={locale} /></Section>
       <Section className="solutions-listing" tone="soft">
         <div className="offerings-stack">
           {offerings.map((offering, index) => (

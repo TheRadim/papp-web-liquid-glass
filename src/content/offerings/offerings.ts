@@ -9,7 +9,7 @@ export const offerings: Offering[] = [
   {
     slug: "sensors",
     category: "sensors",
-    name: { en: "Parking Sensors", da: "Parkeringssensorer" },
+    name: { en: "On-ground sensors", da: "Jordmonterede sensorer" },
     eyebrow: { en: "Technology", da: "Teknologi" },
     shortDescription: {
       en: "Precise parking data that turns occupancy, behaviour and demand into a usable decision basis.",
@@ -38,7 +38,7 @@ export const offerings: Offering[] = [
     relatedProjectSlugs: ["sensordata-herning", "ladeindsigter-frederiksberg"],
     contentStatus: "draft",
     seo: {
-      title: { en: "Parking Sensors | Papp Mobility", da: "Parkeringssensorer | Papp Mobility" },
+      title: { en: "On-ground sensors | Papp Mobility", da: "Jordmonterede sensorer | Papp Mobility" },
       description: {
         en: "Understand occupancy, duration and utilisation with connected parking sensors.",
         da: "Forstå belægning, varighed og udnyttelse med forbundne parkeringssensorer."
