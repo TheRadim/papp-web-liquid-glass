@@ -6,25 +6,6 @@ import { Section } from "@/components/layout/Section";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { ProjectPortfolioFilter } from "@/components/projects/ProjectPortfolioFilter";
 
-const workSteps = [
-  {
-    title: { en: "Scope the question", da: "Afklar spørgsmålet" },
-    body: { en: "We define the decision, the site and the behaviour that needs to be understood.", da: "Vi afklarer beslutningen, stedet og den adfærd, der skal forstås." }
-  },
-  {
-    title: { en: "Measure the real world", da: "Mål virkeligheden" },
-    body: { en: "Sensors, cameras or existing data sources are selected to match the project.", da: "Sensorer, kameraer eller eksisterende datakilder vælges ud fra projektet." }
-  },
-  {
-    title: { en: "Turn data into insight", da: "Gør data til indsigt" },
-    body: { en: "Papp Insights and analysis reveal occupancy, flow, dwell time and patterns.", da: "Papp Insights og analyse viser belægning, flow, opholdstid og mønstre." }
-  },
-  {
-    title: { en: "Recommend next steps", da: "Anbefal næste skridt" },
-    body: { en: "We translate findings into practical actions for cities, operators and partners.", da: "Vi omsætter indsigter til praktiske handlinger for byer, operatører og partnere." }
-  }
-];
-
 export async function generateMetadata({ params }: { params: Promise<{ locale: Locale }> }): Promise<Metadata> {
   const { locale } = await params;
   return pageMetadata(
@@ -74,29 +55,7 @@ export default async function ProjectsPage({ params }: { params: Promise<{ local
         />
         <ProjectPortfolioFilter locale={locale} projects={projects} />
       </Section>
-      <Section className="project-work-section">
-          <SectionHeading
-            eyebrow={locale === "da" ? "Sådan arbejder vi" : "How we work"}
-            title={locale === "da" ? "Fra lokalt spørgsmål til konkret anbefaling." : "From local question to practical recommendation."}
-            body={
-              locale === "da"
-                ? "En enkel proces, der forbinder målinger, analyse og rådgivning uden at gøre projektet tungere end nødvendigt."
-                : "A simple process that connects measurement, analysis and advisory without making the project heavier than it needs to be."
-            }
-            align="center"
-          />
-          <div className="project-workflow">
-            {workSteps.map((step, index) => (
-              <article className={`project-workflow__step project-workflow__step--${index % 2 === 0 ? "left" : "right"}`} key={step.title.en}>
-                <span>{String(index + 1).padStart(2, "0")}</span>
-                <div>
-                  <h3>{step.title[locale]}</h3>
-                  <p>{step.body[locale]}</p>
-                </div>
-              </article>
-            ))}
-          </div>
-        </Section>
+
     </>
   );
 }

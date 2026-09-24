@@ -13,7 +13,7 @@ export function ProcessSection({ content, locale }: ProcessSectionProps) {
   return (
     <section id="movement-meaning" className="process-section" aria-label={content.title} role="region" tabIndex={0}>
       <div className="process-section__intro">
-        <SectionHeading eyebrow={content.eyebrow} title={content.title} body={content.body} align="center" />
+        <div id="movement-meaning-intro"><SectionHeading eyebrow={content.eyebrow} title={content.title} body={content.body} align="center" /></div>
       </div>
       <InsightDashboardMockup locale={locale} />
       <ProcessTimeline steps={content.steps} />

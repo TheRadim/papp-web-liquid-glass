@@ -29,7 +29,7 @@ export default async function SolutionsPage({ params }: { params: Promise<{ loca
   const offerings = [...getOfferings()].sort((a, b) => order.indexOf(a.slug) - order.indexOf(b.slug));
 
   const app: Offering = { ...offerings[0], slug: "app", name: { en: "Papp App", da: "Papp App" }, eyebrow: { en: "For drivers", da: "Til bilister" }, heroImage: "/images/app/feature-1.webp", introduction: { en: "Help drivers find available parking before they arrive. A public view of the places where Papp measures occupancy.", da: "Hjælp bilister med at finde ledig parkering, før de ankommer. Et offentligt overblik over de steder, hvor Papp måler belægning." }, benefits: [{ en: "Live availability at participating locations", da: "Aktuel ledighed på tilknyttede lokationer" }, { en: "Available for iPhone and Android", da: "Til iPhone og Android" }] };
-  offerings.splice(3, 0, app);
+  offerings.push(app);
 
   return (
     <>

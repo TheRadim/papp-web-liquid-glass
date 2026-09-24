@@ -74,3 +74,9 @@ Unified the actual section canvas to white across home, projects, sensor/camera/
 - Distinct report-focused Analysis and workshop-focused Consultancy stories precede booking. Solutions restores title/model first, then concise outcomes and Insights/Cameras/On-ground sensors/App ordering. Projects background animation removed; About timeline labels inherit body typography.
 - Contact at 1440×900 remains aligned with footer visible; new homepage phone checked at 390px. Solutions model renders. No homepage console errors or horizontal overflow observed.
 - ESLint, 19 tests and production Pages export passed. Original repository/site untouched.
+
+## Alignment and content refinements — 24 September 2026
+- Shortened capability to parking data; moved hero actions/arrow lower and targeted the next introduction directly. Phone browser verified heading lands at 144px below the navigation after clicking the arrow, with no horizontal overflow.
+- Corrected dashboard panel width so heading, iMac and caption share the horizontal centre (720px at 1440px viewport). Compact single-line tabs now use blue states; screen header restored as Mobility overview. Added reduced-motion-aware bar, line and map entrance animations. Desktop and phone previews inspected.
+- Moved deployment sentence beneath outcomes headline, reduced listing titles, and placed App after Consultancy. Browser confirmed offering order. Broadened Analysis measurement examples; Consultancy now explains interpreting Papp Insights together. Removed repetitive Projects process section.
+- Lint and production export passed. Original site unchanged.

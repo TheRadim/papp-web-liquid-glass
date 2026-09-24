@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import type { Locale } from "@/content/types";
 
 const capabilities = {
-  en: ["traffic counting", "people counting", "parking occupancy data", "parking predictions", "ZIP code analysis", "fleet analysis", "marketing analysis", "mobility analysis", "traffic patterns", "movement analysis"],
+  en: ["traffic counting", "people counting", "parking data", "parking predictions", "ZIP code analysis", "fleet analysis", "marketing analysis", "mobility analysis", "traffic patterns", "movement analysis"],
   da: ["trafiktælling", "persontælling", "parkeringsdata", "parkeringsprognoser", "postnummeranalyse", "flådeanalyse", "markedsanalyse", "mobilitetsanalyse", "trafikmønstre", "bevægelsesanalyse"]
 };
 

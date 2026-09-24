@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { FileText, MapPinned, ChartNoAxesCombined, Users, Lightbulb, Route } from "lucide-react";
 import type { Locale } from "@/content/types";
 import { Section } from "@/components/layout/Section";
@@ -11,11 +12,11 @@ export function ServiceStory({ locale, kind }: { locale: Locale; kind: "analysis
     <Section className="analysis-story">
       <div className="service-story-heading"><p className="eyebrow">{da ? "Spørgsmål fra virkeligheden" : "Questions from the real world"}</p><h2>{da ? "Et solidt grundlag for den næste beslutning." : "A sound basis for the next decision."}</h2></div>
       <div className="service-question-grid">{(da ? [
-        ["Mangler der pladser — eller overblik?", "Vi sammenligner belægning og opholdstid på tværs af steder og tidspunkter, så eksisterende kapacitet bliver synlig."],
+        ["Hvad bevæger sig — og hvad betyder det?", "Fra trafikmængder og fodgængerstrømme til parkeringsbehov, køretøjstyper og besøgendes oprindelse samler vi de målinger, spørgsmålet kræver — med kameraer, sensorer og eksisterende data."],
         ["Virker forsøget?", "Før- og eftermålinger gør det muligt at vurdere ændringer i parkering, trafik og brug af byrummet."],
         ["Hvor skal I sætte ind?", "Vi afdækker tilbagevendende mønstre og forklarer, hvad data kan — og ikke kan — sige om mulige tiltag."]
       ] : [
-        ["More spaces — or better use of them?", "We compare occupancy and length of stay across locations and periods to make existing capacity visible."],
+        ["What is moving — and what does it mean?", "From traffic volumes and pedestrian flows to parking demand, vehicle mix and visitor origins, we connect the measurements your question needs — using cameras, sensors and existing data."],
         ["Is the trial working?", "Before-and-after measurements help assess changes in parking, traffic and the use of public space."],
         ["Where should you intervene?", "We identify recurring patterns and explain what the evidence can — and cannot — say about possible actions."]
       ]).map(([title, body], index) => <article key={title}><span className="eyebrow">0{index + 1}</span><h3>{title}</h3><p>{body}</p></article>)}</div>
@@ -50,6 +51,7 @@ export function ServiceStory({ locale, kind }: { locale: Locale; kind: "analysis
       { icon: Lightbulb, title: da ? "Bedre spørgsmål" : "Better questions", body: da ? "Overblik over, hvad I ved, og hvilke data der mangler." : "Clarity on what you know and which evidence is missing." },
       { icon: Route, title: da ? "Praktiske næste skridt" : "Practical next steps", body: da ? "En prioriteret vej til måling, forsøg eller handling." : "A prioritised route to measurement, a trial or action." }
     ].map(({icon: Icon,title,body}) => <article key={title}><Icon aria-hidden="true" /><h3>{title}</h3><p>{body}</p></article>)}</div></Section>
+    <Section className="workshop-platform"><div className="service-story-heading"><p className="eyebrow">Papp Insights</p><h2>{da ? "Se mønstrene selv. Forstå dem sammen med os." : "Explore the patterns yourself. Make sense of them with us."}</h2><p>{da ? "Vores workshops tager afsæt i Papp Insights, den intelligente platform, der samler målinger, sammenligninger og mønstre. I kan selv udforske data, mens vi hjælper med at fortolke resultaterne og omsætte dem til beslutninger." : "Our workshops are grounded in Papp Insights, our smart platform for measurements, comparisons and patterns. Explore the data yourself, with our team alongside you to interpret the findings and turn them into practical decisions."}</p><Link className="papp-button papp-button--secondary" href={`/${locale}/products/insights`}>{da ? "Udforsk Papp Insights" : "Explore Papp Insights"}</Link></div></Section>
     <Section className="service-meeting-section"><MeetingRequest locale={locale} source={kind} /></Section>
   </>;
 }

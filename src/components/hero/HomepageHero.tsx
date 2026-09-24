@@ -39,7 +39,7 @@ export function HomepageHero({ locale, content }: HomepageHeroProps) {
                 </Button>
               </div>
             </div>
-            <a className="hero-scroll-cue" href="#movement-meaning" aria-label={locale === "da" ? "Gå til næste sektion" : "Scroll to next section"}>
+            <a className="hero-scroll-cue" href="#movement-meaning-intro" aria-label={locale === "da" ? "Gå til næste sektion" : "Scroll to next section"}>
               <svg viewBox="0 0 40 40" width="40" height="40" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                 <polyline points="10 15 20 25 30 15" />
               </svg>

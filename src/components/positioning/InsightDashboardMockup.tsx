@@ -10,8 +10,8 @@ import { activityDemo, manufacturerDemo, originDemo } from "@/content/insights/d
 
 const tabs = [
   { id: "occupancy", en: "Occupancy", da: "Belægning" },
-  { id: "origin", en: "Visitor origins", da: "Besøgendes oprindelse" },
-  { id: "vehicles", en: "Vehicle mix", da: "Bilsammensætning" },
+  { id: "origin", en: "Visitor origins", da: "Oprindelse" },
+  { id: "vehicles", en: "Vehicle mix", da: "Bilmix" },
   { id: "flow", en: "Activity over time", da: "Aktivitet over tid" }
 ] as const;
 type TabId = typeof tabs[number]["id"];
@@ -36,7 +36,7 @@ export function InsightDashboardMockup({ locale }: { locale: Locale }) {
       <Link className="insight-dashboard__device-link" href={`/${locale}/products/insights`} aria-label={da ? "Udforsk Papp Insights" : "Explore Papp Insights"}>
         <div className="insight-dashboard__device"><Image className="insight-dashboard__imac" src={withBasePath("/images/analytics/free-imac-blue.svg")} alt="" width={1200} height={900} sizes="(max-width: 768px) 100vw, 1100px" unoptimized />
           <div className={`insight-dashboard__screen dashboard-preview dashboard-preview--${activeId}`} key={activeId}>
-            <div className="insight-dashboard__screen-header"><strong className="insight-dashboard__brand"><Image src={withBasePath("/images/brand/papp-logo-round.png")} alt="" width={18} height={18} /><span>Papp Insights</span></strong><span>{da ? "Eksempeldata" : "Illustrative data"}</span></div>
+            <div className="insight-dashboard__screen-header"><strong className="insight-dashboard__brand"><Image src={withBasePath("/images/brand/papp-logo-round.png")} alt="" width={18} height={18} /><span>Papp Insights</span></strong><span>{da ? "Mobilitetsoverblik" : "Mobility overview"}</span></div>
             <h3 className="dashboard-preview__title">{title}</h3>
             {activeId === "origin" ? <div className="dashboard-preview__origin"><svg viewBox="0 0 240 260" role="img" aria-label={da ? "Kort over Skandinavien og nabolande, farvet efter andel af besøg" : "Map of Scandinavia and neighbouring countries shaded by share of visits"}>{countries.map(country => { const index = originDemo.findIndex(row => row.country === country.name); return <path key={country.name} d={country.path} fill={index < 0 ? "#e9edef" : colours[index]} stroke="#fff" strokeWidth=".7"><title>{country.name}{index >= 0 ? `: ${originDemo[index].share}%` : ""}</title></path>; })}</svg><div className="dashboard-preview__legend"><p>{da ? "Andel af besøg" : "Share of visits"}</p>{originDemo.map((row, index) => <div key={row.country}><i style={{ background: colours[index] }} /><span>{da ? row.da : row.country}</span><strong>{row.share}%</strong></div>)}</div></div>
             : activeId === "vehicles" ? <div className="dashboard-preview__manufacturers">{manufacturerDemo.map((row, index) => <div key={row.name}><span>{row.name}</span><i style={{ width: `${row.share / 24 * 100}%`, background: colours[Math.min(index, 4)] }} /><strong>{row.share}%</strong></div>)}</div>
@@ -56,7 +56,7 @@ function ActivityChart({ overview, locale }: { overview: boolean; locale: Locale
   const da = locale === "da";
   return <div className="dashboard-preview__activity"><svg viewBox="0 0 540 205" role="img" aria-label={overview ? (da ? "Eksempel på belægning gennem et døgn" : "Illustrative occupancy over one day") : (da ? "Eksempel på ni dages aktivitet med daglige peaks" : "Illustrative nine-day activity with daily peaks")}>
     {[0,20,40,60,80].map(value => <g key={value}><line x1="30" x2="515" y1={172-value/80*146} y2={172-value/80*146} stroke="#e0e7eb" /><text x="22" y={176-value/80*146} textAnchor="end">{value}</text></g>)}
-    <polygon points={`30,172 ${points} 515,172`} fill="#dceef8" /><polyline points={points} fill="none" stroke="#2385bd" strokeWidth="1.8" strokeLinejoin="round" />
+    <polygon points={`30,172 ${points} 515,172`} fill="#dceef8" /><polyline className="dashboard-preview__trace" pathLength="1" points={points} fill="none" stroke="#2385bd" strokeWidth="1.8" strokeLinejoin="round" />
     <line x1="30" x2="515" y1="26" y2="26" stroke="#e49a51" strokeDasharray="4 3" /><text x="34" y="18" fill="#996223">{da ? "Kapacitet 80" : "Capacity 80"}</text>
     {(overview ? ["00:00","06:00","12:00","18:00","24:00"] : ["20 Apr","22 Apr","24 Apr","26 Apr","28 Apr"]).map((label,index) => <text key={label} x={30+index*121.25} y="193" textAnchor={index===0?"start":index===4?"end":"middle"}>{label}</text>)}
   </svg></div>;
