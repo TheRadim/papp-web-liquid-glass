@@ -120,14 +120,14 @@
     white-space: nowrap;
   }
 
-  // Phones: no slide and no animated width. CapabilityStatement fades the whole
-  // line out, swaps the phrase, and fades it back in.
-  .hero-message .capability-statement > p:not(.visually-hidden) {
-    transition: opacity 0.22s ease;
+  // Phones: no slide and no animated width. Each new phrase appears with the
+  // whole line fading in from transparent, so the re-centring is never seen.
+  .hero-message .capability-statement > p.capability-tick-a {
+    animation: capability-line-in-a 0.45s ease both;
   }
 
-  .hero-message .capability-statement.is-swapping > p:not(.visually-hidden) {
-    opacity: 0;
+  .hero-message .capability-statement > p.capability-tick-b {
+    animation: capability-line-in-b 0.45s ease both;
   }
 
   .hero-message .capability-statement__window {
@@ -449,6 +449,7 @@
 
 @media (prefers-reduced-motion: reduce) {
   .hero-message .capability-statement__window { transition: none; }
+  .hero-message .capability-statement > p { animation: none !important; }
   .dp-kpi, .dp-card, .dp-donut__segment { animation: none; }
 }
 
@@ -1068,6 +1069,10 @@
     backdrop-filter: none;
   }
 }
+
+// Two identical keyframes: switching between them restarts the animation.
+@keyframes capability-line-in-a { from { opacity: 0; } to { opacity: 1; } }
+@keyframes capability-line-in-b { from { opacity: 0; } to { opacity: 1; } }
 
 @keyframes timeline-date-in {
   from { opacity: 0; transform: translateY(6px); }
