@@ -93,3 +93,10 @@ Unified the actual section canvas to white across home, projects, sensor/camera/
 - Consultancy: new page composition with its own hero and workshop board chart, typical questions, workshop format with an included list, calendar in the middle of the page, outcomes and Papp Insights link. Uses its own styles in refinements.scss.
 - New styles live in src/styles/refinements.scss, loaded after glass-surfaces.scss.
 - Checks: TypeScript and ESLint passed. Local Next build and Vitest could not run in the review sandbox; the Pages workflow build and a live browser check follow the push.
+
+## Follow up fixes, 24 September 2026
+- Capability line: the phrase window now has a single track as wide as the window, so shorter phrases are centred and fully visible (earlier they sat in a track as wide as the longest phrase, shifted right and clipped). Width rounds up with 2px spare.
+- Hero actions lifted off the bottom edge (8svh).
+- Homepage preview tabs form a 2 x 2 grid below 768px.
+- Insights explorer: a dropdown replaces the seven buttons on phones. Forecast replay now tracks the day closely (mean miss about 1.4 vehicles, about 90% of the day inside the band) and states its average miss.
+- Meeting calendar: removed the Denmark time note. Requests can be sent through Web3Forms once an access key is set in src/config/meeting.ts or NEXT_PUBLIC_WEB3FORMS_KEY; until then the email app handoff remains.

@@ -125,11 +125,22 @@ export const replayActual = fiveMinutes.map((hour) => {
   return Math.max(1, Math.round(base + drift));
 });
 export const forecastHours = fiveMinutes.filter((hour) => hour >= forecastStart);
-export const forecastMedian = forecastHours.map((hour) => round1(hour < 21 ? 27 + Math.sin(hour * 1.3) * 1.2 + (hour - 14) * 0.25 : Math.max(6, 29 - (hour - 21) * 18)));
-export const forecastLow = forecastMedian.map((value, index) => round1(Math.max(0, value - 7 - index * 0.02)));
-// The upper band is wider through the busy evening and narrows as the site empties.
-export const forecastHigh = forecastMedian.map((value, index) => {
-  const hour = forecastHours[index];
-  const evening = hour < 21 ? 1 : Math.max(0, 1 - (hour - 21) / 1.5);
-  return round1(value + 8 + 6 * evening);
+// The forecast follows the shape a good model would learn: a smoothed version of
+// the day with a small, slowly drifting error, so it tracks reality without
+// copying every short spike.
+const forecastStartIndex = forecastStart * 12;
+const smoothed = replayActual.map((_, index) => {
+  const window = replayActual.slice(Math.max(0, index - 6), index + 7);
+  return window.reduce((sum, value) => sum + value, 0) / window.length;
 });
+let forecastError = 0;
+export const forecastMedian = forecastHours.map((_, index) => {
+  forecastError = forecastError * 0.93 + jitter(0.7);
+  return round1(Math.max(0, smoothed[forecastStartIndex + index] + forecastError));
+});
+// 80% band: wider while the site is busy and less predictable, narrow at night.
+const spread = (hour: number) => (hour < 21.5 ? 3 + Math.min(1, (hour - forecastStart) / 3) * 1.2 : Math.max(1.6, 4.2 - (hour - 21.5) * 2));
+export const forecastLow = forecastMedian.map((value, index) => round1(Math.max(0, value - spread(forecastHours[index]))));
+export const forecastHigh = forecastMedian.map((value, index) => round1(value + spread(forecastHours[index])));
+// Mean absolute error of the replayed forecast, shown in the chart subtitle.
+export const forecastMeanMiss = round1(forecastHours.reduce((sum, _, index) => sum + Math.abs(replayActual[forecastStartIndex + index] - forecastMedian[index]), 0) / forecastHours.length);

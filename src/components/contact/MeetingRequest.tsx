@@ -6,6 +6,7 @@ import { ChevronLeft, ChevronRight, ArrowRight, CalendarDays } from "lucide-reac
 import type { Locale } from "@/content/types";
 import { meetingAvailability as availability, meetingTopics } from "@/config/meeting";
 import { calendarMonth, meetingDates, meetingEmail, validMeetingSlot } from "@/lib/booking/meeting";
+import { canSendDirectly, sendMeetingRequest } from "@/lib/booking/deliver";
 import { withBasePath } from "@/lib/site/basePath";
 
 export function MeetingRequest({ locale, source }: { locale: Locale; source: string }) {
@@ -21,6 +22,9 @@ export function MeetingRequest({ locale, source }: { locale: Locale; source: str
   const [details, setDetails] = useState(false);
   const [prepared, setPrepared] = useState<{ href: string; body: string } | null>(null);
   const [error, setError] = useState("");
+  const [sending, setSending] = useState(false);
+  const [sentTo, setSentTo] = useState("");
+  const direct = canSendDirectly();
   useEffect(() => { if (details) topicRef.current?.focus({ preventScroll: true }); }, [details]);
   const format = (value: string, options: Intl.DateTimeFormatOptions) => new Intl.DateTimeFormat(da ? "da-DK" : "en-GB", { ...options, timeZone: "UTC" }).format(new Date(`${value}T12:00:00Z`));
   function toggle() {
@@ -35,7 +39,7 @@ export function MeetingRequest({ locale, source }: { locale: Locale; source: str
     next.setUTCMonth(next.getUTCMonth() + amount);
     setMonth(next.toISOString().slice(0, 7));
   }
-  function submit(event: React.FormEvent<HTMLFormElement>) {
+  async function submit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (!validMeetingSlot(date, time, duration)) {
       setError(da ? "Vælg en ny dato og tid." : "Please choose a new date and time.");
@@ -43,8 +47,20 @@ export function MeetingRequest({ locale, source }: { locale: Locale; source: str
       setDetails(false); setDate(""); setTime(""); return;
     }
     const form = new FormData(event.currentTarget);
-    const email = meetingEmail({ name: String(form.get("name")), email: String(form.get("email")), topic: String(form.get("topic")), message: String(form.get("message") || ""), date, time, duration, source });
-    setError(""); setPrepared(email); window.location.href = email.href;
+    const request = { name: String(form.get("name")), email: String(form.get("email")), topic: String(form.get("topic")), message: String(form.get("message") || ""), date, time, duration, source };
+    setError("");
+    if (direct) {
+      // Send through the form service; only fall back to the mail app if that fails.
+      setSending(true);
+      const ok = await sendMeetingRequest(request, String(form.get("botcheck") || ""));
+      setSending(false);
+      if (ok) { setSentTo(request.name); return; }
+      setError(da ? "Vi kunne ikke sende anmodningen. Prøv igen, eller send den fra din mailapp nedenfor." : "We couldn’t send your request. Try again, or send it from your email app below.");
+      setPrepared(meetingEmail(request));
+      return;
+    }
+    const email = meetingEmail(request);
+    setPrepared(email); window.location.href = email.href;
   }
   return <aside className="meeting-request meeting-request--calendar">
     <div className="meeting-request__intro">
@@ -54,13 +70,16 @@ export function MeetingRequest({ locale, source }: { locale: Locale; source: str
     </div>
     <div className={`meeting-reveal ${open ? "is-open" : ""}`} id={id} inert={!open}><div>
       <div className="meeting-calendar-content">
-        {!details ? <>
+        {sentTo ? <div className="meeting-sent" role="status">
+          <h4>{da ? `Tak, ${sentTo}. Din anmodning er sendt.` : `Thanks, ${sentTo}. Your request is on its way.`}</h4>
+          <p>{da ? "Martine vender tilbage på mail og bekræfter tidspunktet." : "Martine will reply by email to confirm the time."}</p>
+          <p className="meeting-sent__slot">{format(date, { weekday: "long", day: "numeric", month: "long" })} · {time} · {duration} min</p>
+        </div> : !details ? <>
           <div className="meeting-calendar-layout">
             <div className="meeting-month">
               <div className="meeting-month__header"><h4 aria-live="polite">{month ? format(`${month}-01`, { month: "long", year: "numeric" }) : ""}</h4><div><button type="button" aria-label={da ? "Forrige måned" : "Previous month"} disabled={month <= (dates[0]?.slice(0, 7) || "")} onClick={() => moveMonth(-1)}><ChevronLeft size={20} /></button><button type="button" aria-label={da ? "Næste måned" : "Next month"} disabled={month >= (dates.at(-1)?.slice(0, 7) || "")} onClick={() => moveMonth(1)}><ChevronRight size={20} /></button></div></div>
               <div className="meeting-month__weekdays" aria-hidden="true">{(da ? ["Ma", "Ti", "On", "To", "Fr", "Lø", "Sø"] : ["M", "T", "W", "T", "F", "S", "S"]).map((day, index) => <span key={index}>{day}</span>)}</div>
               <div className="meeting-month__days" role="group" aria-label={da ? "Vælg dato" : "Choose a date"}>{month ? calendarMonth(month).map((day) => day.startsWith(month) ? <button key={day} type="button" disabled={!dates.includes(day)} aria-pressed={date === day} aria-label={format(day, { weekday: "long", day: "numeric", month: "long", year: "numeric" })} onClick={() => { setDate(day); setTime(""); setPrepared(null); setError(""); }}>{Number(day.slice(-2))}</button> : <span key={day} />) : null}</div>
-              <p className="meeting-calendar-note">{da ? "Alle tider er dansk tid." : "All times are Denmark time."}</p>
             </div>
             <div className="meeting-slot">
               <fieldset><legend>{da ? "Hvor lang tid?" : "How long?"}</legend><div className="meeting-duration">{availability.durations.map((value) => <label key={value}><input type="radio" name={`${id}-duration`} value={value} checked={duration === value} onChange={() => setDuration(value)} /><span>{value} min</span></label>)}</div></fieldset>
@@ -74,8 +93,12 @@ export function MeetingRequest({ locale, source }: { locale: Locale; source: str
           <label>{da ? "Hvad handler det om?" : "What’s the topic?"}<select ref={topicRef} name="topic" required defaultValue=""><option value="" disabled>{da ? "Vælg emne" : "Select a topic"}</option>{meetingTopics.map((topic) => <option key={topic.en} value={topic.en}>{topic[locale]}</option>)}</select></label>
           <div className="meeting-request__fields"><label>{da ? "Navn" : "Name"}<input name="name" autoComplete="name" required maxLength={120} /></label><label>Email<input type="email" name="email" autoComplete="email" required maxLength={200} /></label></div>
           <label>{da ? "Hvad vil du drøfte? (valgfrit)" : "What would you like to discuss? (optional)"}<textarea name="message" rows={3} maxLength={2000} /></label>
-          <p className="meeting-calendar-note">{da ? "Åbner din mailapp. Send anmodningen derfra, tidspunktet er først aftalt, når vi har bekræftet det." : "Opens your email app. Send the request there, the time is subject to confirmation."}</p>
-          <button type="submit" className="papp-button papp-button--primary">{da ? "Opret mødeanmodning" : "Prepare meeting request"}</button>
+          {/* Honeypot for the form service: people never see or fill it. */}
+          <input type="checkbox" name="botcheck" className="visually-hidden" tabIndex={-1} autoComplete="off" aria-hidden="true" />
+          <p className="meeting-calendar-note">{direct
+            ? (da ? "Vi bekræfter tidspunktet på mail." : "We’ll confirm the time by email.")
+            : (da ? "Åbner din mailapp. Send anmodningen derfra, tidspunktet er først aftalt, når vi har bekræftet det." : "Opens your email app. Send the request there, the time is subject to confirmation.")}</p>
+          <button type="submit" className="papp-button papp-button--primary" disabled={sending}>{sending ? (da ? "Sender…" : "Sending…") : direct ? (da ? "Send anmodning" : "Send request") : (da ? "Opret mødeanmodning" : "Prepare meeting request")}</button>
           {prepared ? <div role="status"><strong>{da ? "Klar til at sende fra din mailapp." : "Ready to send from your email app."}</strong><p>{da ? "Ingen mailapp? Send oplysningerne nedenfor til " : "No email app? Send the details below to "}<a href={`mailto:${availability.recipient}`}>{availability.recipient}</a>.</p><a href={prepared.href}>{da ? "Åbn mail igen" : "Open email again"}</a><pre>{prepared.body}</pre></div> : null}
         </form>}
         {error ? <p role="alert">{error}</p> : null}

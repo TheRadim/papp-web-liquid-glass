@@ -7,6 +7,20 @@ export const meetingAvailability = {
   weeksAhead: 12
 } as const;
 
+/**
+ * Sending requests without the visitor's email app.
+ *
+ * GitHub Pages is static, so a form service delivers the message. Web3Forms
+ * (https://web3forms.com) emails every submission to the address the access
+ * key was created for. The key is meant to be public and is safe in client code.
+ * Set it here, or as NEXT_PUBLIC_WEB3FORMS_KEY at build time. While it is empty
+ * the calendar falls back to preparing an email in the visitor's mail app.
+ */
+export const meetingDelivery = {
+  endpoint: "https://api.web3forms.com/submit",
+  accessKey: process.env.NEXT_PUBLIC_WEB3FORMS_KEY ?? ""
+};
+
 export const meetingTopics = [
   { en: "Parking & capacity", da: "Parkering og kapacitet" },
   { en: "Traffic & people counting", da: "Trafik- og persontælling" },

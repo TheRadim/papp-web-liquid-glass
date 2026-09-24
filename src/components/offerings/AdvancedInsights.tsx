@@ -1,11 +1,12 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { ChevronDown } from "lucide-react";
 import type { Locale } from "@/content/types";
 import { PlotCard, type PlotSpec } from "./PlotCard";
 import {
   arrivalHours, arrivalIntensity, dailyPeak, dailySummary, fiveMinutes, fleetAgeMedian, fleetAges,
-  forecastHigh, forecastHours, forecastLow, forecastMedian, forecastStart, guestOrigins, landscapeDays,
+  forecastHigh, forecastHours, forecastLow, forecastMeanMiss, forecastMedian, forecastStart, guestOrigins, landscapeDays,
   manufacturers, occupancyByDay, quarterHours, replayActual
 } from "@/content/insights/advanced-demo";
 
@@ -59,8 +60,16 @@ export function AdvancedInsights({ locale }: { locale: Locale }) {
       <p>{da ? "De samme målinger kan besvare mange spørgsmål. Skift mellem visningerne og udforsk dem. Tallene er eksempler." : "The same measurements answer many different questions. Switch between the views and explore them. The numbers are examples."}</p>
     </div>
     <div className="insights-explorer__tabs" role="tablist" aria-label={da ? "Analysevisninger" : "Analysis views"}>
-      {views.map((view) => <button key={view.id} id={`insights-view-${view.id}`} type="button" role="tab" aria-selected={active === view.id} aria-controls="insights-view-panel" className={active === view.id ? "is-active" : undefined} onClick={(event) => { setActive(view.id); event.currentTarget.scrollIntoView({ block: "nearest", inline: "nearest", behavior: "smooth" }); }}>{view[locale]}</button>)}
+      {views.map((view) => <button key={view.id} id={`insights-view-${view.id}`} type="button" role="tab" aria-selected={active === view.id} aria-controls="insights-view-panel" className={active === view.id ? "is-active" : undefined} onClick={() => setActive(view.id)}>{view[locale]}</button>)}
     </div>
+    {/* Phones get one compact dropdown instead of seven buttons. */}
+    <label className="insights-explorer__select">
+      <span className="visually-hidden">{da ? "Vælg analysevisning" : "Choose an analysis view"}</span>
+      <select value={active} onChange={(event) => setActive(event.target.value as ViewId)}>
+        {views.map((view) => <option key={view.id} value={view.id}>{view[locale]}</option>)}
+      </select>
+      <ChevronDown aria-hidden="true" />
+    </label>
     <div id="insights-view-panel" role="tabpanel" aria-labelledby={`insights-view-${active}`}>
       <PlotCard className="insights-explorer__card" plot={plot} />
       <p className="insights-explorer__caption">{explanations[active][locale]}</p>
@@ -262,7 +271,7 @@ function buildPlot(view: ViewId, locale: Locale, compact: boolean): PlotSpec {
   // Forecast replay
   return {
     title: t("The rest of today, called from the afternoon", "Resten af dagen, forudsagt fra eftermiddagen"),
-    subtitle: t(`Replay of Tue 21 Apr, a typical day. Everything after ${forecastStart}:00 is forecast from the ${replayActual[forecastStart * 12]} vehicles then on site.`, `Genafspilning af tirsdag 21. april, en typisk dag. Alt efter kl. ${forecastStart} er forudsagt ud fra de ${replayActual[forecastStart * 12]} biler, der var på stedet.`),
+    subtitle: t(`Replay of Tue 21 Apr, a typical day. Everything after ${forecastStart}:00 is forecast from the ${replayActual[forecastStart * 12]} vehicles then on site. On average the forecast was ${forecastMeanMiss} vehicles off.`, `Genafspilning af tirsdag 21. april, en typisk dag. Alt efter kl. ${forecastStart} er forudsagt ud fra de ${replayActual[forecastStart * 12]} biler, der var på stedet. I gennemsnit lå prognosen ${String(forecastMeanMiss).replace(".", ",")} biler fra det faktiske antal.`),
     data: [
       { type: "scatter", mode: "lines", x: forecastHours, y: forecastLow, line: { width: 0 }, hoverinfo: "skip", showlegend: false },
       { type: "scatter", mode: "lines", x: forecastHours, y: forecastHigh, line: { width: 0 }, fill: "tonexty", fillcolor: "rgba(42, 127, 192, 0.15)", name: t("80% of days land in here", "80% af dagene lander her"), hoverinfo: "skip" },
