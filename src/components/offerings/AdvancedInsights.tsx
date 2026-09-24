@@ -59,7 +59,7 @@ export function AdvancedInsights({ locale }: { locale: Locale }) {
       <p>{da ? "De samme målinger kan besvare mange spørgsmål. Skift mellem visningerne og udforsk dem. Tallene er eksempler." : "The same measurements answer many different questions. Switch between the views and explore them. The numbers are examples."}</p>
     </div>
     <div className="insights-explorer__tabs" role="tablist" aria-label={da ? "Analysevisninger" : "Analysis views"}>
-      {views.map((view) => <button key={view.id} id={`insights-view-${view.id}`} type="button" role="tab" aria-selected={active === view.id} aria-controls="insights-view-panel" className={active === view.id ? "is-active" : undefined} onClick={() => setActive(view.id)}>{view[locale]}</button>)}
+      {views.map((view) => <button key={view.id} id={`insights-view-${view.id}`} type="button" role="tab" aria-selected={active === view.id} aria-controls="insights-view-panel" className={active === view.id ? "is-active" : undefined} onClick={(event) => { setActive(view.id); event.currentTarget.scrollIntoView({ block: "nearest", inline: "nearest", behavior: "smooth" }); }}>{view[locale]}</button>)}
     </div>
     <div id="insights-view-panel" role="tabpanel" aria-labelledby={`insights-view-${active}`}>
       <PlotCard className="insights-explorer__card" plot={plot} />
@@ -226,7 +226,7 @@ function buildPlot(view: ViewId, locale: Locale, compact: boolean): PlotSpec {
         hovermode: "x unified",
         margin: { ...(layout.margin as object), t: compact ? 56 : 52 },
         legend: { orientation: "h", traceorder: "normal", x: 0, y: 1.02, yanchor: "bottom", font: { size: compact ? 9 : 11 } },
-        xaxis: { ...(layout.xaxis as object), range: [0, 24], tickvals: [0, 3, 6, 9, 12, 15, 18, 21, 24], ticktext: ["00:00", "03:00", "06:00", "09:00", "12:00", "15:00", "18:00", "21:00", "24:00"], title: axisTitle(t("Time of day (local)", "Tidspunkt (lokal tid)")) },
+        xaxis: { ...(layout.xaxis as object), range: [0, 24], tickangle: 0, tickvals: compact ? [0, 6, 12, 18, 24] : [0, 3, 6, 9, 12, 15, 18, 21, 24], ticktext: compact ? ["00:00", "06:00", "12:00", "18:00", "24:00"] : ["00:00", "03:00", "06:00", "09:00", "12:00", "15:00", "18:00", "21:00", "24:00"], title: axisTitle(t("Time of day (local)", "Tidspunkt (lokal tid)")) },
         yaxis: { ...(layout.yaxis as object), title: axisTitle(t("Vehicles on site", "Biler på stedet")) },
         annotations: [{ x: x[dailyPeak.index], y: dailyPeak.value, text: `<b>${clock(x[dailyPeak.index])}</b> · ${Math.round(dailyPeak.value)} ${t("inside", "inde")}`, showarrow: true, arrowhead: 0, arrowcolor: muted, ax: 0, ay: -30, font: { color: ink, size: compact ? 10 : 12 } }]
       }
