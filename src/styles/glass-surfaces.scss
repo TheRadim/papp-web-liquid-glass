@@ -95,7 +95,6 @@ button.project-category-card:focus-visible {
 }
 .papp-button,
 .contact-form__submit { border-radius: 999px; }
-.camera-explorer__controls button { border-radius: 50%; }
 
 .site-footer {
   padding: 20px 0;
@@ -389,13 +388,11 @@ main,
   --glass-edge: rgba(255, 255, 255, .8);
   --glass-shadow: 0 10px 32px rgba(55, 81, 126, .065), inset 0 1px 1px rgba(255, 255, 255, .95), inset 0 -1px 1px rgba(55, 81, 126, .045);
 }
-.camera-explorer__controls button,
 .insights-data-lab__segmented > div,
 .app-feature-selector__icon,
 .footer-social a {
   @include frosted-surface;
 }
-.camera-explorer__controls button,
 .footer-social a { border-radius: 50%; }
 .insights-data-lab__segmented > div { border-radius: 999px; }
 .app-feature-selector__icon { border-radius: 21px; }
@@ -454,7 +451,6 @@ main,
 .solution-outcomes__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; margin-bottom: 1.5rem; }
 .solution-outcomes h3 { font-size: 1.2rem; }
 .solution-outcomes > .eyebrow { text-align: center; margin-top: 2.5rem; }
-.camera-explorer__controls { justify-content: center; gap: 1.25rem; }
 .camera-explorer__spin { cursor: grab; touch-action: pan-y; user-select: none; }
 .camera-explorer__spin:active { cursor: grabbing; }
 .app-feature-selector__phone--crossfade img { transition-duration: .5s; }

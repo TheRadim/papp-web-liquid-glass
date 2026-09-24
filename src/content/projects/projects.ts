@@ -270,7 +270,7 @@ export const projects: Project[] = [
     },
     summary: {
       en: "How do you make room for everyone without creating new parking spaces? Aalborg uses parking-pattern insight to improve flow and balance.",
-      da: "Hvordan får man plads til alle – uden at lave nye p-pladser? I Aalborg skaber indsigt i parkeringsmønstre et bedre flow og mere retfærdig brug af gågadens attraktive pladser."
+      da: "Hvordan får man plads til alle, uden at lave nye p-pladser? I Aalborg skaber indsigt i parkeringsmønstre et bedre flow og mere retfærdig brug af gågadens attraktive pladser."
     },
     challenge: {
       en: "Growing demand for business parking required a solution that respected the existing city centre rather than adding more parking spaces.",

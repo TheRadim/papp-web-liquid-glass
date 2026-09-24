@@ -1,7 +1,9 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
+import { useMemo, useState, type CSSProperties } from "react";
 import type { Locale } from "@/content/types";
+import { AdvancedInsights } from "@/components/offerings/AdvancedInsights";
+import { PlotCard, type PlotSpec } from "./PlotCard";
 import demoData from "@/content/insights/demo-data.json";
 
 type DemoRow = {
@@ -18,29 +20,14 @@ type DemoRow = {
   manufacturer: string;
 };
 
-type PlotSpec = {
-  title: string;
-  subtitle: string;
-  data: Record<string, unknown>[];
-  layout: Record<string, unknown>;
-};
-
 type PlotCollection = {
   hourly: PlotSpec;
   heatmap: PlotSpec;
   structure: PlotSpec;
-  fleet: PlotSpec;
 };
 
 const rows = demoData.rows as DemoRow[];
 const dates = demoData.dates;
-const plotConfig = {
-  displaylogo: false,
-  displayModeBar: false,
-  responsive: true,
-  scrollZoom: false,
-  staticPlot: false
-};
 
 const copy = {
   en: {
@@ -127,7 +114,7 @@ export function InsightsDataLab({ locale }: { locale: Locale }) {
   const endIndex = Math.max(dateRange[0], dateRange[1]);
   const startDate = dates[startIndex] ?? dates[0];
   const endDate = dates[endIndex] ?? dates[dates.length - 1];
-  const dateRangeLabel = startDate && endDate ? `${formatDate(startDate, locale)} - ${formatDate(endDate, locale)}` : text.allDates;
+  const dateRangeLabel = startDate && endDate ? `${formatDate(startDate, locale)} ${locale === "da" ? "til" : "to"} ${formatDate(endDate, locale)}` : text.allDates;
   const startPercent = dates.length > 1 ? (startIndex / (dates.length - 1)) * 100 : 0;
   const endPercent = dates.length > 1 ? (endIndex / (dates.length - 1)) * 100 : 100;
   const rangeStyle = { "--range-start": `${startPercent}%`, "--range-end": `${endPercent}%` } as CSSProperties;
@@ -223,8 +210,7 @@ export function InsightsDataLab({ locale }: { locale: Locale }) {
           </div>
           <PlotCard plot={plots.structure} />
         </div>
-        <PlotCard className="insights-data-lab__card--wide" plot={plots.fleet} />
-        <p className="insights-data-lab__note">{locale === "da" ? "Demodata: Fordelingen bygger på besøg, ikke unikke køretøjer. Segmentering kan understøtte ladeplanlægning og prognoser; den viser ikke personers demografi." : "Demo data: this profile counts visits, not unique vehicles. Segmentation can support charging plans and predictions; it does not infer personal demographics."}</p>
+        <AdvancedInsights locale={locale} />
         <div className="insights-outcome-note">
           <h3>{text.outcomeTitle}</h3>
           <p>{text.outcome}</p>
@@ -258,41 +244,6 @@ function buildMetrics(filteredRows: DemoRow[], locale: Locale) {
     { label: text.ev, value: `${evShare}%`, detail: locale === "da" ? "batterielektriske" : "battery-electric" },
     { label: text.origin, value: uniqueZips.toLocaleString(locale === "da" ? "da-DK" : "en"), detail: locale === "da" ? "postnumre" : "postal areas" }
   ];
-}
-
-function PlotCard({ className = "", plot }: { className?: string; plot: PlotSpec }) {
-  const plotRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const plotNode = plotRef.current;
-    if (!plotNode) return;
-
-    let cancelled = false;
-    let loadedPlotly: Awaited<typeof import("plotly.js-dist-min")>["default"] | null = null;
-
-    void import("plotly.js-dist-min")
-      .then((module) => {
-        loadedPlotly = module.default;
-        if (cancelled) return;
-        void module.default.react(plotNode, plot.data, plot.layout, plotConfig).catch(() => undefined);
-      })
-      .catch(() => undefined);
-
-    return () => {
-      cancelled = true;
-      loadedPlotly?.purge(plotNode);
-    };
-  }, [plot]);
-
-  return (
-    <article className={`insights-data-lab__card ${className}`.trim()}>
-      <div>
-        <h3>{plot.title}</h3>
-        <p>{plot.subtitle}</p>
-      </div>
-      <div className="insights-data-lab__plot" ref={plotRef} />
-    </article>
-  );
 }
 
 function buildPlots(filteredRows: DemoRow[], locale: Locale): PlotCollection {
@@ -337,15 +288,7 @@ function buildPlots(filteredRows: DemoRow[], locale: Locale): PlotCollection {
     yaxis: { fixedrange: true, gridcolor: "rgba(68,68,68,0.08)", zeroline: false }
   });
 
-  const fuels = ["EV", "Hybrid", "ICE", "Other"];
-  const fuelCounts = fuels.map((fuel) => filteredRows.filter((row) => row.fuel === fuel).length);
   return {
-    fleet: {
-      title: locale === "da" ? "Fra trafikmængde til flådeprofil." : "From traffic counts to a fleet profile.",
-      subtitle: locale === "da" ? "Forstå sammensætningen af besøg i det valgte område og tidsrum. Brug filtrene til at undersøge forskelle." : "Understand the mix of visits in the selected area and period. Use the filters to explore differences.",
-      data: [{ type: "bar", x: locale === "da" ? ["El", "Hybrid", "Forbrænding", "Andet"] : ["Electric", "Hybrid", "Combustion", "Other"], y: fuelCounts, marker: { color: ["#2f92c5", "#83cbe9", "#37517e", "#b9c3cc"] }, hovertemplate: "%{x}: %{y}<extra></extra>" }],
-      layout: { ...lightLayout(), height: 320, yaxis: { fixedrange: true, title: { text: locale === "da" ? "Besøg" : "Visits" }, rangemode: "tozero" } }
-    },
     hourly: {
       title: text.hourly,
       subtitle: text.hourlySub,

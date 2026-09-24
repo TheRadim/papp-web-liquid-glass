@@ -6176,9 +6176,6 @@ button.project-category-card {
 .camera-explorer__spin:active { cursor: grabbing; }
 .camera-explorer__spin img { width: 100%; height: auto; transform: scale(1.65); user-select: none; }
 .camera-explorer__hint { text-align: center; color: var(--papp-muted); font-size: .88rem; margin: 1rem 0; }
-.camera-explorer__controls { display: flex; align-items: center; gap: 1rem; max-width: 360px; margin-inline: auto; }
-.camera-explorer__controls input { width: 100%; min-width: 0; accent-color: var(--papp-blue); }
-.camera-explorer__controls button { flex-shrink: 0; width: 44px; height: 44px; border: 1px solid #d9e6ef; border-radius: 50%; background: white; color: var(--papp-blue); }
 .camera-explorer__features article { border-bottom: 1px solid #dae5ed; padding-block: 1.2rem; }
 .camera-explorer__features h3 { margin: 0; font-size: clamp(1.15rem, 2vw, 1.5rem); }
 .camera-explorer__features h3 { display: flex; align-items: baseline; gap: 1rem; padding: .25rem 0; }
