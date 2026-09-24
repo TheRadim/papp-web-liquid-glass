@@ -28,7 +28,8 @@ export function OfferingFeature({ offering, locale, index }: OfferingFeatureProp
             <li key={pick(locale, benefit)}>{pick(locale, benefit)}</li>
           ))}
         </ul>
-        <Button href={href} variant={index === 2 ? "dark" : "secondary"}>
+        {/* Papp Insights is the one offering highlighted with the coral button. */}
+        <Button href={href} variant={offering.slug === "insights" ? "dark" : "secondary"}>
           {locale === "da" ? "Læs mere" : "Learn more"}
         </Button>
       </div>
