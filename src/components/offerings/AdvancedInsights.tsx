@@ -126,6 +126,19 @@ function ViewPicker({ active, locale, onChange }: { active: ViewId; locale: Loca
   </div>;
 }
 
+// Colour for a 0..1 position along the blue ramp, matching Plotly's interpolation.
+function rampColour(position: number) {
+  const hex = (value: string) => [1, 3, 5].map((index) => parseInt(value.slice(index, index + 2), 16));
+  const clamped = Math.min(1, Math.max(0, position));
+  const upper = blueRamp.findIndex(([stop]) => stop >= clamped);
+  if (upper <= 0) return blueRamp[0][1];
+  const [startStop, startColour] = blueRamp[upper - 1];
+  const [endStop, endColour] = blueRamp[upper];
+  const mix = (clamped - startStop) / (endStop - startStop);
+  const [a, b] = [hex(startColour), hex(endColour)];
+  return `rgb(${a.map((value, index) => Math.round(value + (b[index] - value) * mix)).join(", ")})`;
+}
+
 function baseLayout(compact: boolean): Record<string, unknown> {
   return {
     autosize: true,
@@ -170,26 +183,32 @@ function buildPlot(view: ViewId, locale: Locale, compact: boolean): PlotSpec {
 
   if (view === "brands") {
     const covered = manufacturers.reduce((sum, row) => sum + row.share, 0);
+    const root = t("All brands", "Alle mærker");
+    // An explicit, transparent root with no header padding. Plotly otherwise draws
+    // an implicit dark grey root tile that frames the whole chart.
     return {
       title: t("Most common manufacturers", "De mest almindelige bilmærker"),
       subtitle: t(`Tile area is the share of identified vehicles, colour is how electric each brand's arrivals are. The top 16 cover ${Math.round(covered)}%.`, `Feltets areal er andelen af identificerede biler, farven viser hvor stor en del af mærkets ankomster der er elbiler. De 16 største dækker ${Math.round(covered)}%.`),
-      data: [{
-        type: "treemap",
-        labels: manufacturers.map((row) => row.name),
-        parents: manufacturers.map(() => ""),
-        values: manufacturers.map((row) => row.share),
-        customdata: manufacturers.map((row) => row.electric),
-        branchvalues: "total",
-        tiling: { pad: 3 },
-        pathbar: { visible: false },
-        root: { color: "rgba(0,0,0,0)" },
-        textposition: "middle center",
-        marker: { colors: manufacturers.map((row) => row.electric), colorscale: blueRamp, cmin: 0, cmax: 100, line: { color: "#ffffff", width: 3 }, showscale: !compact, colorbar: { title: { text: t("Electric %", "El %"), font: { color: muted } }, thickness: 10, outlinewidth: 0, ticksuffix: "%" } },
-        texttemplate: "<b>%{label}</b><br>%{value}%",
-        textfont: { family: "Open Sans, system-ui, sans-serif", size: compact ? 10 : 13 },
-        hovertemplate: t("<b>%{label}</b><br>%{value}% of vehicles<br>%{customdata}% electric<extra></extra>", "<b>%{label}</b><br>%{value}% af bilerne<br>%{customdata}% elbiler<extra></extra>")
-      }],
-      layout: { ...layout, margin: { l: 0, r: compact ? 0 : 8, t: 4, b: 4 } }
+      data: [
+        {
+          type: "treemap",
+          labels: [root, ...manufacturers.map((row) => row.name)],
+          parents: ["", ...manufacturers.map(() => root)],
+          values: [Math.round(covered * 10) / 10, ...manufacturers.map((row) => row.share)],
+          customdata: [0, ...manufacturers.map((row) => row.electric)],
+          branchvalues: "total",
+          tiling: { pad: 3 },
+          pathbar: { visible: false },
+          textposition: "middle center",
+          marker: { colors: ["rgba(0,0,0,0)", ...manufacturers.map((row) => rampColour(row.electric / 100))], line: { color: "#ffffff", width: 3 }, pad: { t: 0, l: 0, r: 0, b: 0 } },
+          texttemplate: "<b>%{label}</b><br>%{value}%",
+          textfont: { family: "Open Sans, system-ui, sans-serif", size: compact ? 10 : 13 },
+          hovertemplate: t("<b>%{label}</b><br>%{value}% of vehicles<br>%{customdata}% electric<extra></extra>", "<b>%{label}</b><br>%{value}% af bilerne<br>%{customdata}% elbiler<extra></extra>")
+        },
+        // Invisible trace that only carries the colour scale legend.
+        { type: "scatter", mode: "markers", x: [null], y: [null], hoverinfo: "skip", showlegend: false, marker: { color: [0], cmin: 0, cmax: 100, colorscale: blueRamp, showscale: !compact, colorbar: { title: { text: t("Electric %", "El %"), font: { color: muted } }, thickness: 10, outlinewidth: 0, ticksuffix: "%" } } }
+      ],
+      layout: { ...layout, margin: { l: 0, r: compact ? 0 : 8, t: 4, b: 4 }, xaxis: { visible: false }, yaxis: { visible: false } }
     };
   }
 
