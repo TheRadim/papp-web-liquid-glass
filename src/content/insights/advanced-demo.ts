@@ -87,7 +87,18 @@ function quantile(sorted: number[], q: number) {
   const next = sorted[base + 1] ?? sorted[base];
   return sorted[base] + (next - sorted[base]) * (position - base);
 }
-const dayProfiles = landscapeDays.map(() => fiveMinutes.map((hour) => Math.max(0, typicalOccupancy(hour) * (hour > 8.5 && hour < 22 ? 0.92 + noise() * 0.16 : 1) + jitter(hour > 9 && hour < 22 ? 4.5 : 1.2))));
+// Each day gets its own level and a slightly earlier or later rhythm; two event
+// days run busier, which pulls the average above the median in the evening.
+const dayProfiles = landscapeDays.map((_, day) => {
+  const level = 0.8 + noise() * 0.36;
+  const event = day === 5 || day === 12 ? 1.28 : 1;
+  const shift = jitter(0.7);
+  return fiveMinutes.map((hour) => {
+    const busy = hour > 8.5 && hour < 22;
+    const eveningEvent = event > 1 && hour > 16 ? event : 1;
+    return Math.max(0, typicalOccupancy(hour + (busy ? shift : 0)) * (busy ? level * eveningEvent : 1) + jitter(busy ? 3.5 : 1.2));
+  });
+});
 export const dailySummary = fiveMinutes.map((_, index) => {
   const values = dayProfiles.map((profile) => profile[index]).sort((a, b) => a - b);
   const mean = values.reduce((total, value) => total + value, 0) / values.length;
@@ -105,11 +116,20 @@ export const arrivalIntensity = Array.from({ length: 7 }, (_, day) => arrivalHou
 
 /* Forecast replay: a typical Tuesday, everything after 14:00 is predicted. */
 export const forecastStart = 14;
+// A slow random walk around the typical curve reads like real arrivals and departures.
+let drift = 0;
 export const replayActual = fiveMinutes.map((hour) => {
   const base = hour < 6 ? 5 : typicalOccupancy(hour) * 1.08;
-  return Math.max(1, Math.round(base + jitter(hour > 12 && hour < 21 ? 7 : 1.5)));
+  const busy = hour > 11 && hour < 21.5;
+  drift = drift * 0.9 + jitter(busy ? 2.4 : 0.8);
+  return Math.max(1, Math.round(base + drift));
 });
 export const forecastHours = fiveMinutes.filter((hour) => hour >= forecastStart);
 export const forecastMedian = forecastHours.map((hour) => round1(hour < 21 ? 27 + Math.sin(hour * 1.3) * 1.2 + (hour - 14) * 0.25 : Math.max(6, 29 - (hour - 21) * 18)));
 export const forecastLow = forecastMedian.map((value, index) => round1(Math.max(0, value - 7 - index * 0.02)));
-export const forecastHigh = forecastMedian.map((value, index) => round1(value + 8 + (forecastHours[index] < 21 ? 6 : 1)));
+// The upper band is wider through the busy evening and narrows as the site empties.
+export const forecastHigh = forecastMedian.map((value, index) => {
+  const hour = forecastHours[index];
+  const evening = hour < 21 ? 1 : Math.max(0, 1 - (hour - 21) / 1.5);
+  return round1(value + 8 + 6 * evening);
+});

@@ -84,11 +84,18 @@
   flex-basis: auto;
 }
 
-// All phrases share one grid cell, so the window is as wide as the longest
-// phrase and the sentence never shifts while the words rotate.
+// All phrases share one grid cell. Before hydration the window is as wide as
+// the longest phrase; afterwards CapabilityStatement sets the width of the
+// current phrase and the sentence closes up around it with a short transition.
 .hero-message .capability-statement__window {
   min-width: 0;
+  justify-items: center;
   font-weight: 750;
+  transition: width 0.35s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.hero-message .capability-statement__window > span {
+  width: max-content;
 }
 
 @media (max-width: 991.98px) {
@@ -105,7 +112,7 @@
   }
 
   .hero-copy h1.hero-title {
-    font-size: clamp(2.25rem, 10.5vw, 4rem);
+    font-size: clamp(2.25rem, 13vw, 4rem);
     white-space: nowrap;
   }
 
@@ -390,6 +397,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .hero-message .capability-statement__window { transition: none; }
   .dp-kpi, .dp-card, .dp-donut__segment { animation: none; }
 }
 
@@ -796,6 +804,11 @@
 
   .consultancy-question-grid {
     grid-template-columns: minmax(0, 1fr);
+  }
+
+  // Stacked: read the workshop story first, then see the photo and what is included.
+  .consultancy-workshop__copy {
+    order: -1;
   }
 }
 

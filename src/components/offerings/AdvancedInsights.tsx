@@ -123,6 +123,9 @@ function buildPlot(view: ViewId, locale: Locale, compact: boolean): PlotSpec {
         customdata: manufacturers.map((row) => row.electric),
         branchvalues: "total",
         tiling: { pad: 3 },
+        pathbar: { visible: false },
+        root: { color: "rgba(0,0,0,0)" },
+        textposition: "middle center",
         marker: { colors: manufacturers.map((row) => row.electric), colorscale: blueRamp, cmin: 0, cmax: 100, line: { color: "#ffffff", width: 3 }, showscale: !compact, colorbar: { title: { text: t("Electric %", "El %"), font: { color: muted } }, thickness: 10, outlinewidth: 0, ticksuffix: "%" } },
         texttemplate: "<b>%{label}</b><br>%{value}%",
         textfont: { family: "Open Sans, system-ui, sans-serif", size: compact ? 10 : 13 },
@@ -158,8 +161,8 @@ function buildPlot(view: ViewId, locale: Locale, compact: boolean): PlotSpec {
         dragmode: false,
         geo: {
           projection: { type: "mercator" },
-          lonaxis: { range: [-11, 34] },
-          lataxis: { range: [41, 70] },
+          lonaxis: { range: compact ? [-6, 32] : [-16, 46] },
+          lataxis: { range: [43, 70] },
           showframe: false,
           showcoastlines: false,
           showcountries: true,
@@ -197,7 +200,7 @@ function buildPlot(view: ViewId, locale: Locale, compact: boolean): PlotSpec {
         scene: {
           aspectmode: "manual",
           aspectratio: { x: 1.2, y: 1.5, z: 0.5 },
-          camera: { eye: { x: -1.35, y: -1.55, z: 0.95 } },
+          camera: { eye: { x: -1.2, y: -1.4, z: 0.8 } },
           xaxis: { title: { text: t("Hour", "Time") }, range: [6, 24], gridcolor: "#e3e9ee", backgroundcolor: "rgba(0,0,0,0)" },
           yaxis: { title: { text: "" }, gridcolor: "#e3e9ee", tickfont: { size: compact ? 8 : 10 } },
           zaxis: { title: { text: "" }, gridcolor: "#e3e9ee" }
@@ -222,7 +225,7 @@ function buildPlot(view: ViewId, locale: Locale, compact: boolean): PlotSpec {
         showlegend: true,
         hovermode: "x unified",
         margin: { ...(layout.margin as object), t: compact ? 56 : 52 },
-        legend: { orientation: "h", x: 0, y: 1.02, yanchor: "bottom", font: { size: compact ? 9 : 11 } },
+        legend: { orientation: "h", traceorder: "normal", x: 0, y: 1.02, yanchor: "bottom", font: { size: compact ? 9 : 11 } },
         xaxis: { ...(layout.xaxis as object), range: [0, 24], tickvals: [0, 3, 6, 9, 12, 15, 18, 21, 24], ticktext: ["00:00", "03:00", "06:00", "09:00", "12:00", "15:00", "18:00", "21:00", "24:00"], title: axisTitle(t("Time of day (local)", "Tidspunkt (lokal tid)")) },
         yaxis: { ...(layout.yaxis as object), title: axisTitle(t("Vehicles on site", "Biler på stedet")) },
         annotations: [{ x: x[dailyPeak.index], y: dailyPeak.value, text: `<b>${clock(x[dailyPeak.index])}</b> · ${Math.round(dailyPeak.value)} ${t("inside", "inde")}`, showarrow: true, arrowhead: 0, arrowcolor: muted, ax: 0, ay: -30, font: { color: ink, size: compact ? 10 : 12 } }]
@@ -250,8 +253,8 @@ function buildPlot(view: ViewId, locale: Locale, compact: boolean): PlotSpec {
       }],
       layout: {
         ...layout,
-        xaxis: { ...(layout.xaxis as object), gridcolor: "rgba(0,0,0,0)", title: axisTitle(t("Hour of day (local)", "Time på dagen (lokal tid)")), dtick: compact ? 2 : 1 },
-        yaxis: { ...(layout.yaxis as object), autorange: "reversed", gridcolor: "rgba(0,0,0,0)", rangemode: "normal" }
+        xaxis: { ...(layout.xaxis as object), type: "category", ticks: "", gridcolor: "rgba(0,0,0,0)", title: axisTitle(t("Hour of day (local)", "Time på dagen (lokal tid)")), dtick: compact ? 2 : 1 },
+        yaxis: { ...(layout.yaxis as object), autorange: "reversed", ticks: "", gridcolor: "rgba(0,0,0,0)", rangemode: "normal" }
       }
     };
   }
@@ -271,7 +274,7 @@ function buildPlot(view: ViewId, locale: Locale, compact: boolean): PlotSpec {
       showlegend: true,
       hovermode: "x unified",
       margin: { ...(layout.margin as object), t: compact ? 56 : 52 },
-      legend: { orientation: "h", x: 0, y: 1.02, yanchor: "bottom", font: { size: compact ? 9 : 11 } },
+      legend: { orientation: "h", traceorder: "normal", x: 0, y: 1.02, yanchor: "bottom", font: { size: compact ? 9 : 11 } },
       xaxis: { ...(layout.xaxis as object), range: [0, 24], dtick: compact ? 3 : 1, title: axisTitle(t("Hour", "Time")) },
       yaxis: { ...(layout.yaxis as object), title: axisTitle(t("Vehicles on site", "Biler på stedet")) },
       shapes: [{ type: "line", x0: forecastStart, x1: forecastStart, yref: "paper", y0: 0, y1: 1, line: { color: muted, width: 1, dash: "dot" } }],
