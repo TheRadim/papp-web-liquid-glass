@@ -15,9 +15,11 @@ interface OfferingPageProps {
   offering: Offering;
   afterHero?: ReactNode;
   hideDetailSections?: boolean;
+  /** Where the hero button leads. Service pages point it at their own meeting calendar. */
+  primaryCtaHref?: string;
 }
 
-export function OfferingPage({ locale, offering, afterHero, hideDetailSections = false }: OfferingPageProps) {
+export function OfferingPage({ locale, offering, afterHero, hideDetailSections = false, primaryCtaHref }: OfferingPageProps) {
   const relatedProjects = getProjects(locale).filter((project) => offering.relatedProjectSlugs.includes(project.slug));
 
   return (
@@ -30,7 +32,7 @@ export function OfferingPage({ locale, offering, afterHero, hideDetailSections =
               <h1>{pick(locale, offering.name)}</h1>
               <p className="hero-lead">{pick(locale, offering.shortDescription)}</p>
               <p>{pick(locale, offering.introduction)}</p>
-              <Button href={`/${locale}/contact`}>{locale === "da" ? "Tal med os" : "Talk to us"}</Button>
+              <Button href={primaryCtaHref ?? `/${locale}/contact`}>{locale === "da" ? "Tal med os" : "Talk to us"}</Button>
             </div>
             <Image src={withBasePath(offering.heroImage)} alt="" width={1672} height={941} priority sizes="(max-width: 992px) 100vw, 44vw" />
           </div>

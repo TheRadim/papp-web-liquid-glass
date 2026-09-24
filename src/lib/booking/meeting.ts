@@ -26,7 +26,7 @@ export interface MeetingRequestData {
 }
 export function meetingEmail(request: MeetingRequestData) {
   const date = new Intl.DateTimeFormat("en-GB", { day: "2-digit", month: "short", year: "numeric", timeZone: "UTC" }).format(new Date(`${request.date}T12:00:00Z`));
-  const subject = `Meeting request — ${request.duration} min — ${date} ${request.time}`;
+  const subject = `Meeting request: ${request.duration} min, ${date} ${request.time}`;
   const body = [`Meeting request with Martine (subject to confirmation)`, `Name: ${request.name}`, ...(request.company ? [`Company: ${request.company}`] : []), `Email: ${request.email}`, ...(request.phone ? [`Phone: ${request.phone}`] : []), `Topic: ${request.topic || "General enquiry"}`, `Date: ${request.date}`, `Time: ${request.time} (${availability.timezone})`, `Duration: ${request.duration} minutes`, `Source: ${request.source}`, "", request.message].join("\n");
   return { subject, body, href: `mailto:${availability.recipient}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}` };
 }

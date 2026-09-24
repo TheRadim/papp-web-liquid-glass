@@ -6,13 +6,14 @@ import type { Locale } from "@/content/types";
 import { withBasePath } from "@/lib/site/basePath";
 
 const FRAME_COUNT = 96;
-const ARROW_STEP = FRAME_COUNT / 4;
+const PRELOAD_RANGE = FRAME_COUNT / 4;
+const KEYBOARD_STEP = 4;
 const frameUrl = (frame: number) => withBasePath(`/images/camera/rotation/${frame}.webp`);
 const content = {
   en: {
     eyebrow: "A closer look", title: "One camera. A wider perspective.",
     intro: "Explore the camera from different angles, then see how camera measurements help explain activity across a whole area.",
-    drag: "Drag to explore the camera", angle: "Camera viewing angle", previous: "Previous angle", next: "Next angle",
+    drag: "Drag to explore the camera", angle: "Camera viewing angle",
     features: [
       { title: "Number plates and vehicle details", body: "Einar processes number plates on the camera using Carmen® recognition. It also supports vehicle make, model, colour and category recognition." },
       { title: "Movement and direction", body: "Built-in vehicle detection supports two lanes, travel direction and speeds up to 80 km/h, helping capture movement at entrances and along urban roads." },
@@ -22,7 +23,7 @@ const content = {
   da: {
     eyebrow: "Kom tættere på", title: "Ét kamera. Et bredere perspektiv.",
     intro: "Se kameraet fra forskellige vinkler, og udforsk, hvordan kameramålinger hjælper med at forklare aktiviteten i et helt område.",
-    drag: "Træk for at udforske kameraet", angle: "Kameraets synsvinkel", previous: "Forrige vinkel", next: "Næste vinkel",
+    drag: "Træk for at udforske kameraet", angle: "Kameraets synsvinkel",
     features: [
       { title: "Nummerplader og køretøjsdetaljer", body: "Einar behandler nummerplader direkte i kameraet med Carmen®-genkendelse. Kameraet understøtter også genkendelse af køretøjets mærke, model, farve og kategori." },
       { title: "Bevægelse og retning", body: "Indbygget køretøjsregistrering understøtter to vognbaner, kørselsretning og hastigheder op til 80 km/t til måling ved indkørsler og langs byveje." },
@@ -36,14 +37,7 @@ export function CameraExplorer({ locale }: { locale: Locale }) {
   const [frame, setFrame] = useState(0);
   const [ready, setReady] = useState(false);
   const drag = useRef<{ x: number; frame: number } | null>(null);
-  const animation = useRef(0);
-  const animationVersion = useRef(0);
   const images = useRef(new Map<number, Promise<void>>());
-
-  function cancelAnimation() {
-    animationVersion.current += 1;
-    window.cancelAnimationFrame(animation.current);
-  }
 
   function loadFrame(index: number) {
     let loaded = images.current.get(index);
@@ -57,44 +51,12 @@ export function CameraExplorer({ locale }: { locale: Locale }) {
     return loaded;
   }
 
-  async function rotate(direction: number) {
-    cancelAnimation();
-    const version = animationVersion.current;
-    const sequence = Array.from({ length: ARROW_STEP }, (_, index) => wrap(frame + direction * (index + 1)));
-    try {
-      await Promise.all(sequence.map(loadFrame));
-    } catch {
-      return;
-    }
-    if (version !== animationVersion.current) return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      setFrame(sequence[sequence.length - 1]);
-      return;
-    }
-    let previousTime = 0;
-    let index = 0;
-    function advance(time: number) {
-      if (version !== animationVersion.current) return;
-      if (time - previousTime >= 24) {
-        setFrame(sequence[index++]);
-        previousTime = time;
-      }
-      if (index < sequence.length) animation.current = window.requestAnimationFrame(advance);
-    }
-    animation.current = window.requestAnimationFrame(advance);
-  }
-
-  useEffect(() => () => {
-    animationVersion.current += 1;
-    window.cancelAnimationFrame(animation.current);
-  }, []);
-
   const wrap = (value: number) => (value % FRAME_COUNT + FRAME_COUNT) % FRAME_COUNT;
 
   useEffect(() => {
     if (!ready) return;
     // Decode the next quarter-turn in either direction before interaction.
-    for (let offset = -ARROW_STEP; offset <= ARROW_STEP; offset++) {
+    for (let offset = -PRELOAD_RANGE; offset <= PRELOAD_RANGE; offset++) {
       void loadFrame(wrap(frame + offset)).catch(() => {});
     }
   }, [frame, ready]);
@@ -109,10 +71,10 @@ export function CameraExplorer({ locale }: { locale: Locale }) {
         </div>
         <div className="camera-explorer__layout">
           <div className="camera-explorer__viewer">
-            <div className="camera-explorer__spin"
+            <div className="camera-explorer__spin" tabIndex={0} role="slider" aria-label={text.angle} aria-valuemin={0} aria-valuemax={95} aria-valuenow={frame}
+              onKeyDown={(event) => { if (event.key === "ArrowLeft" || event.key === "ArrowRight") { event.preventDefault(); setFrame(wrap(frame + (event.key === "ArrowLeft" ? -KEYBOARD_STEP : KEYBOARD_STEP))); } }}
               onPointerDown={(event) => {
                 if (event.button !== 0) return;
-                cancelAnimation();
                 drag.current = { x: event.clientX, frame };
                 event.currentTarget.setPointerCapture(event.pointerId);
               }}
@@ -127,10 +89,6 @@ export function CameraExplorer({ locale }: { locale: Locale }) {
                 width={1000} height={563} sizes="(max-width: 992px) 85vw, 650px" draggable={false} unoptimized onLoad={() => setReady(true)} />
             </div>
             <p className="camera-explorer__hint">{text.drag} <a href="#camera-model-credit" aria-label={locale === "da" ? "Kreditering af kameramodel" : "Camera model attribution"}><sup>*</sup></a></p>
-            <div className="camera-explorer__controls">
-              <button type="button" aria-label={text.previous} onClick={() => void rotate(-1)}>←</button>
-              <button type="button" aria-label={text.next} onClick={() => void rotate(1)}>→</button>
-            </div>
           </div>
           <div className="camera-explorer__features">
             {text.features.map((feature, index) => (

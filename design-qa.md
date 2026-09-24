@@ -80,3 +80,16 @@ Unified the actual section canvas to white across home, projects, sensor/camera/
 - Corrected dashboard panel width so heading, iMac and caption share the horizontal centre (720px at 1440px viewport). Compact single-line tabs now use blue states; screen header restored as Mobility overview. Added reduced-motion-aware bar, line and map entrance animations. Desktop and phone previews inspected.
 - Moved deployment sentence beneath outcomes headline, reduced listing titles, and placed App after Consultancy. Browser confirmed offering order. Broadened Analysis measurement examples; Consultancy now explains interpreting Papp Insights together. Removed repetitive Projects process section.
 - Lint and production export passed. Original site unchanged.
+
+## Feedback round: hero, previews, Insights explorer and services, 24 September 2026
+- Continued an unfinished Codex pass (hero wrapper, grey sensor, camera arrows, draft consultancy and Plotly switcher) and completed it.
+- Hero: one viewport tall; title and capability line centred below the header using svh and vw sizing; actions and scroll cue anchored to the bottom edge. Capability line is heavier and never wraps; on phones its font scales from the longest sentence length.
+- iMac preview: screen is a CSS size container with KPI tiles and white chart cards. Vehicle mix shows manufacturers plus a drivetrain donut (petrol, diesel, electric, hybrid, other) when space allows; phones show one chart. Removed the illustrative examples note.
+- Removed remaining spaced dashes from visible copy (date range now uses "to").
+- Sensor: every part #696969 with a matte finish (glTF default metalness made it render near black).
+- Insights: the final fleet chart is replaced by a tabbed Plotly explorer with fleet age, manufacturers treemap coloured by electric share, guest origin choropleth on a log scale, 3D occupancy landscape, occupancy through the day with percentile band, arrival intensity heatmap and a forecast replay. Synthetic deterministic data in advanced-demo.ts.
+- Camera: arrow buttons and their styles removed; drag and keyboard arrows remain.
+- Analysis: added a working together paragraph, then the calendar, then the four step path. Hero button now jumps to the calendar.
+- Consultancy: new page composition with its own hero and workshop board chart, typical questions, workshop format with an included list, calendar in the middle of the page, outcomes and Papp Insights link. Uses its own styles in refinements.scss.
+- New styles live in src/styles/refinements.scss, loaded after glass-surfaces.scss.
+- Checks: TypeScript and ESLint passed. Local Next build and Vitest could not run in the review sandbox; the Pages workflow build and a live browser check follow the push.

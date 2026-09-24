@@ -305,12 +305,11 @@ function SensorModel({
         standard.opacity = 1;
         standard.depthWrite = true;
         standard.emissiveIntensity = 0;
-        if (/base|lid/i.test(object.name)) standard.color.set("#292c30");
-
-        if (standard.roughness !== undefined) {
-          standard.roughness = Math.max(standard.roughness, 0.58);
-          standard.metalness *= 0.4;
-        }
+        // Every part uses the same mid grey. glTF defaults to fully metallic, which
+        // rendered almost black under the soft studio lighting, so use a matte finish.
+        standard.color.set("#696969");
+        standard.metalness = 0.05;
+        standard.roughness = 0.62;
       });
     });
 

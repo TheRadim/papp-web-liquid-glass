@@ -37,7 +37,7 @@ describe("meeting requests in Denmark time", () => {
   });
   it("preserves request details and encodes the email handoff", () => {
     const request = meetingEmail({ name:"A & B",company:"Example",email:"test@example.com",phone:"",date:"2026-10-01",time:"10:00",duration:30,message:"Capacity?",source:"analysis" });
-    expect(request.subject).toBe("Meeting request — 30 min — 01 Oct 2026 10:00");
+    expect(request.subject).toBe("Meeting request: 30 min, 01 Oct 2026 10:00");
     expect(request.href).toContain("mailto:radim.theiner@papp.nu?");
     expect(request.body).toContain("Europe/Copenhagen");
     expect(request.body).toContain("subject to confirmation");
