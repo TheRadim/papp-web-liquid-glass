@@ -85,17 +85,22 @@
   flex-basis: auto;
 }
 
-// All phrases share one grid cell. Before hydration the window is as wide as
-// the longest phrase; afterwards CapabilityStatement sets the width of the
-// current phrase and the sentence closes up around it with a short transition.
+// All phrases share one grid cell. Before hydration the slot is as wide as the
+// longest phrase; afterwards CapabilityStatement sets the current phrase's width
+// and glides the surrounding words into place (see the component). The slot
+// clips only top and bottom, so the rolling word is never cut at the sides.
 .hero-message .capability-statement__window {
   min-width: 0;
-  // One track as wide as the window, so a phrase that is momentarily wider
-  // while the width animates stays centred instead of clipping on the right.
   grid-template-columns: minmax(0, 1fr);
   justify-items: center;
+  overflow: visible;
+  clip-path: inset(0 -100vw);
   font-weight: 750;
-  transition: width 0.35s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.hero-message .capability-statement__lead,
+.hero-message .capability-statement__tail {
+  will-change: transform;
 }
 
 .hero-message .capability-statement__window > span {
@@ -118,27 +123,6 @@
   .hero-copy h1.hero-title {
     font-size: clamp(2.25rem, 13vw, 4rem);
     white-space: nowrap;
-  }
-
-  // Phones: no slide and no animated width. Each new phrase appears with the
-  // whole line fading in from transparent, so the re-centring is never seen.
-  .hero-message .capability-statement > p.capability-tick-a {
-    animation: capability-line-in-a 0.45s ease both;
-  }
-
-  .hero-message .capability-statement > p.capability-tick-b {
-    animation: capability-line-in-b 0.45s ease both;
-  }
-
-  .hero-message .capability-statement__window {
-    transition: none;
-  }
-
-  .hero-message .capability-statement__window > span,
-  .hero-message .capability-statement__window > span.is-active {
-    transform: none;
-    transition: none;
-    animation: none;
   }
 
   .hero-message .capability-statement > p:not(.visually-hidden) {
@@ -448,8 +432,8 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .hero-message .capability-statement__window { transition: none; }
-  .hero-message .capability-statement > p { animation: none !important; }
+  .hero-message .capability-statement__lead,
+  .hero-message .capability-statement__tail { transition: none !important; transform: none !important; }
   .dp-kpi, .dp-card, .dp-donut__segment { animation: none; }
 }
 
@@ -1034,24 +1018,38 @@
     padding-block: 0.5rem 0.6rem;
   }
 
+  // White behind the date that fades out softly below it, so there is no hard edge.
   .history-story__current::before {
     position: absolute;
-    inset: 0 calc(var(--container-padding) * -1);
+    inset: 0 calc(var(--container-padding) * -1) -2.25rem;
     z-index: -1;
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(255, 255, 255, 0.8));
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.97) 0%, rgba(255, 255, 255, 0.92) 55%, rgba(255, 255, 255, 0) 100%);
     content: "";
     pointer-events: none;
   }
 
-  .history-story__current span {
-    display: block;
+  .history-story__current-label {
+    display: flex;
+    align-items: baseline;
+    gap: 0.6rem;
+    animation: timeline-date-in 0.3s ease;
+  }
+
+  .history-story__current-label strong {
     color: var(--papp-blue);
     font-family: Jost, system-ui, sans-serif;
     font-size: clamp(2.2rem, 11vw, 3.4rem);
     font-weight: 700;
     letter-spacing: -0.03em;
     line-height: 1;
-    animation: timeline-date-in 0.3s ease;
+  }
+
+  .history-story__current-label em {
+    color: var(--papp-heading);
+    font-family: Jost, system-ui, sans-serif;
+    font-size: clamp(1.1rem, 5vw, 1.5rem);
+    font-style: normal;
+    font-weight: 600;
   }
 
   .history-story__stream {
@@ -1070,15 +1068,11 @@
   }
 }
 
-// Two identical keyframes: switching between them restarts the animation.
-@keyframes capability-line-in-a { from { opacity: 0; } to { opacity: 1; } }
-@keyframes capability-line-in-b { from { opacity: 0; } to { opacity: 1; } }
-
 @keyframes timeline-date-in {
   from { opacity: 0; transform: translateY(6px); }
   to { opacity: 1; transform: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .history-story__current span { animation: none; }
+  .history-story__current-label { animation: none; }
 }

@@ -95,7 +95,7 @@ export function AboutTimeline({ items, locale }: AboutTimelineProps) {
       {/* Phones and tablets: instead of a sideways date strip, a sticky label shows
           the date of the entry in view, like the step number on the homepage. */}
       <div className="history-story__current" aria-hidden="true">
-        <span key={activeIndex}>{items[activeIndex]?.date[locale]}</span>
+        <CurrentDate key={activeIndex} label={items[activeIndex]?.date[locale] ?? ""} />
       </div>
       <ol className="history-story__stream" role="list">
         {items.map((item, index) => {
@@ -127,4 +127,11 @@ export function AboutTimeline({ items, locale }: AboutTimelineProps) {
       </ol>
     </div>
   );
+}
+
+// "August 2019" reads as "2019 August": the year leads, the month follows smaller.
+function CurrentDate({ label }: { label: string }) {
+  const match = label.match(/^(.*\S)\s+(\d{4})$/);
+  if (!match) return <span className="history-story__current-label"><strong>{label}</strong></span>;
+  return <span className="history-story__current-label"><strong>{match[2]}</strong> <em>{match[1]}</em></span>;
 }
