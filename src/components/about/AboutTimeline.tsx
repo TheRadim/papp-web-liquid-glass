@@ -21,6 +21,7 @@ interface AboutTimelineProps {
 export function AboutTimeline({ items, locale }: AboutTimelineProps) {
   const timelineRef = useRef<HTMLDivElement>(null);
   const frameRef = useRef(0);
+  const lastScrolledRef = useRef(-1);
   const [activeIndex, setActiveIndex] = useState(0);
 
   useEffect(() => {
@@ -45,10 +46,16 @@ export function AboutTimeline({ items, locale }: AboutTimelineProps) {
       ).index;
 
       setActiveIndex((current) => (current === nextActive ? current : nextActive));
-      if (window.innerWidth < 992) {
-        element
-          .querySelector<HTMLElement>(`.history-story__nav li:nth-child(${nextActive + 1}) a`)
-          ?.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
+      // Phones: keep the active year visible in the horizontal date strip. Only move
+      // the strip itself, and only when the year changes. Calling scrollIntoView on
+      // every scroll frame also nudged the page and cut off touch momentum.
+      if (window.innerWidth < 992 && lastScrolledRef.current !== nextActive) {
+        lastScrolledRef.current = nextActive;
+        const strip = element.querySelector<HTMLElement>(".history-story__nav ol");
+        const item = strip?.children[nextActive] as HTMLElement | undefined;
+        if (strip && item) {
+          strip.scrollTo({ left: item.offsetLeft - (strip.clientWidth - item.offsetWidth) / 2, behavior: "smooth" });
+        }
       }
       frameRef.current = 0;
     }

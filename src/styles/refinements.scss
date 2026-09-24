@@ -120,12 +120,39 @@
     white-space: nowrap;
   }
 
+  // Phones: no slide and no animated width. CapabilityStatement fades the whole
+  // line out, swaps the phrase, and fades it back in.
+  .hero-message .capability-statement > p:not(.visually-hidden) {
+    transition: opacity 0.22s ease;
+  }
+
+  .hero-message .capability-statement.is-swapping > p:not(.visually-hidden) {
+    opacity: 0;
+  }
+
+  .hero-message .capability-statement__window {
+    transition: none;
+  }
+
+  .hero-message .capability-statement__window > span,
+  .hero-message .capability-statement__window > span.is-active {
+    transform: none;
+    transition: none;
+    animation: none;
+  }
+
   .hero-message .capability-statement > p:not(.visually-hidden) {
     // Scaled from the longest sentence (set inline by CapabilityStatement) so it
     // stays on one line on any phone width. 0.52em is a safe average glyph width
     // for this semibold sans, checked in English and Danish at 360px.
     font-size: min(1.05rem, calc((100vw - 2.5rem) / (var(--capability-chars, 50) * 0.52)));
     gap: 0.25em;
+  }
+
+  // Phones: the scroll arrow sits near the bottom edge, well clear of the buttons.
+  .hero-footer {
+    bottom: clamp(0.75rem, 2.5svh, 1.5rem);
+    gap: clamp(2.75rem, 8svh, 4.5rem);
   }
 
   .hero-footer .hero-actions {
@@ -972,4 +999,19 @@
   max-width: 940px;
   margin: clamp(2.5rem, 6vw, 4.5rem) auto 0;
   scroll-margin-top: 110px;
+}
+
+/* About timeline on phones and tablets: plain cards scroll more smoothly than a
+   stack of blurred glass surfaces, and the date strip only pans sideways. */
+@media (max-width: 991.98px) {
+  .history-story__card {
+    background: rgba(255, 255, 255, 0.94);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+
+  .history-story__nav ol {
+    overscroll-behavior-x: contain;
+    touch-action: pan-x pan-y;
+  }
 }
