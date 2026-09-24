@@ -1076,3 +1076,36 @@
 @media (prefers-reduced-motion: reduce) {
   .history-story__current-label { animation: none; }
 }
+
+/* ------------------------------------------------------------------
+   Homepage hero on tablets and desktops
+   Title and capability line centred at about a third of the viewport height,
+   the buttons lifted above the lower third, and the scroll arrow kept at the
+   bottom edge where it was.
+------------------------------------------------------------------- */
+@media (min-width: 768px) {
+  .hero-section {
+    --hero-title-size: clamp(4.35rem, min(7.8vw, 14svh), 8.35rem);
+  }
+
+  .hero-layout--centered .hero-copy {
+    justify-content: flex-start;
+  }
+
+  .hero-message {
+    padding-bottom: 0;
+    // Half of the title plus capability line is about 0.85 of the title size.
+    margin-top: max(1.5rem, calc(33svh - var(--hero-header-offset, 76px) - var(--hero-title-size) * 0.85));
+  }
+
+  .hero-copy h1.hero-title {
+    font-size: var(--hero-title-size);
+  }
+
+  // The arrow keeps its place in the footer; the buttons sit well above it.
+  .hero-footer .hero-actions {
+    position: absolute;
+    inset-inline: 0;
+    bottom: calc(100% + clamp(3.5rem, 12svh, 8rem));
+  }
+}
