@@ -90,7 +90,7 @@ function quantile(sorted: number[], q: number) {
 // Each day gets its own level and a slightly earlier or later rhythm; two event
 // days run busier, which pulls the average above the median in the evening.
 const dayProfiles = landscapeDays.map((_, day) => {
-  const level = 0.8 + noise() * 0.36;
+  const level = 0.72 + noise() * 0.5;
   const event = day === 5 || day === 12 ? 1.28 : 1;
   const shift = jitter(0.7);
   return fiveMinutes.map((hour) => {

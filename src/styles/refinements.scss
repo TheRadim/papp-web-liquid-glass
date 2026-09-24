@@ -118,8 +118,9 @@
 
   .hero-message .capability-statement > p:not(.visually-hidden) {
     // Scaled from the longest sentence (set inline by CapabilityStatement) so it
-    // stays on one line on any phone width. 0.6em is a safe average glyph width.
-    font-size: min(1.05rem, calc((100vw - 2.5rem) / (var(--capability-chars, 50) * 0.6)));
+    // stays on one line on any phone width. 0.52em is a safe average glyph width
+    // for this semibold sans, checked in English and Danish at 360px.
+    font-size: min(1.05rem, calc((100vw - 2.5rem) / (var(--capability-chars, 50) * 0.52)));
     gap: 0.25em;
   }
 
@@ -130,9 +131,17 @@
   }
 
   .hero-footer .hero-actions .papp-button {
+    flex-shrink: 0;
     width: auto;
     padding: 0.7rem 1rem;
-    font-size: 0.85rem;
+    font-size: 0.8rem;
+    gap: 0.4rem;
+    white-space: nowrap;
+  }
+
+  // The text button needs no pill padding; this keeps both on one row at 360px.
+  .hero-footer .hero-actions .hero-action--salmon {
+    padding-inline: 0.25rem;
   }
 }
 
