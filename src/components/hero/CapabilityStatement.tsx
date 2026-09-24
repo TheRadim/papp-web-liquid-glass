@@ -28,7 +28,8 @@ export function CapabilityStatement({ locale }: { locale: Locale }) {
   useIsomorphicLayoutEffect(() => {
     const measure = () => {
       const phrase = phraseRefs.current[active];
-      if (phrase) setWidth(phrase.getBoundingClientRect().width);
+      // Round up and keep a hair of room so the last glyph is never clipped.
+      if (phrase) setWidth(Math.ceil(phrase.getBoundingClientRect().width) + 2);
     };
     measure();
     window.addEventListener("resize", measure);
