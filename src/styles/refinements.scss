@@ -89,6 +89,9 @@
 // current phrase and the sentence closes up around it with a short transition.
 .hero-message .capability-statement__window {
   min-width: 0;
+  // One track as wide as the window, so a phrase that is momentarily wider
+  // while the width animates stays centred instead of clipping on the right.
+  grid-template-columns: minmax(0, 1fr);
   justify-items: center;
   font-weight: 750;
   transition: width 0.35s cubic-bezier(0.2, 0.7, 0.2, 1);
