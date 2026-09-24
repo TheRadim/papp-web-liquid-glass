@@ -21,7 +21,6 @@ interface AboutTimelineProps {
 export function AboutTimeline({ items, locale }: AboutTimelineProps) {
   const timelineRef = useRef<HTMLDivElement>(null);
   const frameRef = useRef(0);
-  const lastScrolledRef = useRef(-1);
   const [activeIndex, setActiveIndex] = useState(0);
 
   useEffect(() => {
@@ -46,17 +45,6 @@ export function AboutTimeline({ items, locale }: AboutTimelineProps) {
       ).index;
 
       setActiveIndex((current) => (current === nextActive ? current : nextActive));
-      // Phones: keep the active year visible in the horizontal date strip. Only move
-      // the strip itself, and only when the year changes. Calling scrollIntoView on
-      // every scroll frame also nudged the page and cut off touch momentum.
-      if (window.innerWidth < 992 && lastScrolledRef.current !== nextActive) {
-        lastScrolledRef.current = nextActive;
-        const strip = element.querySelector<HTMLElement>(".history-story__nav ol");
-        const item = strip?.children[nextActive] as HTMLElement | undefined;
-        if (strip && item) {
-          strip.scrollTo({ left: item.offsetLeft - (strip.clientWidth - item.offsetWidth) / 2, behavior: "smooth" });
-        }
-      }
       frameRef.current = 0;
     }
 
@@ -104,6 +92,11 @@ export function AboutTimeline({ items, locale }: AboutTimelineProps) {
           })}
         </ol>
       </nav>
+      {/* Phones and tablets: instead of a sideways date strip, a sticky label shows
+          the date of the entry in view, like the step number on the homepage. */}
+      <div className="history-story__current" aria-hidden="true">
+        <span key={activeIndex}>{items[activeIndex]?.date[locale]}</span>
+      </div>
       <ol className="history-story__stream" role="list">
         {items.map((item, index) => {
           const isActive = index === activeIndex;

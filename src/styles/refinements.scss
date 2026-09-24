@@ -149,6 +149,17 @@
     gap: 0.25em;
   }
 
+  // Phones: the title and capability line sit in the upper third of the screen
+  // (their centre at about 33% of the viewport height) instead of the middle.
+  .hero-layout--centered .hero-copy {
+    justify-content: flex-start;
+  }
+
+  .hero-message {
+    padding-bottom: 0;
+    margin-top: max(1rem, calc(33svh - var(--hero-header-offset, 68px) - 2.9rem));
+  }
+
   // Phones: the scroll arrow sits near the bottom edge, well clear of the buttons.
   .hero-footer {
     bottom: clamp(0.75rem, 2.5svh, 1.5rem);
@@ -1001,17 +1012,68 @@
   scroll-margin-top: 110px;
 }
 
-/* About timeline on phones and tablets: plain cards scroll more smoothly than a
-   stack of blurred glass surfaces, and the date strip only pans sideways. */
+/* About timeline on phones and tablets: no sideways date strip (it fought touch
+   scrolling). A sticky label shows the date in view, like the homepage steps,
+   and the cards are plain instead of blurred glass. */
+.history-story__current {
+  display: none;
+}
+
 @media (max-width: 991.98px) {
+  .history-story__nav {
+    display: none;
+  }
+
+  .history-story__current {
+    position: sticky;
+    top: 68px;
+    z-index: 2;
+    display: block;
+    isolation: isolate;
+    padding-block: 0.5rem 0.6rem;
+  }
+
+  .history-story__current::before {
+    position: absolute;
+    inset: 0 calc(var(--container-padding) * -1);
+    z-index: -1;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(255, 255, 255, 0.8));
+    content: "";
+    pointer-events: none;
+  }
+
+  .history-story__current span {
+    display: block;
+    color: var(--papp-blue);
+    font-family: Jost, system-ui, sans-serif;
+    font-size: clamp(2.2rem, 11vw, 3.4rem);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1;
+    animation: timeline-date-in 0.3s ease;
+  }
+
+  .history-story__stream {
+    padding-block: 1rem 2rem;
+  }
+
+  .history-story__stream > li {
+    min-height: 0;
+    padding-block: 0.75rem;
+  }
+
   .history-story__card {
     background: rgba(255, 255, 255, 0.94);
     -webkit-backdrop-filter: none;
     backdrop-filter: none;
   }
+}
 
-  .history-story__nav ol {
-    overscroll-behavior-x: contain;
-    touch-action: pan-x pan-y;
-  }
+@keyframes timeline-date-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .history-story__current span { animation: none; }
 }
