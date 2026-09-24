@@ -138,9 +138,12 @@ export const forecastMedian = forecastHours.map((_, index) => {
   forecastError = forecastError * 0.93 + jitter(0.7);
   return round1(Math.max(0, smoothed[forecastStartIndex + index] + forecastError));
 });
-// 80% band: wider while the site is busy and less predictable, narrow at night.
-const spread = (hour: number) => (hour < 21.5 ? 3 + Math.min(1, (hour - forecastStart) / 3) * 1.2 : Math.max(1.6, 4.2 - (hour - 21.5) * 2));
+// 80% band: starts narrow at the moment of the forecast, widens as the horizon
+// grows through the busy evening, then tightens as the site empties at night.
+const spread = (hour: number) => {
+  const horizon = Math.min(1, (hour - forecastStart) / 4);
+  const busy = 3.5 + horizon * 6.5;
+  return hour < 21 ? busy : Math.max(3, busy - (hour - 21) * 4);
+};
 export const forecastLow = forecastMedian.map((value, index) => round1(Math.max(0, value - spread(forecastHours[index]))));
 export const forecastHigh = forecastMedian.map((value, index) => round1(value + spread(forecastHours[index])));
-// Mean absolute error of the replayed forecast, shown in the chart subtitle.
-export const forecastMeanMiss = round1(forecastHours.reduce((sum, _, index) => sum + Math.abs(replayActual[forecastStartIndex + index] - forecastMedian[index]), 0) / forecastHours.length);

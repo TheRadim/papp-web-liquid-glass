@@ -62,7 +62,7 @@ export function InsightDashboardMockup({ locale }: { locale: Locale }) {
     return () => window.clearInterval(timer);
   }, [userSelected]);
 
-  return <div className="insight-dashboard insight-dashboard--light" aria-label={da ? "Eksempler på mobilitetsindsigt" : "Examples of mobility insight"}>
+  return <div className="insight-dashboard insight-dashboard--light" aria-label={da ? "Mobilitetsindsigt i Papp Insights" : "Mobility insight in Papp Insights"}>
     <div className="insight-dashboard__tabs" role="tablist" aria-label={da ? "Datavisninger" : "Data views"}>{tabs.map(tab => <button id={`demo-tab-${tab.id}`} key={tab.id} role="tab" type="button" aria-controls="dashboard-demo-panel" aria-selected={activeId === tab.id} className={activeId === tab.id ? "is-active" : undefined} onClick={() => { setActiveId(tab.id); setUserSelected(true); }}>{tab[locale]}</button>)}</div>
     <div id="dashboard-demo-panel" role="tabpanel" aria-labelledby={`demo-tab-${activeId}`}>
       <Link className="insight-dashboard__device-link" href={`/${locale}/products/insights`} aria-label={da ? "Udforsk Papp Insights" : "Explore Papp Insights"}>
@@ -125,7 +125,7 @@ function ActivityChart({ overview, locale }: { overview: boolean; locale: Locale
   const values = overview ? activityDemo.slice(48, 72) : activityDemo;
   const points = values.map((value, index) => `${30 + index / (values.length - 1) * 485},${172 - value / 80 * 146}`).join(" ");
   const da = locale === "da";
-  return <div className="dashboard-preview__activity"><svg viewBox="0 0 540 205" role="img" aria-label={overview ? (da ? "Eksempel på belægning gennem et døgn" : "Illustrative occupancy over one day") : (da ? "Eksempel på ni dages aktivitet med daglige peaks" : "Illustrative nine day activity with daily peaks")}>
+  return <div className="dashboard-preview__activity"><svg viewBox="0 0 540 205" role="img" aria-label={overview ? (da ? "Belægning gennem et døgn" : "Occupancy over one day") : (da ? "Ni dages aktivitet med daglige peaks" : "Nine days of activity with daily peaks")}>
     <defs><linearGradient id="dp-area" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stopColor="#2385bd" stopOpacity=".28" /><stop offset="1" stopColor="#2385bd" stopOpacity=".02" /></linearGradient></defs>
     {[0,20,40,60,80].map(value => <g key={value}><line x1="30" x2="515" y1={172-value/80*146} y2={172-value/80*146} stroke="#e8eef1" /><text x="22" y={176-value/80*146} textAnchor="end">{value}</text></g>)}
     <polygon points={`30,172 ${points} 515,172`} fill="url(#dp-area)" /><polyline className="dashboard-preview__trace" pathLength="1" points={points} fill="none" stroke="#2385bd" strokeWidth="2" strokeLinejoin="round" />

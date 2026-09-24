@@ -3,9 +3,11 @@
 import { useEffect, useLayoutEffect, useRef, useState, type CSSProperties } from "react";
 import type { Locale } from "@/content/types";
 
+// Each phrase completes "We turn … into better decisions." with something Papp
+// measures or derives, so the sentence always describes what we actually do.
 const capabilities = {
-  en: ["traffic counting", "people counting", "parking data", "parking predictions", "ZIP code analysis", "fleet analysis", "marketing analysis", "mobility analysis", "traffic patterns", "movement analysis"],
-  da: ["trafiktælling", "persontælling", "parkeringsdata", "parkeringsprognoser", "postnummeranalyse", "flådeanalyse", "markedsanalyse", "mobilitetsanalyse", "trafikmønstre", "bevægelsesanalyse"]
+  en: ["traffic counts", "people counts", "parking occupancy", "parking forecasts", "dwell times", "visitor origins", "postcode data", "fleet profiles", "charging demand", "traffic patterns"],
+  da: ["trafiktal", "persontællinger", "parkeringsbelægning", "parkeringsprognoser", "opholdstider", "besøgendes oprindelse", "postnummerdata", "bilprofiler", "ladebehov", "trafikmønstre"]
 };
 
 // useLayoutEffect warns during server rendering; fall back to useEffect there.

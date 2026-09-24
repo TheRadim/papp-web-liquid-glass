@@ -101,8 +101,8 @@ function WorkshopBoard({ locale }: { locale: Locale }) {
     { label: t("Question", "Spørgsmål"), text: t("Who parks before 09:00?", "Hvem parkerer før kl. 9?") },
     { label: t("Next step", "Næste skridt"), text: t("Trial staff parking off site", "Afprøv personaleparkering et andet sted") }
   ];
-  return <figure className="workshop-board" aria-label={t("Example workshop board: a car park is full from 10:00 to 14:00 with room in the afternoon", "Eksempel på et workshopbræt: en parkeringsplads er fuld fra kl. 10 til 14 med plads om eftermiddagen")}>
-    <header><span className="workshop-board__dot" aria-hidden="true" /><strong>{t("Customer car park, weekdays", "Kundeparkering, hverdage")}</strong><span className="workshop-board__tag">{t("Example", "Eksempel")}</span></header>
+  return <figure className="workshop-board" aria-label={t("Workshop board: a car park is full from 10:00 to 14:00 with room in the afternoon", "Workshopbræt: en parkeringsplads er fuld fra kl. 10 til 14 med plads om eftermiddagen")}>
+    <header><span className="workshop-board__dot" aria-hidden="true" /><strong>{t("Customer car park", "Kundeparkering")}</strong><span className="workshop-board__tag">{t("Weekdays", "Hverdage")}</span></header>
     <svg viewBox="0 0 480 200" aria-hidden="true">
       <defs><linearGradient id="board-area" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stopColor="#2a7fc0" stopOpacity=".26" /><stop offset="1" stopColor="#2a7fc0" stopOpacity=".02" /></linearGradient></defs>
       <rect x={x(4) - 6} y="20" width={x(8) - x(4) + 12} height="150" rx="8" fill="#fde9e8" />
