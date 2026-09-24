@@ -498,16 +498,19 @@
   text-align: center;
 }
 
-.insights-explorer__select {
+.insights-picker {
   position: relative;
   display: none;
   width: min(100%, 360px);
   margin: 0 auto 1.25rem;
 }
 
-.insights-explorer__select select {
+.insights-picker__button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   width: 100%;
-  padding: 0.75rem 2.75rem 0.75rem 1.1rem;
+  padding: 0.75rem 1rem 0.75rem 1.2rem;
   border: 1px solid #8ccbe9;
   border-radius: 999px;
   background: #e0f1fa;
@@ -515,24 +518,70 @@
   font: inherit;
   font-size: 0.95rem;
   font-weight: 600;
-  appearance: none;
-  -webkit-appearance: none;
 }
 
-.insights-explorer__select select:focus-visible {
+.insights-picker__button svg {
+  width: 18px;
+  height: 18px;
+  transition: transform 0.25s ease;
+}
+
+.insights-picker.is-open .insights-picker__button svg {
+  transform: rotate(180deg);
+}
+
+.insights-picker__button:focus-visible,
+.insights-picker__list:focus-visible {
   outline: 2px solid var(--papp-blue);
   outline-offset: 2px;
 }
 
-.insights-explorer__select svg {
+.insights-picker__list {
   position: absolute;
-  top: 50%;
-  right: 1rem;
-  width: 18px;
-  height: 18px;
+  z-index: 20;
+  top: calc(100% + 0.4rem);
+  inset-inline: 0;
+  margin: 0;
+  padding: 0.35rem;
+  border: 1px solid #dce8ef;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.97);
+  box-shadow: 0 18px 50px rgba(55, 81, 126, 0.16);
+  list-style: none;
+  -webkit-backdrop-filter: blur(18px);
+  backdrop-filter: blur(18px);
+  animation: picker-in 0.18s ease;
+}
+
+.insights-picker__list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.7rem 0.9rem;
+  border-radius: 14px;
+  color: var(--papp-heading);
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+
+.insights-picker__list li.is-focused {
+  background: #edf7fc;
+}
+
+.insights-picker__list li[aria-selected="true"] {
   color: #005483;
-  pointer-events: none;
-  transform: translateY(-50%);
+  font-weight: 600;
+}
+
+.insights-picker__list li svg {
+  width: 17px;
+  height: 17px;
+  color: var(--papp-blue);
+}
+
+@keyframes picker-in {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: none; }
 }
 
 @media (max-width: 767.98px) {
@@ -540,7 +589,7 @@
     display: none;
   }
 
-  .insights-explorer__select {
+  .insights-picker {
     display: block;
   }
 
@@ -916,4 +965,11 @@
   margin-top: 0.9rem;
   color: #005483;
   font-weight: 600;
+}
+
+/* Insights page: Martine's calendar near the end of the page. */
+.insights-meeting {
+  max-width: 940px;
+  margin: clamp(2.5rem, 6vw, 4.5rem) auto 0;
+  scroll-margin-top: 110px;
 }

@@ -1,12 +1,12 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
-import { ChevronDown } from "lucide-react";
+import { useEffect, useId, useMemo, useRef, useState } from "react";
+import { Check, ChevronDown } from "lucide-react";
 import type { Locale } from "@/content/types";
 import { PlotCard, type PlotSpec } from "./PlotCard";
 import {
   arrivalHours, arrivalIntensity, dailyPeak, dailySummary, fiveMinutes, fleetAgeMedian, fleetAges,
-  forecastHigh, forecastHours, forecastLow, forecastMeanMiss, forecastMedian, forecastStart, guestOrigins, landscapeDays,
+  forecastHigh, forecastHours, forecastLow, forecastMedian, forecastStart, guestOrigins, landscapeDays,
   manufacturers, occupancyByDay, quarterHours, replayActual
 } from "@/content/insights/advanced-demo";
 
@@ -29,7 +29,7 @@ const explanations: Record<ViewId, { en: string; da: string }> = {
   landscape: { en: "Every operating day as one ridge. Drag to orbit and spot the days that break the usual pattern.", da: "Hver driftsdag som én ryg. Træk for at rotere og find de dage, der bryder det normale mønster." },
   day: { en: "The typical day with its spread. The band holds the middle half of days, so a narrow band means a predictable site.", da: "Den typiske dag med dens spredning. Båndet rummer den midterste halvdel af dagene, så et smalt bånd betyder et forudsigeligt sted." },
   arrivals: { en: "When vehicles arrive, by weekday and hour. Recurring peaks point to staffing, pricing or signage decisions.", da: "Hvornår bilerne ankommer, fordelt på ugedag og time. Tilbagevendende peaks peger på beslutninger om bemanding, pris eller skiltning." },
-  forecast: { en: "A replayed day. From the vehicles on site at 14:00, the model predicts the rest of the day, then we compare it with what actually happened.", da: "En genafspillet dag. Ud fra bilerne på stedet kl. 14 forudsiger modellen resten af dagen, og vi sammenligner med det, der faktisk skete." }
+  forecast: { en: "Know in the early afternoon how busy the evening will be. The shaded range shows where the day is likely to land, so teams can plan staffing, signage and pricing ahead.", da: "Vid allerede tidligt på eftermiddagen, hvor travlt aftenen bliver. Det skraverede interval viser, hvor dagen sandsynligvis lander, så I kan planlægge bemanding, skiltning og priser i god tid." }
 };
 
 const ink = "#444c55";
@@ -57,24 +57,73 @@ export function AdvancedInsights({ locale }: { locale: Locale }) {
     <div className="insights-explorer__heading">
       <p className="eyebrow">Papp Insights</p>
       <h2>{da ? "Flere måder at læse et sted på." : "More ways to read a site."}</h2>
-      <p>{da ? "De samme målinger kan besvare mange spørgsmål. Skift mellem visningerne og udforsk dem. Tallene er eksempler." : "The same measurements answer many different questions. Switch between the views and explore them. The numbers are examples."}</p>
+      <p>{da ? "De samme målinger kan besvare mange spørgsmål. Skift mellem visningerne og udforsk dem." : "The same measurements answer many different questions. Switch between the views and explore them."}</p>
     </div>
     <div className="insights-explorer__tabs" role="tablist" aria-label={da ? "Analysevisninger" : "Analysis views"}>
       {views.map((view) => <button key={view.id} id={`insights-view-${view.id}`} type="button" role="tab" aria-selected={active === view.id} aria-controls="insights-view-panel" className={active === view.id ? "is-active" : undefined} onClick={() => setActive(view.id)}>{view[locale]}</button>)}
     </div>
     {/* Phones get one compact dropdown instead of seven buttons. */}
-    <label className="insights-explorer__select">
-      <span className="visually-hidden">{da ? "Vælg analysevisning" : "Choose an analysis view"}</span>
-      <select value={active} onChange={(event) => setActive(event.target.value as ViewId)}>
-        {views.map((view) => <option key={view.id} value={view.id}>{view[locale]}</option>)}
-      </select>
-      <ChevronDown aria-hidden="true" />
-    </label>
+    <ViewPicker active={active} locale={locale} onChange={setActive} />
     <div id="insights-view-panel" role="tabpanel" aria-labelledby={`insights-view-${active}`}>
       <PlotCard className="insights-explorer__card" plot={plot} />
       <p className="insights-explorer__caption">{explanations[active][locale]}</p>
     </div>
   </section>;
+}
+
+// A custom listbox rather than a native select: the native picker opened detached
+// from the control on some browsers and was hard to use.
+function ViewPicker({ active, locale, onChange }: { active: ViewId; locale: Locale; onChange: (view: ViewId) => void }) {
+  const da = locale === "da";
+  const id = useId();
+  const [open, setOpen] = useState(false);
+  const [focused, setFocused] = useState(0);
+  const root = useRef<HTMLDivElement>(null);
+  const button = useRef<HTMLButtonElement>(null);
+  const list = useRef<HTMLUListElement>(null);
+  const current = views.find((view) => view.id === active) ?? views[0];
+
+  useEffect(() => {
+    if (!open) return;
+    const close = (event: PointerEvent) => { if (!root.current?.contains(event.target as Node)) setOpen(false); };
+    document.addEventListener("pointerdown", close);
+    list.current?.focus();
+    return () => document.removeEventListener("pointerdown", close);
+  }, [open]);
+
+  function openList() {
+    setFocused(Math.max(0, views.findIndex((view) => view.id === active)));
+    setOpen(true);
+  }
+
+  function choose(index: number) {
+    onChange(views[index].id);
+    setOpen(false);
+    button.current?.focus();
+  }
+
+  function onListKey(event: React.KeyboardEvent<HTMLUListElement>) {
+    if (event.key === "ArrowDown") { event.preventDefault(); setFocused((value) => Math.min(views.length - 1, value + 1)); }
+    else if (event.key === "ArrowUp") { event.preventDefault(); setFocused((value) => Math.max(0, value - 1)); }
+    else if (event.key === "Home") { event.preventDefault(); setFocused(0); }
+    else if (event.key === "End") { event.preventDefault(); setFocused(views.length - 1); }
+    else if (event.key === "Enter" || event.key === " ") { event.preventDefault(); choose(focused); }
+    else if (event.key === "Escape" || event.key === "Tab") { setOpen(false); if (event.key === "Escape") button.current?.focus(); }
+  }
+
+  return <div className={`insights-picker ${open ? "is-open" : ""}`} ref={root}>
+    <button ref={button} type="button" className="insights-picker__button" aria-haspopup="listbox" aria-expanded={open} aria-controls={`${id}-list`} aria-label={`${da ? "Analysevisning" : "Analysis view"}: ${current[locale]}`}
+      onClick={() => (open ? setOpen(false) : openList())}
+      onKeyDown={(event) => { if (event.key === "ArrowDown" || event.key === "ArrowUp") { event.preventDefault(); openList(); } }}>
+      <span>{current[locale]}</span><ChevronDown aria-hidden="true" />
+    </button>
+    {open ? <ul ref={list} id={`${id}-list`} role="listbox" tabIndex={-1} aria-activedescendant={`${id}-option-${focused}`} aria-label={da ? "Analysevisninger" : "Analysis views"} onKeyDown={onListKey} className="insights-picker__list">
+      {views.map((view, index) => <li key={view.id} id={`${id}-option-${index}`} role="option" aria-selected={view.id === active} className={index === focused ? "is-focused" : undefined}
+        onPointerEnter={() => setFocused(index)} onClick={() => choose(index)}>
+        <span>{view[locale]}</span>{view.id === active ? <Check aria-hidden="true" /> : null}
+      </li>)}
+    </ul> : null}
+  </div>;
 }
 
 function baseLayout(compact: boolean): Record<string, unknown> {
@@ -268,15 +317,18 @@ function buildPlot(view: ViewId, locale: Locale, compact: boolean): PlotSpec {
     };
   }
 
-  // Forecast replay
+  // Forecast: what was observed until 14:00, and the predicted rest of the day.
+  const observedUntil = forecastStart * 12;
+  const observedHours = fiveMinutes.slice(0, observedUntil + 1);
+  const observed = replayActual.slice(0, observedUntil + 1);
   return {
-    title: t("The rest of today, called from the afternoon", "Resten af dagen, forudsagt fra eftermiddagen"),
-    subtitle: t(`Replay of Tue 21 Apr, a typical day. Everything after ${forecastStart}:00 is forecast from the ${replayActual[forecastStart * 12]} vehicles then on site. On average the forecast was ${forecastMeanMiss} vehicles off.`, `Genafspilning af tirsdag 21. april, en typisk dag. Alt efter kl. ${forecastStart} er forudsagt ud fra de ${replayActual[forecastStart * 12]} biler, der var på stedet. I gennemsnit lå prognosen ${String(forecastMeanMiss).replace(".", ",")} biler fra det faktiske antal.`),
+    title: t("The rest of today, forecast at 14:00", "Resten af dagen, forudsagt kl. 14"),
+    subtitle: t(`Tuesday 21 April. From the ${observed.at(-1)} vehicles on site at ${forecastStart}:00, the model forecasts how the rest of the day will unfold.`, `Tirsdag 21. april. Ud fra de ${observed.at(-1)} biler på stedet kl. ${forecastStart} forudsiger modellen, hvordan resten af dagen forløber.`),
     data: [
       { type: "scatter", mode: "lines", x: forecastHours, y: forecastLow, line: { width: 0 }, hoverinfo: "skip", showlegend: false },
-      { type: "scatter", mode: "lines", x: forecastHours, y: forecastHigh, line: { width: 0 }, fill: "tonexty", fillcolor: "rgba(42, 127, 192, 0.15)", name: t("80% of days land in here", "80% af dagene lander her"), hoverinfo: "skip" },
-      { type: "scatter", mode: "lines", x: forecastHours, y: forecastMedian, line: { color: blue, width: 2.4, dash: "dash" }, name: t("Forecast", "Prognose"), hovertemplate: t("Forecast %{y:.0f}<extra></extra>", "Prognose %{y:.0f}<extra></extra>") },
-      { type: "scatter", mode: "lines", x: fiveMinutes, y: replayActual, line: { color: "#1f2429", width: 1.6, shape: "hv" }, name: t("What actually happened", "Det der faktisk skete"), text: fiveMinutes.map(clock), hovertemplate: t("%{text}<br>%{y} on site<extra></extra>", "kl. %{text}<br>%{y} på stedet<extra></extra>") }
+      { type: "scatter", mode: "lines", x: forecastHours, y: forecastHigh, line: { width: 0 }, fill: "tonexty", fillcolor: "rgba(42, 127, 192, 0.16)", name: t("Likely range, 80%", "Sandsynligt interval, 80%"), hoverinfo: "skip" },
+      { type: "scatter", mode: "lines", x: [forecastStart, ...forecastHours.slice(1)], y: [observed.at(-1), ...forecastMedian.slice(1)], line: { color: blue, width: 2.4, dash: "dash" }, name: t("Forecast", "Prognose"), text: forecastHours.map(clock), hovertemplate: t("%{text}<br>Forecast %{y:.0f} on site<extra></extra>", "kl. %{text}<br>Prognose %{y:.0f} på stedet<extra></extra>") },
+      { type: "scatter", mode: "lines", x: observedHours, y: observed, line: { color: "#1f2429", width: 1.6, shape: "hv" }, name: t("Observed", "Observeret"), text: observedHours.map(clock), hovertemplate: t("%{text}<br>%{y} on site<extra></extra>", "kl. %{text}<br>%{y} på stedet<extra></extra>") }
     ],
     layout: {
       ...layout,
@@ -287,7 +339,7 @@ function buildPlot(view: ViewId, locale: Locale, compact: boolean): PlotSpec {
       xaxis: { ...(layout.xaxis as object), range: [0, 24], dtick: compact ? 3 : 1, title: axisTitle(t("Hour", "Time")) },
       yaxis: { ...(layout.yaxis as object), title: axisTitle(t("Vehicles on site", "Biler på stedet")) },
       shapes: [{ type: "line", x0: forecastStart, x1: forecastStart, yref: "paper", y0: 0, y1: 1, line: { color: muted, width: 1, dash: "dot" } }],
-      annotations: [{ x: forecastStart, y: 1, yref: "paper", xanchor: "right", yanchor: "top", xshift: -6, showarrow: false, text: t(`called at ${forecastStart}:00`, `forudsagt kl. ${forecastStart}`), font: { color: muted, size: compact ? 9 : 11 } }]
+      annotations: [{ x: forecastStart, y: 1, yref: "paper", xanchor: "right", yanchor: "top", xshift: -6, showarrow: false, text: t("now, 14:00", "nu, kl. 14"), font: { color: muted, size: compact ? 9 : 11 } }]
     }
   };
 }

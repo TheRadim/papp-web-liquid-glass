@@ -3,6 +3,7 @@
 import { useMemo, useState, type CSSProperties } from "react";
 import type { Locale } from "@/content/types";
 import { AdvancedInsights } from "@/components/offerings/AdvancedInsights";
+import { MeetingRequest } from "@/components/contact/MeetingRequest";
 import { PlotCard, type PlotSpec } from "./PlotCard";
 import demoData from "@/content/insights/demo-data.json";
 
@@ -214,6 +215,9 @@ export function InsightsDataLab({ locale }: { locale: Locale }) {
         <div className="insights-outcome-note">
           <h3>{text.outcomeTitle}</h3>
           <p>{text.outcome}</p>
+        </div>
+        <div className="insights-meeting" id="insights-meeting">
+          <MeetingRequest locale={locale} source="insights" />
         </div>
       </div>
     </section>

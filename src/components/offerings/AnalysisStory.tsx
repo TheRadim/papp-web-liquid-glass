@@ -20,8 +20,8 @@ export function AnalysisStory({ locale }: { locale: Locale }) {
       ]).map(([title, body]) => <article key={title}><h3>{title}</h3><p>{body}</p></article>)}</div>
     </Section>
     <Section className="report-section"><div className="report-layout">
-      <div className="report-preview" aria-label={da ? "Eksempel på rapportens opbygning" : "Illustrative report structure"}>
-        <div className="report-preview__top"><span>Papp Mobility</span><FileText size={23} aria-hidden="true" /></div><p className="eyebrow">{da ? "Rapportstruktur · eksempel" : "Report structure · example"}</p><h3>{da ? "Fra måling til anbefaling." : "From measurement to recommendation."}</h3>
+      <div className="report-preview" aria-label={da ? "Rapportens opbygning" : "Report structure"}>
+        <div className="report-preview__top"><span>Papp Mobility</span><FileText size={23} aria-hidden="true" /></div><p className="eyebrow">{da ? "Rapportstruktur" : "Report structure"}</p><h3>{da ? "Fra måling til anbefaling." : "From measurement to recommendation."}</h3>
         <div className="report-preview__chart" aria-hidden="true">{[36,54,73,86,66,44,28].map((value, index) => <i key={index} style={{ height: `${value}%` }} />)}</div>
         {(da ? ["01 Spørgsmål og metode", "02 Målinger og mønstre", "03 Konklusioner og begrænsninger", "04 Anbefalinger og næste skridt"] : ["01 Question and method", "02 Measurements and patterns", "03 Conclusions and limitations", "04 Recommendations and next steps"]).map(item => <p className="report-preview__line" key={item}>{item}</p>)}
       </div>
