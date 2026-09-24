@@ -18,7 +18,7 @@ interface AppFeatureSelectorProps {
   locale: Locale;
 }
 
-const AUTO_CYCLE_MS = 2500; // 2 seconds stable + 0.5 second crossfade.
+const AUTO_CYCLE_MS = 1800; // 1.3 seconds stable + 0.5 second crossfade.
 const icons = [MapPinned, Navigation, Search, Map, SlidersHorizontal, MapPinned];
 export function AppFeatureSelector({ features, locale }: AppFeatureSelectorProps) {
   const [activeIndex, setActiveIndex] = useState(0);
