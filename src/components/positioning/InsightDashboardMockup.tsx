@@ -110,7 +110,7 @@ function OriginMap({ locale }: { locale: Locale }) {
   const rest = originDemo.slice(LEGEND_ROWS);
   const restShare = Math.round(rest.reduce((sum, row) => sum + row.share, 0));
   return <div className="dashboard-preview__origin">
-    <svg viewBox="0 0 240 260" role="img" aria-label={da ? "Kort over Nordeuropa, farvet efter andel af besøg" : "Map of Northern Europe shaded by share of visits"}>{countries.map(country => { const row = originDemo.find(item => item.country === country.name); return <path key={country.name} d={country.path} fill={row ? originColour(row.share) : "#e9edef"} stroke="#fff" strokeWidth=".7"><title>{row ? `${da ? row.da : row.country}: ${row.share}%` : country.name}</title></path>; })}</svg>
+    <svg viewBox="0 8 240 268" role="img" aria-label={da ? "Kort over Europa, farvet efter andel af besøg" : "Map of Europe shaded by share of visits"}>{countries.map(country => { const row = originDemo.find(item => item.country === country.name); return <path key={country.name} d={country.path} fill={row ? originColour(row.share) : "#e9edef"} stroke="#fff" strokeWidth=".7"><title>{row ? `${da ? row.da : row.country}: ${row.share}%` : country.name}</title></path>; })}</svg>
     <div className="dashboard-preview__legend"><p>{da ? "Andel af besøg" : "Share of visits"}</p>{top.map(row => <div key={row.country}><i style={{ background: originColour(row.share) }} /><span>{da ? row.da : row.country}</span><strong>{row.share}%</strong></div>)}<div><i style={{ background: originColour(rest[0]?.share ?? originMin) }} /><span>{da ? `${rest.length} andre lande` : `${rest.length} more countries`}</span><strong>{restShare}%</strong></div></div>
   </div>;
 }

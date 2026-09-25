@@ -1,19 +1,24 @@
 // Illustrative values for the homepage preview; not live measurements or client results.
 // Russia, Belarus and the southern neighbours on the map are deliberately left grey.
 export const originDemo = [
-  { country: "Denmark", da: "Danmark", share: 58 },
-  { country: "Germany", da: "Tyskland", share: 13 },
-  { country: "Sweden", da: "Sverige", share: 9 },
-  { country: "Norway", da: "Norge", share: 6 },
-  { country: "Netherlands", da: "Holland", share: 4 },
+  { country: "Denmark", da: "Danmark", share: 54 },
+  { country: "Germany", da: "Tyskland", share: 12 },
+  { country: "Sweden", da: "Sverige", share: 8 },
+  { country: "Norway", da: "Norge", share: 5 },
+  { country: "Netherlands", da: "Holland", share: 3.5 },
+  { country: "Czechia", da: "Tjekkiet", share: 3 },
   { country: "Poland", da: "Polen", share: 3 },
+  { country: "France", da: "Frankrig", share: 2.5 },
   { country: "United Kingdom", da: "Storbritannien", share: 2 },
-  { country: "Finland", da: "Finland", share: 1.5 },
-  { country: "Belgium", da: "Belgien", share: 1 },
-  { country: "Lithuania", da: "Litauen", share: 0.8 },
-  { country: "Latvia", da: "Letland", share: 0.6 },
-  { country: "Ireland", da: "Irland", share: 0.6 },
-  { country: "Estonia", da: "Estland", share: 0.5 }
+  { country: "Austria", da: "Østrig", share: 1.5 },
+  { country: "Finland", da: "Finland", share: 1 },
+  { country: "Slovakia", da: "Slovakiet", share: 1 },
+  { country: "Belgium", da: "Belgien", share: 0.8 },
+  { country: "Hungary", da: "Ungarn", share: 0.8 },
+  { country: "Lithuania", da: "Litauen", share: 0.5 },
+  { country: "Latvia", da: "Letland", share: 0.5 },
+  { country: "Ireland", da: "Irland", share: 0.5 },
+  { country: "Estonia", da: "Estland", share: 0.4 }
 ];
 export const manufacturerDemo = [
   { name: "Volkswagen", share: 24 }, { name: "Toyota", share: 18 },
@@ -39,8 +44,8 @@ export const previewKpis = {
   ],
   origin: [
     { en: "Visits", da: "Besøg", value: "12,480", unit: { en: "this month", da: "denne måned" } },
-    { en: "Domestic", da: "Indenlandske", value: "58%", unit: { en: "of visits", da: "af besøg" } },
-    { en: "Countries", da: "Lande", value: "14", unit: { en: "seen", da: "set" } }
+    { en: "Domestic", da: "Indenlandske", value: "54%", unit: { en: "of visits", da: "af besøg" } },
+    { en: "Countries", da: "Lande", value: "18", unit: { en: "seen", da: "set" } }
   ],
   vehicles: [
     { en: "Unique vehicles", da: "Unikke biler", value: "9,627", unit: { en: "identified", da: "identificeret" } },
