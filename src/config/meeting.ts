@@ -31,7 +31,7 @@ export const meetingDelivery = {
  * calendar. While it is empty the site's own request calendar is used instead.
  */
 export const hubspotMeetings = {
-  url: process.env.NEXT_PUBLIC_HUBSPOT_MEETINGS_URL ?? ""
+  url: process.env.NEXT_PUBLIC_HUBSPOT_MEETINGS_URL ?? "https://meetings.hubspot.com/radim-theiner"
 };
 
 export const meetingTopics = [
