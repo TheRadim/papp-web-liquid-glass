@@ -1,12 +1,14 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useId, useRef, useState } from "react";
+import { useCallback, useEffect, useId, useRef, useState } from "react";
 import { ChevronLeft, ChevronRight, ArrowRight, CalendarDays } from "lucide-react";
 import type { Locale } from "@/content/types";
 import { meetingAvailability as availability, meetingTopics } from "@/config/meeting";
 import { calendarMonth, meetingDates, meetingEmail, validMeetingSlot } from "@/lib/booking/meeting";
 import { canSendDirectly, sendMeetingRequest } from "@/lib/booking/deliver";
+import { hubspotEmbedUrl } from "@/lib/booking/hubspot";
+import { HubspotMeetings } from "@/components/contact/HubspotMeetings";
 import { withBasePath } from "@/lib/site/basePath";
 
 export function MeetingRequest({ locale, source }: { locale: Locale; source: string }) {
@@ -24,11 +26,14 @@ export function MeetingRequest({ locale, source }: { locale: Locale; source: str
   const [error, setError] = useState("");
   const [sending, setSending] = useState(false);
   const [sentTo, setSentTo] = useState("");
+  const [booked, setBooked] = useState(false);
   const direct = canSendDirectly();
+  const hubspot = hubspotEmbedUrl() !== "";
+  const onBooked = useCallback(() => setBooked(true), []);
   useEffect(() => { if (details) topicRef.current?.focus({ preventScroll: true }); }, [details]);
   const format = (value: string, options: Intl.DateTimeFormatOptions) => new Intl.DateTimeFormat(da ? "da-DK" : "en-GB", { ...options, timeZone: "UTC" }).format(new Date(`${value}T12:00:00Z`));
   function toggle() {
-    if (!open) {
+    if (!open && !hubspot) {
       const upcoming = Array.from({ length: availability.weeksAhead }, (_, week) => meetingDates(new Date(), week)).flat();
       setDates(upcoming); setMonth(upcoming.includes(date) ? date.slice(0, 7) : upcoming[0].slice(0, 7));
     }
@@ -70,7 +75,12 @@ export function MeetingRequest({ locale, source }: { locale: Locale; source: str
     </div>
     <div className={`meeting-reveal ${open ? "is-open" : ""}`} id={id} inert={!open}><div>
       <div className="meeting-calendar-content">
-        {sentTo ? <div className="meeting-sent" role="status">
+        {hubspot ? <>
+          <HubspotMeetings locale={locale} active={open} onBooked={onBooked} />
+          <p className="meeting-calendar-note" role={booked ? "status" : undefined}>{booked
+            ? (da ? "Tak! Mødet er booket, og du modtager en kalenderinvitation på mail." : "Thanks! Your meeting is booked and a calendar invite is on its way to your inbox.")
+            : (da ? "Vælg et ledigt tidspunkt. Du får en bekræftelse med det samme." : "Pick any open slot. You’ll get a confirmation straight away.")}</p>
+        </> : sentTo ? <div className="meeting-sent" role="status">
           <h4>{da ? `Tak, ${sentTo}. Din anmodning er sendt.` : `Thanks, ${sentTo}. Your request is on its way.`}</h4>
           <p>{da ? "Martine vender tilbage på mail og bekræfter tidspunktet." : "Martine will reply by email to confirm the time."}</p>
           <p className="meeting-sent__slot">{format(date, { weekday: "long", day: "numeric", month: "long" })} · {time} · {duration} min</p>

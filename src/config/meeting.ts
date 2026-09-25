@@ -21,6 +21,19 @@ export const meetingDelivery = {
   accessKey: process.env.NEXT_PUBLIC_WEB3FORMS_KEY ?? ""
 };
 
+/**
+ * Real bookings through HubSpot Meetings.
+ *
+ * Paste the public scheduling link from HubSpot (Library > Meetings), such as
+ * "https://meetings.hubspot.com/martine-winther", or set it as
+ * NEXT_PUBLIC_HUBSPOT_MEETINGS_URL at build time. When it is set, the calendar
+ * panel shows HubSpot's live availability and bookings land in the owner's
+ * calendar. While it is empty the site's own request calendar is used instead.
+ */
+export const hubspotMeetings = {
+  url: process.env.NEXT_PUBLIC_HUBSPOT_MEETINGS_URL ?? ""
+};
+
 export const meetingTopics = [
   { en: "Parking & capacity", da: "Parkering og kapacitet" },
   { en: "Traffic & people counting", da: "Trafik- og persontælling" },
