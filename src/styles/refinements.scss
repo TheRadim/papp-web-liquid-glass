@@ -1290,19 +1290,6 @@
   box-shadow: 0 15px 45px rgba(40, 58, 90, 0.1), inset 0 1px 1px #fff;
 }
 .service-topic__chart figcaption { margin-top: 0.9rem; color: var(--papp-muted); font-size: 0.85rem; }
-.service-topic__chart-tag {
-  position: absolute;
-  top: 1rem;
-  right: 1.1rem;
-  padding: 0.2rem 0.6rem;
-  border-radius: 999px;
-  background: var(--papp-soft);
-  color: var(--papp-muted);
-  font-size: 0.72rem;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-}
 @media (max-width: 991.98px) {
   .service-topic__signature { grid-template-columns: 1fr; }
 }
@@ -1317,7 +1304,7 @@
 .signature-chart__threshold { stroke: #fb867f; stroke-dasharray: 4 4; }
 .signature-chart__note { fill: #e0645c; font-size: 12px; font-weight: 600; }
 .signature-chart__gap { fill: rgba(71, 178, 228, 0.16); }
-.signature-chart__total { margin: 0 0 0.85rem; padding-right: 7rem; color: var(--papp-muted); }
+.signature-chart__total { margin: 0 0 0.85rem; color: var(--papp-muted); }
 .signature-chart__total strong { color: var(--topic-accent); font-family: Poppins, system-ui, sans-serif; font-size: 1.6rem; margin-right: 0.25rem; }
 .signature-chart__legend {
   display: flex;
@@ -1384,8 +1371,7 @@
 @media (max-width: 575.98px) {
   .signature-chart--origins { grid-template-columns: 1fr; }
   .signature-modes li { grid-template-columns: minmax(5.5rem, 7rem) minmax(0, 1fr) auto; font-size: 0.84rem; }
-  .signature-chart__total { padding-right: 0; }
-  .service-topic__chart { padding-top: 3rem; }
+
 }
 
 .signature-lanes { display: grid; gap: 0.6rem; }
@@ -1474,6 +1460,24 @@
   background: rgba(255, 255, 255, 0.94);
   box-shadow: 0 15px 45px rgba(40, 58, 90, 0.08);
 }
+.service-topic__setup {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.25rem;
+  max-width: 860px;
+  margin: 0 auto;
+}
+.service-topic__setup article {
+  padding: clamp(1.25rem, 2.6vw, 1.9rem);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  border-radius: 28px;
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.95), var(--topic-accent-soft));
+  box-shadow: 0 8px 26px rgba(40, 58, 90, 0.08), inset 0 1px 1px #fff;
+}
+.service-topic__setup article > svg { color: var(--topic-accent); }
+.service-topic__setup-span { margin: 0.75rem 0 0.2rem; color: var(--topic-accent); font-weight: 700; }
+.service-topic__setup h3 { margin: 0 0 0.5rem; font-size: 1.2rem; }
+.service-topic__setup p:last-child { margin: 0; }
 .service-topic__cases {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));

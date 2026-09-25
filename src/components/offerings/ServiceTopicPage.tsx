@@ -1,9 +1,9 @@
 import type { ReactNode } from "react";
 import Image from "next/image";
-import { Camera, ChartNoAxesCombined, RadioTower, ShieldCheck } from "lucide-react";
+import { Camera, ChartNoAxesCombined, Clock3, PlugZap, RadioTower, ShieldCheck } from "lucide-react";
 import type { Locale } from "@/content/types";
 import type { ServiceTool, ServiceTopic } from "@/content/services/service-topics";
-import { exampleData, serviceTopicDetails, type ServiceSection } from "@/content/services/service-topic-details";
+import { serviceTopicDetails, type ServiceSection } from "@/content/services/service-topic-details";
 import { ServiceSignatureChart } from "@/components/offerings/ServiceSignatureChart";
 import { Section } from "@/components/layout/Section";
 import { Button } from "@/components/ui/Button";
@@ -74,7 +74,6 @@ export function ServiceTopicPage({ locale, topic }: { locale: Locale; topic: Ser
             <SectionHeading eyebrow={pick(locale, details.signature.eyebrow)} title={pick(locale, details.signature.title)} body={pick(locale, details.signature.body)} />
           </div>
           <figure className="service-topic__chart">
-            <span className="service-topic__chart-tag">{pick(locale, exampleData)}</span>
             <ServiceSignatureChart chart={details.signature.chart} locale={locale} label={pick(locale, details.signature.title)} />
             <figcaption>{pick(locale, details.signature.caption)}</figcaption>
           </figure>
@@ -103,6 +102,25 @@ export function ServiceTopicPage({ locale, topic }: { locale: Locale; topic: Ser
             </li>
           ))}
         </ol>
+      </Section>
+    ),
+    setup: () => (
+      <Section key="setup">
+        <SectionHeading eyebrow={da ? "Opsætning" : "Setup"} title={da ? "Midlertidig eller permanent" : "Temporary or permanent"} align="center" />
+        <div className="service-topic__setup">
+          <article>
+            <Clock3 aria-hidden="true" size={26} />
+            <p className="service-topic__setup-span">{da ? "1 dag til 3 uger" : "1 day to 3 weeks"}</p>
+            <h3>{da ? "Midlertidig" : "Temporary"}</h3>
+            <p>{da ? "Batteridrevet og hurtig at sætte op. Velegnet til et øjebliksbillede, et forsøg eller en måling før og efter en ændring." : "Battery powered and quick to set up. Right for a snapshot, a trial or a before-and-after measurement."}</p>
+          </article>
+          <article>
+            <PlugZap aria-hidden="true" size={26} />
+            <p className="service-topic__setup-span">{da ? "3 uger og uden slutdato" : "3 weeks to unlimited"}</p>
+            <h3>{da ? "Permanent" : "Permanent"}</h3>
+            <p>{da ? "Tilsluttet elnettet. Vi hjælper jer med at vælge placeringen og vurderer, hvad der passer bedst til jer." : "Connected to the grid. We help you choose the spot and work out what suits you best."}</p>
+          </article>
+        </div>
       </Section>
     ),
     deliverables: () => (

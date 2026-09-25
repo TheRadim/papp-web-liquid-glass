@@ -3,7 +3,7 @@ import type { LocalisedText } from "@/content/types";
 /**
  * The parts that make each service page its own: key figures, a signature
  * example chart, how a project runs, what you receive, who it is for and FAQ.
- * Chart numbers are illustrative examples, and every chart says so.
+ * Chart numbers are illustrative.
  */
 
 export interface ServiceStat {
@@ -35,7 +35,7 @@ export type ServiceSignature =
   | { kind: "charging"; spaces: LocalisedText[]; sessions: { space: number; start: number; end: number; state: "charging" | "idle" | "blocked" }[] };
 
 /** Which sections the page shows, in order, so the pages don't all read alike. */
-export type ServiceSection = "stats" | "signature" | "answers" | "steps" | "deliverables" | "use-cases" | "tools" | "projects" | "faq";
+export type ServiceSection = "stats" | "signature" | "answers" | "steps" | "deliverables" | "use-cases" | "tools" | "setup" | "projects" | "faq";
 
 export interface ServiceTopicDetails {
   /** Short line above the hero title. */
@@ -58,7 +58,6 @@ export interface ServiceTopicDetails {
   sections: ServiceSection[];
 }
 
-export const exampleData: LocalisedText = { en: "Example data", da: "Eksempeldata" };
 
 export const serviceTopicDetails: Record<string, ServiceTopicDetails> = {
   "parking-counting": {
@@ -105,10 +104,10 @@ export const serviceTopicDetails: Record<string, ServiceTopicDetails> = {
     ],
     faq: [
       { question: { en: "Sensors or cameras, which do we need?", da: "Sensorer eller kameraer, hvad har vi brug for?" }, answer: { en: "Sensors are best for exact, per-space data. Cameras cover open areas and also count vehicle types. Many sites use both, and we help you choose.", da: "Sensorer er bedst til præcise data pr. plads. Kameraer dækker åbne områder og tæller også køretøjstyper. Mange steder bruger begge dele, og vi hjælper jer med at vælge." } },
-      { question: { en: "How long does a counting project run?", da: "Hvor længe kører en tælling?" }, answer: { en: "From a few weeks for a snapshot to permanent counting. Two to four weeks is usually enough to see the normal pattern.", da: "Fra få uger til et øjebliksbillede til permanent tælling. To til fire uger er som regel nok til at se det normale mønster." } },
+      { question: { en: "How long does a counting project run?", da: "Hvor længe kører en tælling?" }, answer: { en: "A temporary setup runs from 1 day to 3 weeks. A permanent setup runs from 3 weeks with no end date and is connected to the grid.", da: "En midlertidig løsning kører fra 1 dag til 3 uger. En permanent løsning kører fra 3 uger og uden slutdato og tilsluttes elnettet." } },
       { question: { en: "Can we show the numbers to the public?", da: "Kan vi vise tallene til borgerne?" }, answer: { en: "Yes. Live counts can feed signs, websites and the Papp app.", da: "Ja. Live tal kan sendes til skilte, hjemmesider og Papp-appen." } }
     ],
-    sections: ["stats", "signature", "answers", "steps", "tools", "use-cases", "projects", "faq"]
+    sections: ["stats", "signature", "answers", "steps", "setup", "tools", "use-cases", "projects", "faq"]
   },
 
   "traffic-counting": {
@@ -145,7 +144,7 @@ export const serviceTopicDetails: Record<string, ServiceTopicDetails> = {
     },
     steps: [
       { title: { en: "Pick the counting points", da: "Vælg tællepunkterne" }, body: { en: "We find the lamp posts or walls that give a clear view of the lines you want counted.", da: "Vi finder de lygtepæle eller mure, der giver frit udsyn til de linjer, I vil have talt." } },
-      { title: { en: "Mount the camera", da: "Montér kameraet" }, body: { en: "Battery or mains powered, installed in under an hour and ready to count the same day.", da: "Batteri- eller netdrevet, monteret på under en time og klar til at tælle samme dag." } },
+      { title: { en: "Mount the camera", da: "Montér kameraet" }, body: { en: "On battery for a temporary count, or connected to the grid for permanent counting.", da: "På batteri til en midlertidig tælling eller tilsluttet elnettet til permanent tælling." } },
       { title: { en: "Count and classify", da: "Tæl og klassificér" }, body: { en: "The camera sorts each passage by type and direction and sends only the numbers.", da: "Kameraet sorterer hver passage efter type og retning og sender kun tallene." } },
       { title: { en: "Compare over time", da: "Sammenlign over tid" }, body: { en: "See totals by hour, day and week in Papp Insights and export them for your models.", da: "Se totaler pr. time, dag og uge i Papp Insights, og eksportér dem til jeres modeller." } }
     ],
@@ -163,9 +162,9 @@ export const serviceTopicDetails: Record<string, ServiceTopicDetails> = {
     faq: [
       { question: { en: "Is camera counting GDPR compliant?", da: "Er kameratælling GDPR-overholdende?" }, answer: { en: "Yes. Images are analysed on the camera itself and are not stored or sent. Only anonymous counts leave the device.", da: "Ja. Billederne analyseres i selve kameraet og bliver hverken gemt eller sendt. Kun anonyme tællinger forlader enheden." } },
       { question: { en: "How accurate are the counts?", da: "Hvor præcise er tællingerne?" }, answer: { en: "We check each installation against manual counts, so you know how reliable the numbers are for your location.", da: "Vi tjekker hver installation mod manuelle tællinger, så I ved, hvor pålidelige tallene er på jeres placering." } },
-      { question: { en: "Does it need power?", da: "Kræver det strøm?" }, answer: { en: "It can run on a battery for short studies or be connected to a lamp post for permanent counting.", da: "Det kan køre på batteri til korte undersøgelser eller kobles til en lygtepæl til permanent tælling." } }
+      { question: { en: "Does it need power?", da: "Kræver det strøm?" }, answer: { en: "Temporary setups, from 1 day to 3 weeks, run on battery. Permanent setups, from 3 weeks with no end date, need a grid connection, and we help you pick the spot.", da: "Midlertidige løsninger, fra 1 dag til 3 uger, kører på batteri. Permanente løsninger, fra 3 uger og uden slutdato, kræver tilslutning til elnettet, og vi hjælper jer med at vælge placeringen." } }
     ],
-    sections: ["signature", "stats", "steps", "answers", "use-cases", "tools", "projects", "faq"]
+    sections: ["signature", "stats", "steps", "setup", "answers", "use-cases", "tools", "projects", "faq"]
   },
 
   "parking-analysis": {
@@ -225,7 +224,7 @@ export const serviceTopicDetails: Record<string, ServiceTopicDetails> = {
       { question: { en: "How long does an analysis take?", da: "Hvor lang tid tager en analyse?" }, answer: { en: "Typically four to eight weeks from start to report, including a measuring period.", da: "Typisk fire til otte uger fra start til rapport, inklusive en måleperiode." } },
       { question: { en: "Do we get the raw data too?", da: "Får vi også rådata?" }, answer: { en: "Yes. Everything stays available in Papp Insights and can be exported.", da: "Ja. Alt forbliver tilgængeligt i Papp Insights og kan eksporteres." } }
     ],
-    sections: ["stats", "answers", "signature", "deliverables", "steps", "use-cases", "projects", "faq"]
+    sections: ["stats", "answers", "signature", "deliverables", "steps", "setup", "use-cases", "projects", "faq"]
   },
 
   "traffic-analysis": {
@@ -277,7 +276,7 @@ export const serviceTopicDetails: Record<string, ServiceTopicDetails> = {
       { question: { en: "Can we follow routes between points?", da: "Kan vi følge ruter mellem punkterne?" }, answer: { en: "We show flows between points as anonymous totals, never as tracks of individual vehicles.", da: "Vi viser strømme mellem punkterne som anonyme totaler, aldrig som spor af enkelte køretøjer." } },
       { question: { en: "Can the data feed our traffic model?", da: "Kan data bruges i vores trafikmodel?" }, answer: { en: "Yes. We export in the formats planners and consultants already use.", da: "Ja. Vi eksporterer i de formater, planlæggere og rådgivere allerede bruger." } }
     ],
-    sections: ["signature", "answers", "stats", "use-cases", "steps", "deliverables", "projects", "faq"]
+    sections: ["signature", "answers", "stats", "use-cases", "steps", "setup", "deliverables", "projects", "faq"]
   },
 
   "demographic-analysis": {
@@ -332,7 +331,7 @@ export const serviceTopicDetails: Record<string, ServiceTopicDetails> = {
       { question: { en: "How detailed can the origins be?", da: "Hvor detaljeret kan oprindelsen være?" }, answer: { en: "Down to Danish postcodes and country for foreign cars, as long as each group is large enough.", da: "Helt ned til danske postnumre og land for udenlandske biler, så længe hver gruppe er stor nok." } },
       { question: { en: "Can we combine it with parking data?", da: "Kan vi kombinere det med parkeringsdata?" }, answer: { en: "Yes, and it is often most useful that way: who parks, for how long, and when.", da: "Ja, og det er ofte mest nyttigt sådan: hvem parkerer, hvor længe og hvornår." } }
     ],
-    sections: ["signature", "stats", "answers", "use-cases", "steps", "deliverables", "projects", "faq"]
+    sections: ["signature", "stats", "answers", "use-cases", "steps", "setup", "deliverables", "projects", "faq"]
   },
 
   "charging-analysis": {
@@ -392,6 +391,6 @@ export const serviceTopicDetails: Record<string, ServiceTopicDetails> = {
       { question: { en: "How do you know if a car is electric?", da: "Hvordan ved I, om en bil er elektrisk?" }, answer: { en: "The camera looks up the vehicle type from the plate on the device, then discards the plate. Only the fuel type is kept.", da: "Kameraet slår køretøjstypen op ud fra nummerpladen i enheden og sletter derefter nummerpladen. Kun brændstoftypen gemmes." } },
       { question: { en: "Can you help with enforcement?", da: "Kan I hjælpe med kontrol?" }, answer: { en: "We show when and where misuse happens, so your parking control can focus on the right hours.", da: "Vi viser, hvornår og hvor misbrug sker, så jeres parkeringskontrol kan fokusere på de rigtige tidspunkter." } }
     ],
-    sections: ["stats", "signature", "deliverables", "answers", "steps", "tools", "projects", "faq"]
+    sections: ["stats", "signature", "deliverables", "answers", "steps", "setup", "tools", "projects", "faq"]
   }
 };
