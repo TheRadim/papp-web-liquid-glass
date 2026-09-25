@@ -61,7 +61,8 @@ export const offerings: Offering[] = [
     benefits: [
       { en: "Measure larger areas and street environments", da: "Mål større arealer og gademiljøer" },
       { en: "Understand flow, duration and activity patterns", da: "Forstå flow, varighed og aktivitetsmønstre" },
-      { en: "Support temporary and permanent deployments", da: "Understøtter midlertidige og permanente opsætninger" }
+      { en: "Support temporary and permanent deployments", da: "Understøtter midlertidige og permanente opsætninger" },
+      { en: "GDPR compliant, with anonymised data", da: "GDPR-overholdende med anonymiserede data" }
     ],
     useCases: [
       { en: "Parking-area utilisation", da: "Udnyttelse af parkeringsarealer" },

@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { getProjects } from "@/lib/content/accessors";
+import { serviceTopics } from "@/content/services/service-topics";
 
 export const dynamic = "force-static";
 
@@ -12,6 +13,7 @@ const staticPaths = [
   "/products/insights",
   "/services/analysis",
   "/services/consultancy",
+  ...serviceTopics.map((topic) => `/services/${topic.slug}`),
   "/projects",
   "/app",
   "/about",

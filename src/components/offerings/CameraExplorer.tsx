@@ -13,21 +13,23 @@ const content = {
   en: {
     eyebrow: "A closer look", title: "One camera. A wider perspective.",
     intro: "Explore the camera from different angles, then see how camera measurements help explain activity across a whole area.",
-    drag: "Drag to explore the camera", angle: "Camera viewing angle",
+    angle: "Camera viewing angle",
     features: [
       { title: "Number plates and vehicle details", body: "Einar processes number plates on the camera using Carmen® recognition. It also supports vehicle make, model, colour and category recognition." },
       { title: "Movement and direction", body: "Built-in vehicle detection supports two lanes, travel direction and speeds up to 80 km/h, helping capture movement at entrances and along urban roads." },
-      { title: "Built for outdoor measurement", body: "A weatherproof aluminium housing, integrated illumination and motorised zoom support outdoor use and low-light capture. PoE+ combines power and data in one cable." }
+      { title: "Built for outdoor measurement", body: "A weatherproof aluminium housing, integrated illumination and motorised zoom support outdoor use and low-light capture. PoE+ combines power and data in one cable." },
+      { title: "GDPR compliant", body: "Our camera measurements comply with GDPR. Number plates are processed on the camera and the data is anonymised before it reaches Papp Insights, so you work with patterns, not people." }
     ]
   },
   da: {
     eyebrow: "Kom tættere på", title: "Ét kamera. Et bredere perspektiv.",
     intro: "Se kameraet fra forskellige vinkler, og udforsk, hvordan kameramålinger hjælper med at forklare aktiviteten i et helt område.",
-    drag: "Træk for at udforske kameraet", angle: "Kameraets synsvinkel",
+    angle: "Kameraets synsvinkel",
     features: [
       { title: "Nummerplader og køretøjsdetaljer", body: "Einar behandler nummerplader direkte i kameraet med Carmen®-genkendelse. Kameraet understøtter også genkendelse af køretøjets mærke, model, farve og kategori." },
       { title: "Bevægelse og retning", body: "Indbygget køretøjsregistrering understøtter to vognbaner, kørselsretning og hastigheder op til 80 km/t til måling ved indkørsler og langs byveje." },
-      { title: "Bygget til udendørs måling", body: "Et vejrbestandigt aluminiumshus, integreret belysning og motoriseret zoom understøtter udendørs brug og optagelser i svagt lys. PoE+ samler strøm og data i ét kabel." }
+      { title: "Bygget til udendørs måling", body: "Et vejrbestandigt aluminiumshus, integreret belysning og motoriseret zoom understøtter udendørs brug og optagelser i svagt lys. PoE+ samler strøm og data i ét kabel." },
+      { title: "GDPR-overholdende", body: "Vores kameramålinger overholder GDPR. Nummerplader behandles i kameraet, og data anonymiseres, før de når Papp Insights, så I arbejder med mønstre, ikke personer." }
     ]
   }
 };
@@ -88,7 +90,6 @@ export function CameraExplorer({ locale }: { locale: Locale }) {
               <Image src={frameUrl(frame)} alt={locale === "da" ? "Kamera set fra den valgte vinkel" : "Camera shown from the selected angle"}
                 width={1000} height={563} sizes="(max-width: 992px) 85vw, 650px" draggable={false} unoptimized onLoad={() => setReady(true)} />
             </div>
-            <p className="camera-explorer__hint">{text.drag} <a href="#camera-model-credit" aria-label={locale === "da" ? "Kreditering af kameramodel" : "Camera model attribution"}><sup>*</sup></a></p>
           </div>
           <div className="camera-explorer__features">
             {text.features.map((feature, index) => (

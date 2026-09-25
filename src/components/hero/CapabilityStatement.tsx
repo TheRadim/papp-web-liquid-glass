@@ -3,11 +3,11 @@
 import { useEffect, useLayoutEffect, useRef, useState, type CSSProperties } from "react";
 import type { Locale } from "@/content/types";
 
-// Each phrase completes "We turn … into better decisions." with something Papp
-// measures or derives, so the sentence always describes what we actually do.
+// Each phrase completes "We do … simple." with something Papp delivers.
+// Danish phrases are all common-gender nouns so "enkel" always agrees.
 const capabilities = {
-  en: ["traffic counts", "people counts", "parking occupancy", "parking forecasts", "dwell times", "visitor origins", "postcode data", "fleet profiles", "charging demand", "traffic patterns"],
-  da: ["trafiktal", "persontællinger", "parkeringsbelægning", "parkeringsprognoser", "opholdstider", "besøgendes oprindelse", "postnummerdata", "bilprofiler", "ladebehov", "trafikmønstre"]
+  en: ["parking", "traffic counting", "people counting", "parking analysis", "traffic analysis", "demographic analysis", "parking forecasts", "mobility planning"],
+  da: ["parkering", "trafiktælling", "persontælling", "parkeringsanalyse", "trafikanalyse", "demografianalyse", "parkeringsprognose", "mobilitetsplanlægning"]
 };
 
 const ROTATE_MS = 2000;
@@ -17,7 +17,7 @@ const GLIDE = "transform 0.45s cubic-bezier(0.4, 0, 0.2, 1)";
 const useIsomorphicLayoutEffect = typeof window === "undefined" ? useEffect : useLayoutEffect;
 
 /**
- * "We turn [phrase] into better decisions." with the phrase rolling like a barrel.
+ * "We do [phrase] simple." with the phrase rolling like a barrel.
  *
  * How it avoids jumps on every screen size:
  * - The width of every phrase is measured up front, so the slot takes the new
@@ -89,8 +89,8 @@ export function CapabilityStatement({ locale }: { locale: Locale }) {
     }
   }, [active, widths]);
 
-  const lead = locale === "da" ? "Vi omsætter" : "We turn";
-  const tail = locale === "da" ? "til bedre beslutninger." : "into better decisions.";
+  const lead = locale === "da" ? "Vi gør" : "We do";
+  const tail = locale === "da" ? "enkel." : "simple.";
   // Longest possible sentence in characters; the phone layout scales the font from it so the line never wraps.
   const longest = lead.length + tail.length + Math.max(...phrases.map((phrase) => phrase.length)) + 2;
   const slotWidth = widths?.[active];
@@ -103,6 +103,6 @@ export function CapabilityStatement({ locale }: { locale: Locale }) {
       </span>
       <span ref={tailRef} className="capability-statement__tail">{tail}</span>
     </p>
-    <p className="visually-hidden">{locale === "da" ? "Vi understøtter bedre mobilitetsbeslutninger med: " : "We help you make better mobility decisions using: "}{phrases.join(", ")}.</p>
+    <p className="visually-hidden">{locale === "da" ? "Vi gør det enkelt: " : "We make it simple: "}{phrases.join(", ")}.</p>
   </div>;
 }

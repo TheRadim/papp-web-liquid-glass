@@ -1,4 +1,5 @@
 import type { Locale } from "@/content/types";
+import { serviceTopics } from "@/content/services/service-topics";
 
 export const navLabels = {
   solutions: { en: "Solutions", da: "Løsninger" },
@@ -21,7 +22,38 @@ export function primaryNavigation(locale: Locale) {
   ];
 }
 
+const localised = (path: string) => ({ en: `/en${path}`, da: `/da${path}` });
+
+// Services come first (left column): they are named after what people want to
+// know. Products (right column) are the tools we measure it with.
 export const solutionGroups = [
+  {
+    id: "expertise",
+    label: navLabels.expertise,
+    items: [
+      ...serviceTopics.map((topic) => ({
+        label: topic.name,
+        description: topic.navDescription,
+        href: localised(`/services/${topic.slug}`)
+      })),
+      {
+        label: { en: "Reports & recommendations", da: "Rapporter og anbefalinger" },
+        description: {
+          en: "A clear report that helps decision-makers choose.",
+          da: "En klar rapport, der hjælper beslutningstagere med at vælge."
+        },
+        href: localised("/services/analysis")
+      },
+      {
+        label: { en: "Consultancy", da: "Rådgivning" },
+        description: {
+          en: "Workshops and practical advice for your team.",
+          da: "Workshops og praktisk rådgivning til jeres team."
+        },
+        href: localised("/services/consultancy")
+      }
+    ]
+  },
   {
     id: "technology",
     label: navLabels.technology,
@@ -29,56 +61,34 @@ export const solutionGroups = [
       {
         label: { en: "Papp Insights", da: "Papp Insights" },
         description: {
-          en: "The platform that brings live and historical data together.",
-          da: "Platformen der samler live og historiske data."
+          en: "Online dashboard with all your data, live and over time.",
+          da: "Online dashboard med alle jeres data, live og over tid."
         },
-        href: { en: "/en/products/insights", da: "/da/products/insights" }
+        href: localised("/products/insights")
       },
       {
-        label: { en: "Camera Analytics", da: "Kameraanalyse" },
+        label: { en: "Cameras", da: "Kameraer" },
         description: {
-          en: "Measurement of parking areas, streets and mobility flows.",
-          da: "Måling af parkeringsarealer, gader og mobilitetsflow."
+          en: "GDPR-compliant cameras that count vehicles, bikes and people.",
+          da: "GDPR-overholdende kameraer, der tæller biler, cykler og fodgængere."
         },
-        href: { en: "/en/products/cameras", da: "/da/products/cameras" }
+        href: localised("/products/cameras")
       },
       {
-        label: { en: "On-ground sensors", da: "Jordmonterede sensorer" },
+        label: { en: "Parking sensors", da: "Parkeringssensorer" },
         description: {
-          en: "Space-level data for occupancy, duration and utilisation.",
-          da: "Data på pladsniveau om belægning, varighed og udnyttelse."
+          en: "A small sensor in each space shows if it is free or taken.",
+          da: "En lille sensor i hver plads viser, om den er ledig eller optaget."
         },
-        href: { en: "/en/products/sensors", da: "/da/products/sensors" }
+        href: localised("/products/sensors")
       },
       {
         label: { en: "Papp App", da: "Papp App" },
         description: {
-          en: "A public app that shows where Papp operates and measures occupancy.",
-          da: "En offentlig app, der viser hvor Papp opererer og måler belægning."
+          en: "Free app with a live map of available parking.",
+          da: "Gratis app med et live kort over ledige parkeringspladser."
         },
-        href: { en: "/en/app", da: "/da/app" }
-      }
-    ]
-  },
-  {
-    id: "expertise",
-    label: navLabels.expertise,
-    items: [
-      {
-        label: { en: "Analysis", da: "Analyse" },
-        description: {
-          en: "Reports and recommendations for municipalities and public decision-makers.",
-          da: "Rapporter og anbefalinger til kommuner og offentlige beslutningstagere."
-        },
-        href: { en: "/en/services/analysis", da: "/da/services/analysis" }
-      },
-      {
-        label: { en: "Consultancy", da: "Rådgivning" },
-        description: {
-          en: "Hands-on workshops and practical advice for businesses.",
-          da: "Praktiske workshops og rådgivning til virksomheder."
-        },
-        href: { en: "/en/services/consultancy", da: "/da/services/consultancy" }
+        href: localised("/app")
       }
     ]
   }

@@ -130,6 +130,8 @@ export function InsightsDataLab({ locale }: { locale: Locale }) {
   return (
     <section className="insights-data-lab papp-section">
       <div className="container">
+        {/* The explorer does not depend on the filters below, so it leads the page. */}
+        <AdvancedInsights locale={locale} />
         <div className="insights-feature-head">
           <h3>{text.featureTitle}</h3>
           <p>{text.featureIntro}</p>
@@ -211,7 +213,6 @@ export function InsightsDataLab({ locale }: { locale: Locale }) {
           </div>
           <PlotCard plot={plots.structure} />
         </div>
-        <AdvancedInsights locale={locale} />
         <div className="insights-outcome-note">
           <h3>{text.outcomeTitle}</h3>
           <p>{text.outcome}</p>

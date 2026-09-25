@@ -32,6 +32,8 @@ const explanations: Record<ViewId, { en: string; da: string }> = {
   forecast: { en: "Know in the early afternoon how busy the evening will be. The shaded range shows where the day is likely to land, so teams can plan staffing, signage and pricing ahead.", da: "Vid allerede tidligt på eftermiddagen, hvor travlt aftenen bliver. Det skraverede interval viser, hvor dagen sandsynligvis lander, så I kan planlægge bemanding, skiltning og priser i god tid." }
 };
 
+const AUTOPLAY_MS = 2000;
+
 const ink = "#444c55";
 const muted = "#7a8791";
 const grid = "rgba(55, 81, 126, 0.08)";
@@ -42,6 +44,28 @@ export function AdvancedInsights({ locale }: { locale: Locale }) {
   const da = locale === "da";
   const [active, setActive] = useState<ViewId>("age");
   const [compact, setCompact] = useState(false);
+  // Carousel: the views advance on their own until the visitor interacts with the explorer.
+  const [autoplay, setAutoplay] = useState(true);
+  const [visible, setVisible] = useState(false);
+  const sectionRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const node = sectionRef.current;
+    if (!node) return;
+    const observer = new IntersectionObserver(([entry]) => setVisible(entry.isIntersecting), { threshold: 0.25 });
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!autoplay || !visible || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const timer = window.setInterval(() => {
+      setActive((current) => views[(views.findIndex((view) => view.id === current) + 1) % views.length].id);
+    }, AUTOPLAY_MS);
+    return () => window.clearInterval(timer);
+  }, [autoplay, visible]);
+
+  const stopAutoplay = () => setAutoplay(false);
 
   useEffect(() => {
     const query = window.matchMedia("(max-width: 767.98px)");
@@ -53,11 +77,12 @@ export function AdvancedInsights({ locale }: { locale: Locale }) {
 
   const plot = useMemo(() => buildPlot(active, locale, compact), [active, locale, compact]);
 
-  return <section className="insights-explorer" aria-label={da ? "Flere analyser i Papp Insights" : "More analysis in Papp Insights"}>
+  return <section ref={sectionRef} className={`insights-explorer ${autoplay ? "is-autoplaying" : ""}`} aria-label={da ? "Flere analyser i Papp Insights" : "More analysis in Papp Insights"}
+    onPointerDown={stopAutoplay} onKeyDown={stopAutoplay} onWheel={(event) => { if ((event.target as Element).closest(".insights-explorer__card")) stopAutoplay(); }}>
     <div className="insights-explorer__heading">
       <p className="eyebrow">Papp Insights</p>
       <h2>{da ? "Flere måder at læse et sted på." : "More ways to read a site."}</h2>
-      <p>{da ? "De samme målinger kan besvare mange spørgsmål. Skift mellem visningerne og udforsk dem." : "The same measurements answer many different questions. Switch between the views and explore them."}</p>
+      <p>{da ? "De samme målinger kan besvare mange spørgsmål. Visningerne skifter af sig selv, klik for at stoppe og udforske dem." : "The same measurements answer many different questions. The views change on their own, click to stop and explore them."}</p>
     </div>
     <div className="insights-explorer__tabs" role="tablist" aria-label={da ? "Analysevisninger" : "Analysis views"}>
       {views.map((view) => <button key={view.id} id={`insights-view-${view.id}`} type="button" role="tab" aria-selected={active === view.id} aria-controls="insights-view-panel" className={active === view.id ? "is-active" : undefined} onClick={() => setActive(view.id)}>{view[locale]}</button>)}
