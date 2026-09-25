@@ -1109,3 +1109,29 @@
     bottom: calc(100% + clamp(3.5rem, 12svh, 8rem));
   }
 }
+
+/* One animation owns each rolling phrase. Mixing a transition and keyframes on
+   transform can restart the transition when the entry animation ends on Safari. */
+.hero-message .capability-statement__window {
+  height: 1.5em;
+  align-items: center;
+}
+.hero-message .capability-statement__window > span {
+  line-height: 1.4;
+  transition: none;
+  animation: none;
+}
+.hero-message .capability-statement__window > span.is-active {
+  animation: capability-enter .35s ease both;
+}
+.hero-message .capability-statement__window > span.is-leaving {
+  animation: capability-leave .35s ease both;
+}
+@keyframes capability-leave {
+  from { opacity: 1; transform: translateY(0); }
+  to { opacity: 0; transform: translateY(-65%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-message .capability-statement__window > span.is-active,
+  .hero-message .capability-statement__window > span.is-leaving { animation: none; }
+}

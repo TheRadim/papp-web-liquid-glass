@@ -30,7 +30,7 @@ const useIsomorphicLayoutEffect = typeof window === "undefined" ? useEffect : us
  */
 export function CapabilityStatement({ locale }: { locale: Locale }) {
   const phrases = capabilities[locale];
-  const [active, setActive] = useState(0);
+  const [{ active, previous }, setPosition] = useState<{ active: number; previous: number | null }>({ active: 0, previous: null });
   const [widths, setWidths] = useState<number[] | null>(null);
   const phraseRefs = useRef<(HTMLSpanElement | null)[]>([]);
   const leadRef = useRef<HTMLSpanElement>(null);
@@ -40,7 +40,7 @@ export function CapabilityStatement({ locale }: { locale: Locale }) {
   useEffect(() => {
     const motion = window.matchMedia("(prefers-reduced-motion: reduce)");
     const timer = window.setInterval(() => {
-      if (!motion.matches) setActive((value) => (value + 1) % phrases.length);
+      if (!motion.matches) setPosition(({ active }) => ({ active: (active + 1) % phrases.length, previous: active }));
     }, ROTATE_MS);
     return () => window.clearInterval(timer);
   }, [phrases.length]);
@@ -99,7 +99,7 @@ export function CapabilityStatement({ locale }: { locale: Locale }) {
     <p aria-hidden="true">
       <span ref={leadRef} className="capability-statement__lead">{lead}</span>
       <span className="capability-statement__window" style={slotWidth ? { width: slotWidth } : undefined}>
-        {phrases.map((phrase, index) => <span key={phrase} ref={(node) => { phraseRefs.current[index] = node; }} className={index === active ? "is-active" : ""}>{phrase}</span>)}
+        {phrases.map((phrase, index) => <span key={phrase} ref={(node) => { phraseRefs.current[index] = node; }} className={index === active ? "is-active" : index === previous ? "is-leaving" : ""}>{phrase}</span>)}
       </span>
       <span ref={tailRef} className="capability-statement__tail">{tail}</span>
     </p>
