@@ -1135,3 +1135,162 @@
   .hero-message .capability-statement__window > span.is-active,
   .hero-message .capability-statement__window > span.is-leaving { animation: none; }
 }
+
+/* Process steps (homepage): the step number sits at the top of its column and
+   sticks on the same line the active card's top edge reaches, so card and
+   number stay aligned from the first step to the last. The number box is as
+   tall as the last card (set by ProcessTimeline), so they leave together. */
+@media (min-width: 576px) {
+  .process-timeline {
+    --process-line: clamp(120px, 22svh, 190px);
+    align-items: stretch;
+  }
+  .process-timeline__sticky {
+    position: relative;
+    top: auto;
+    display: block;
+    height: auto;
+    min-height: 0;
+    text-align: center;
+  }
+  .process-timeline__number {
+    position: sticky;
+    top: var(--process-line);
+    display: block;
+    min-height: var(--process-last-card, auto);
+  }
+  .process-timeline__stream {
+    padding-block: 0;
+  }
+  .process-timeline__stream > li {
+    align-items: start;
+  }
+  .process-timeline__stream > li:last-child {
+    min-height: 0;
+  }
+}
+@media (min-width: 576px) and (max-width: 991.98px) {
+  .process-timeline { --process-line: clamp(96px, 18svh, 150px); }
+}
+
+/* A little salmon in the lower half of the homepage. */
+.testimonial-card svg {
+  color: var(--papp-coral);
+}
+.home-meeting {
+  padding-block: clamp(2.5rem, 6vw, 4.5rem);
+}
+
+/* Service topic pages (parking counting, traffic analysis, ...). */
+.service-topic__answers {
+  max-width: 820px;
+}
+.service-topic__tools {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.25rem;
+  max-width: 1060px;
+  margin: 0 auto;
+}
+.service-topic__tools article {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.6rem;
+  padding: clamp(1.2rem, 2.4vw, 1.75rem);
+  border: 1px solid rgba(55, 81, 126, 0.1);
+  border-radius: 28px;
+  background: rgba(255, 255, 255, 0.92);
+}
+.service-topic__tools article > svg {
+  color: var(--papp-blue);
+}
+.service-topic__tools h3 {
+  margin: 0;
+  font-size: 1.2rem;
+}
+.service-topic__tools p {
+  flex: 1;
+  margin: 0;
+}
+.service-topic__tools .papp-button {
+  padding-inline: 0;
+}
+.service-topic__gdpr {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin: 1.5rem auto 0;
+  color: var(--papp-muted);
+  font-size: 0.92rem;
+  text-align: center;
+}
+.service-topic__gdpr svg {
+  flex-shrink: 0;
+  color: var(--papp-blue);
+}
+
+/* Solutions dropdown: services (left, two columns on wide screens) and products (right). */
+.site-header .solutions-dropdown {
+  width: min(640px, 92vw);
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 1rem;
+  max-height: calc(100svh - 120px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+.site-header .solutions-dropdown__items {
+  display: grid;
+  gap: 0.1rem;
+}
+.site-header .solutions-dropdown a {
+  padding: 0.6rem 0.75rem;
+}
+.site-header .solutions-dropdown a span {
+  font-size: 0.84rem;
+  line-height: 1.4;
+}
+.site-header .solutions-dropdown__group--technology {
+  padding-left: 1rem;
+  border-left: 1px solid rgba(55, 81, 126, 0.1);
+}
+@media (min-width: 1200px) {
+  .site-header .solutions-dropdown {
+    width: min(920px, 92vw);
+    grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+  }
+  .site-header .solutions-dropdown__group--expertise .solutions-dropdown__items {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* Insights page: the view explorer now leads the data section. While it plays
+   as a carousel, the active tab shows a thin progress line. */
+.insights-data-lab .container > .insights-explorer:first-child {
+  margin-top: 0;
+  margin-bottom: clamp(3.5rem, 8vw, 6.5rem);
+}
+.insights-explorer.is-autoplaying .insights-explorer__tabs button.is-active {
+  position: relative;
+  overflow: hidden;
+}
+.insights-explorer.is-autoplaying .insights-explorer__tabs button.is-active::after {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 2px;
+  width: 100%;
+  background: currentColor;
+  opacity: 0.55;
+  transform-origin: left;
+  animation: insights-autoplay 2s linear both;
+  content: "";
+}
+@keyframes insights-autoplay {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .insights-explorer.is-autoplaying .insights-explorer__tabs button.is-active::after { display: none; }
+}

@@ -162,7 +162,23 @@ export function Header({ locale }: HeaderProps) {
       <div className="container">
         <nav className="nav-shell" ref={navRef} aria-label="Primary">
           <GlassSurface />
-          <Link className="brand-link" href={`/${locale}`} aria-label="Papp Mobility home">
+          <Link
+            className="brand-link"
+            href={`/${locale}`}
+            aria-label="Papp Mobility home"
+            onClick={(event) => {
+              setMenuOpen(false);
+              setSolutionsOpen(false);
+              setMobileGroupsOpen({});
+              // Already on the homepage: go back up to the hero instead of doing nothing.
+              if (pathname.replace(/\/$/, "") === localeRoot) {
+                event.preventDefault();
+                if (window.location.hash) window.history.replaceState(null, "", window.location.pathname + window.location.search);
+                const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+                window.scrollTo({ top: 0, left: 0, behavior: reduced ? "auto" : "smooth" });
+              }
+            }}
+          >
             <Image src={withBasePath(company.logo)} alt="" width={46} height={46} priority />
             <span className="brand-wordmark">Papp Mobility</span>
           </Link>
@@ -199,14 +215,16 @@ export function Header({ locale }: HeaderProps) {
               {solutionsOpen ? (
                 <div className="solutions-dropdown" id="solutions-dropdown">
                   {solutionGroups.map((group) => (
-                    <div key={group.id}>
+                    <div key={group.id} className={`solutions-dropdown__group solutions-dropdown__group--${group.id}`}>
                       <p className="dropdown-label">{pick(locale, group.label)}</p>
-                      {group.items.map((item) => (
-                        <Link key={pick(locale, item.label)} href={item.href[locale]} onClick={() => setSolutionsOpen(false)}>
-                          <strong>{pick(locale, item.label)}</strong>
-                          <span>{pick(locale, item.description)}</span>
-                        </Link>
-                      ))}
+                      <div className="solutions-dropdown__items">
+                        {group.items.map((item) => (
+                          <Link key={pick(locale, item.label)} href={item.href[locale]} onClick={() => setSolutionsOpen(false)}>
+                            <strong>{pick(locale, item.label)}</strong>
+                            <span>{pick(locale, item.description)}</span>
+                          </Link>
+                        ))}
+                      </div>
                     </div>
                   ))}
                 </div>

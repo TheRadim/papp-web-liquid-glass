@@ -10,7 +10,7 @@ import { HomeCategoryCards } from "@/components/home/HomeCategoryCards";
 import { PartnerLogoLoop } from "@/components/social-proof/PartnerLogoLoop";
 import { Button } from "@/components/ui/Button";
 import { TestimonialsSection } from "@/components/social-proof/TestimonialsSection";
-import { ContactSection } from "@/components/contact/ContactSection";
+import { MeetingRequest } from "@/components/contact/MeetingRequest";
 import { AppPromotion } from "@/components/app/AppPromotion";
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: Locale }> }): Promise<Metadata> {
@@ -62,10 +62,12 @@ export default async function HomePage({ params }: { params: Promise<{ locale: L
             <h2>{content.featured.title}</h2>
             <p>{content.featured.body}</p>
           </div>
-          <Button href={`/${locale}/projects`} variant="secondary">{content.featured.cta}</Button>
+          <Button href={`/${locale}/projects`} variant="dark">{content.featured.cta}</Button>
         </div>
       </Section>
-      <ContactSection locale={locale} content={content.contact} />
+      <Section className="service-meeting-section home-meeting">
+        <div id="contact"><MeetingRequest locale={locale} source="homepage" /></div>
+      </Section>
       <AppPromotion locale={locale} content={content.app} />
     </>
   );

@@ -93,11 +93,25 @@ export function InsightDashboardMockup({ locale }: { locale: Locale }) {
   </div>;
 }
 
+// Shade a country by its share on a log scale, so small markets still read as visited.
+const originMax = Math.max(...originDemo.map(row => row.share));
+const originMin = Math.min(...originDemo.map(row => row.share));
+function originColour(share: number) {
+  const t = Math.log(share / originMin) / Math.log(originMax / originMin);
+  const light = [196, 226, 242];
+  const dark = [10, 82, 126];
+  return `rgb(${light.map((value, index) => Math.round(value + (dark[index] - value) * t)).join(",")})`;
+}
+const LEGEND_ROWS = 5;
+
 function OriginMap({ locale }: { locale: Locale }) {
   const da = locale === "da";
+  const top = originDemo.slice(0, LEGEND_ROWS);
+  const rest = originDemo.slice(LEGEND_ROWS);
+  const restShare = Math.round(rest.reduce((sum, row) => sum + row.share, 0));
   return <div className="dashboard-preview__origin">
-    <svg viewBox="0 0 240 260" role="img" aria-label={da ? "Kort over Skandinavien og nabolande, farvet efter andel af besøg" : "Map of Scandinavia and neighbouring countries shaded by share of visits"}>{countries.map(country => { const index = originDemo.findIndex(row => row.country === country.name); return <path key={country.name} d={country.path} fill={index < 0 ? "#e9edef" : colours[index]} stroke="#fff" strokeWidth=".7"><title>{country.name}{index >= 0 ? `: ${originDemo[index].share}%` : ""}</title></path>; })}</svg>
-    <div className="dashboard-preview__legend"><p>{da ? "Andel af besøg" : "Share of visits"}</p>{originDemo.map((row, index) => <div key={row.country}><i style={{ background: colours[index] }} /><span>{da ? row.da : row.country}</span><strong>{row.share}%</strong></div>)}</div>
+    <svg viewBox="0 0 240 260" role="img" aria-label={da ? "Kort over Nordeuropa, farvet efter andel af besøg" : "Map of Northern Europe shaded by share of visits"}>{countries.map(country => { const row = originDemo.find(item => item.country === country.name); return <path key={country.name} d={country.path} fill={row ? originColour(row.share) : "#e9edef"} stroke="#fff" strokeWidth=".7"><title>{row ? `${da ? row.da : row.country}: ${row.share}%` : country.name}</title></path>; })}</svg>
+    <div className="dashboard-preview__legend"><p>{da ? "Andel af besøg" : "Share of visits"}</p>{top.map(row => <div key={row.country}><i style={{ background: originColour(row.share) }} /><span>{da ? row.da : row.country}</span><strong>{row.share}%</strong></div>)}<div><i style={{ background: originColour(rest[0]?.share ?? originMin) }} /><span>{da ? `${rest.length} andre lande` : `${rest.length} more countries`}</span><strong>{restShare}%</strong></div></div>
   </div>;
 }
 
