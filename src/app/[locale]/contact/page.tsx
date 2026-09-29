@@ -20,7 +20,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: L
 
 export default async function ContactPage({ params }: { params: Promise<{ locale: Locale }> }) {
   const { locale } = await params;
-  const mapQuery = encodeURIComponent("Papp Headquarters, Rytoften 5, 8210 Aarhus, Denmark");
+  const mapQuery = encodeURIComponent("Papp Mobility, Rytoften 5, 8210 Aarhus, Denmark");
   const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${mapQuery}`;
 
   return (
@@ -37,7 +37,7 @@ export default async function ContactPage({ params }: { params: Promise<{ locale
             <p>
               <strong>{locale === "da" ? "Adresse" : "Address"}</strong>
               <a href={mapsUrl} target="_blank" rel="noreferrer">
-                Papp Headquarters · Rytoften 5, 2 sal · 8210 Aarhus
+                Papp Mobility · Rytoften 5, 2 sal · 8210 Aarhus
               </a>
             </p>
           </div>
