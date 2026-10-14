@@ -140,11 +140,11 @@ export const CAMERA_VIEWS: Record<MobilityView, { position: [number, number, num
     target: [0.4, 0.45, -1.79],
     fov: 38
   },
-  // Frames the Insights panel, its "all sources" tag and the data arcs
-  // arriving from both boards.
+  // Puts the Insights panel in the upper left, clear of the product card
+  // that opens in the bottom-right corner.
   insights: {
-    position: [-0.95, 1.79, -2.52],
-    target: [-1.55, 1.33, -1.15],
+    position: [-1.24, 1.66, -2.81],
+    target: [-1.9, 1.15, -1.3],
     fov: 42
   }
 };
