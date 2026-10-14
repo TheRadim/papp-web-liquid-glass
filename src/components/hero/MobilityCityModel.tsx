@@ -6,6 +6,7 @@ import { useEffect, useMemo } from "react";
 import { AnimationMixer, Color, Group, LoopRepeat, Material, Mesh, MeshStandardMaterial, Object3D, PropertyBinding } from "three";
 import {
   CITY_COUNTER_FADE_SECONDS,
+  CITY_BOARDS,
   CITY_COUNTER_FADES,
   CITY_OBJECT_NAMES,
   getMobilityAreaFromObject,
@@ -13,6 +14,7 @@ import {
   MOBILITY_CITY_MODEL_URL
 } from "@/config/mobility-city";
 import type { MobilityArea, MobilityModelStatus } from "@/types/mobility-city";
+import { mobilityCityRuntime } from "@/components/hero/mobilityCityRuntime";
 
 interface MobilityCityModelProps {
   hoveredArea: MobilityArea | null;
@@ -182,6 +184,15 @@ export function MobilityCityModel({
     });
 
     return found;
+  }, [model]);
+
+  // Let the live parking board follow the grey car.
+  useEffect(() => {
+    const name = CITY_BOARDS.live.car;
+    mobilityCityRuntime.greyCar = model.getObjectByName(name) ?? model.getObjectByName(PropertyBinding.sanitizeNodeName(name)) ?? null;
+    return () => {
+      mobilityCityRuntime.greyCar = null;
+    };
   }, [model]);
 
   const timelineDuration = useMemo(() => gltf.animations.reduce((longest, clip) => Math.max(longest, clip.duration), 0), [gltf.animations]);

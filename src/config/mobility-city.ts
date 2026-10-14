@@ -53,6 +53,49 @@ export const CITY_COUNTER_FADES: Record<string, { in: number; out: number }[]> =
 
 export const CITY_COUNTER_FADE_SECONDS = 0.35;
 
+type Vec3 = [number, number, number];
+
+/**
+ * Digital boards in the scene (scene units, from the GLB). Boards face the
+ * overview camera. `pole` is the post height, `size` the board width/height.
+ */
+export const CITY_BOARDS = {
+  size: [0.8, 0.5] as [number, number],
+  pole: 0.36,
+  // Live board for the small lot by the building, fed by the on-ground sensors.
+  live: {
+    position: [-0.8, 0, 0.25] as Vec3,
+    totalSpots: 2,
+    // The grey car parks on one of the two sensor spots; while it's parked
+    // one spot is free, while it's driving both are.
+    car: "Car.002",
+    parkedAt: [-0.87, -1.53] as [number, number],
+    parkedRadius: 0.15,
+    sensors: [
+      [-0.89, 0.03, -0.78],
+      [-0.89, 0.03, -1.5]
+    ] as Vec3[],
+    title: { en: "PARKING SPOTS AVAILABLE", da: "LEDIGE P-PLADSER" },
+    source: { en: "LIVE · ON-GROUND SENSORS", da: "LIVE · SENSORER I JORDEN" }
+  },
+  // Statistics board for the big lot, fed by camera analytics over time.
+  stats: {
+    position: [1.75, 0, -1.15] as Vec3,
+    camera: [0.45, 0.66, -1.79] as Vec3,
+    value: "74%",
+    bars: [4, 5, 6, 6, 7, 3, 2],
+    title: { en: "AVG. OCCUPANCY · 30 DAYS", da: "GNS. BELÆGNING · 30 DAGE" },
+    source: { en: "CAMERA ANALYTICS · FOR PLANNING", da: "KAMERAANALYSE · TIL PLANLÆGNING" }
+  },
+  // Insights is the hub: both boards feed into it.
+  hub: {
+    inlet: [-1.2, 1.3, -1.0] as Vec3,
+    tag: [-1.5, 0.98, -1.8] as Vec3,
+    tagSize: [0.95, 0.178] as [number, number],
+    text: { en: "ALL SOURCES · ONE VIEW", da: "ALLE KILDER · ÉT OVERBLIK" }
+  }
+};
+
 
 export const MOBILITY_AREA_ANCHORS: Record<MobilityArea, string> = {
   sensors: "solution-sensors",
@@ -90,10 +133,12 @@ export const CAMERA_VIEWS: Record<MobilityView, { position: [number, number, num
     target: [0.4, 0.45, -1.79],
     fov: 38
   },
+  // Frames the Insights panel, its "all sources" tag and the data arcs
+  // arriving from both boards.
   insights: {
-    position: [0.02, 2.34, -2.16],
-    target: [-1.86, 0.84, -1.46],
-    fov: 44
+    position: [-0.7, 1.68, -2.96],
+    target: [-1.45, 1.1, -1.25],
+    fov: 42
   }
 };
 

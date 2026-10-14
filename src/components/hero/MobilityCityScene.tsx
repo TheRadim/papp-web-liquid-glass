@@ -12,6 +12,7 @@ import type { Locale } from "@/content/types";
 import { getMobilityCityProduct, pickMobilityText } from "@/content/mobility-city/mobility-city";
 import type { MobilityView } from "@/types/mobility-city";
 import { MobilityCityModel } from "@/components/hero/MobilityCityModel";
+import { MobilityCityBoards } from "@/components/hero/MobilityCityBoards";
 import type { MobilityArea, MobilityModelStatus } from "@/types/mobility-city";
 
 interface MobilityCitySceneProps {
@@ -189,19 +190,17 @@ function CameraController({
     const controls = controlsRef.current;
     if (!controls) return;
     controls.target.copy(lookAt.current);
-    zoomRatio.current = 1;
-    lastDistance.current = null;
     controls.enabled = view === "overview" || debug;
     if (controls.enabled) controls.update();
   }, [controlsRef, debug, view]);
 
-  // Zoom is kept as a ratio of the distance that fits the whole model for the
-  // current orbit angle, so rotating never pushes the Insights panel or the
-  // ground out of frame, and wheel / pinch zoom stays within the limits.
-  const zoomRatio = useRef(1);
-  const lastDistance = useRef<number | null>(null);
-  const probe = useMemo(() => new PerspectiveCamera(), []);
-  const orbitDirection = useMemo(() => new Vector3(), []);
+  // Wheel / pinch zoom limits, relative to the fitted overview distance.
+  useEffect(() => {
+    const controls = controlsRef.current;
+    if (!controls) return;
+    controls.minDistance = poses.distance * CITY_ZOOM_LIMITS.closest;
+    controls.maxDistance = poses.distance * CITY_ZOOM_LIMITS.farthest;
+  }, [controlsRef, poses.distance]);
 
   // Move to the requested view: straight away on first load or with reduced
   // motion, otherwise (view change, reset, resize) with an eased glide that
@@ -237,27 +236,7 @@ function CameraController({
 
   useFrame((_, delta) => {
     const active = tween.current;
-    if (!active) {
-      const controls = controlsRef.current;
-      if (view !== "overview" || debug || !controls?.enabled || !(camera instanceof PerspectiveCamera)) return;
-
-      orbitDirection.copy(camera.position).sub(controls.target);
-      const distance = orbitDirection.length();
-      orbitDirection.normalize();
-      const fitted = fitDistance(controls.target, orbitDirection, aspect, camera.fov, probe);
-
-      if (lastDistance.current === null || Math.abs(distance - lastDistance.current) > 1e-4) {
-        zoomRatio.current = Math.min(CITY_ZOOM_LIMITS.farthest, Math.max(CITY_ZOOM_LIMITS.closest, distance / fitted));
-      }
-
-      const wanted = zoomRatio.current * fitted;
-      if (Math.abs(wanted - distance) > 1e-4) {
-        camera.position.copy(controls.target).addScaledVector(orbitDirection, wanted);
-        invalidate();
-      }
-      lastDistance.current = wanted;
-      return;
-    }
+    if (!active) return;
 
     active.elapsed = Math.min(TWEEN_SECONDS, active.elapsed + Math.min(delta, 0.05));
     const progress = easeInOutCubic(active.elapsed / TWEEN_SECONDS);
@@ -407,6 +386,7 @@ export function MobilityCityScene({
         onAreaSelect={onAreaSelect}
         onStatusChange={onStatusChange}
       />
+      <MobilityCityBoards locale={locale} reducedMotion={reducedMotion} />
       {showMarkers ? (
         <MobilityCityMarkers
           hoveredArea={hoveredArea}
