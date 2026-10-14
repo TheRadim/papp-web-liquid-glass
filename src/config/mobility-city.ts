@@ -25,14 +25,15 @@ export const CITY_OBJECT_AREA_ALIASES: Record<string, MobilityArea> = {
 export const MOBILITY_AREAS: MobilityArea[] = ["sensors", "cameras", "insights"];
 
 /**
- * Bounding box of the city model in scene units (from the GLB). Used to fit the
- * overview camera to whatever size the canvas has, so the model fills the
- * frame on wide and narrow screens alike.
+ * Boxes (in scene units, from the GLB) that the overview camera must keep in
+ * frame: the ground plate and the floating Insights panel, with a little room
+ * for its pulse. The camera distance is fitted to the canvas aspect ratio so
+ * the model fills the frame on wide and narrow screens alike.
  */
-export const CITY_MODEL_BOUNDS = {
-  min: [-3.3, 0, -3.25] as [number, number, number],
-  max: [2.17, 1.58, 0.88] as [number, number, number]
-};
+export const CITY_FRAMING_BOXES: { min: [number, number, number]; max: [number, number, number] }[] = [
+  { min: [-3.3, 0, -3.25], max: [2.17, 0.08, 0.88] },
+  { min: [-2.15, 1.0, -1.65], max: [-1.11, 1.66, -0.5] }
+];
 
 /** How much the visitor may zoom with the wheel or a pinch, relative to the fitted overview distance. */
 export const CITY_ZOOM_LIMITS = { closest: 0.62, farthest: 1.18 };

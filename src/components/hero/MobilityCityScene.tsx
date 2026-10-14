@@ -7,7 +7,7 @@ import { useFrame, useThree } from "@react-three/fiber";
 import { useCallback, useEffect, useMemo, useRef, type MutableRefObject } from "react";
 import { PerspectiveCamera, PMREMGenerator, Vector3 } from "three";
 import { RoomEnvironment } from "three/examples/jsm/environments/RoomEnvironment.js";
-import { CAMERA_VIEWS, CITY_MODEL_BOUNDS, CITY_ZOOM_LIMITS, MOBILITY_AREAS, MOBILITY_MARKERS } from "@/config/mobility-city";
+import { CAMERA_VIEWS, CITY_FRAMING_BOXES, CITY_ZOOM_LIMITS, MOBILITY_AREAS, MOBILITY_MARKERS } from "@/config/mobility-city";
 import type { Locale } from "@/content/types";
 import { getMobilityCityProduct, pickMobilityText } from "@/content/mobility-city/mobility-city";
 import type { MobilityView } from "@/types/mobility-city";
@@ -49,12 +49,11 @@ function easeInOutCubic(t: number) {
   return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
 }
 
-const BOUNDS_CORNERS = (() => {
-  const { min, max } = CITY_MODEL_BOUNDS;
+const BOUNDS_CORNERS = CITY_FRAMING_BOXES.flatMap(({ min, max }) => {
   const corners: Vector3[] = [];
   [min[0], max[0]].forEach((x) => [min[1], max[1]].forEach((y) => [min[2], max[2]].forEach((z) => corners.push(new Vector3(x, y, z)))));
   return corners;
-})();
+});
 
 /**
  * Places the overview camera along the designed viewing direction, at the
