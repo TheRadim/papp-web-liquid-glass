@@ -72,7 +72,7 @@ export const CITY_DATA = {
   },
   // Small "FREE n" sign on the grass strip in front of the building.
   sign: {
-    position: [-1.25, 0.058, -2.09] as Vec3,
+    position: [-0.88, 0.058, -2.09] as Vec3,
     size: [0.34, 0.17] as [number, number],
     pole: 0.17,
     label: { en: "FREE", da: "LEDIG" }
