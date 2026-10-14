@@ -20,7 +20,6 @@ import {
   SpriteMaterial,
   SRGBColorSpace,
   Texture,
-  TubeGeometry,
   Vector3
 } from "three";
 import { CAMERA_VIEWS, CITY_DATA } from "@/config/mobility-city";
@@ -84,7 +83,6 @@ function makeSign(texture: Texture) {
 
 interface Beam {
   curve: QuadraticBezierCurve3;
-  tube: Mesh;
   trail: Sprite[];
   duration: number;
   /** Seconds since the pulse left; null when idle. */
@@ -95,8 +93,8 @@ interface Beam {
 }
 
 /**
- * An airy, barely-there beam with a soft comet of light that travels along it
- * now and then: data being sent from a source to where it's shown.
+ * An invisible path with a soft comet of light that travels along it now and
+ * then: data being sent from a source to where it's shown.
  */
 function makeBeam(from: Vec3, to: Vec3, lift: number, color: string, duration: number, glow: Texture, parent: Group, heartbeatOffset: number): Beam {
   const start = new Vector3(...from);
@@ -104,9 +102,6 @@ function makeBeam(from: Vec3, to: Vec3, lift: number, color: string, duration: n
   const middle = start.clone().lerp(end, 0.5);
   middle.y += lift;
   const curve = new QuadraticBezierCurve3(start, middle, end);
-
-  const tube = new Mesh(new TubeGeometry(curve, 48, 0.0045, 6, false), new MeshBasicMaterial({ color, transparent: true, opacity: 0.14, depthWrite: false }));
-  parent.add(tube);
 
   const trail = Array.from({ length: TRAIL }, (_, index) => {
     const sprite = new Sprite(new SpriteMaterial({ map: glow, color, transparent: true, depthWrite: false, opacity: 0 }));
@@ -117,7 +112,7 @@ function makeBeam(from: Vec3, to: Vec3, lift: number, color: string, duration: n
     return sprite;
   });
 
-  return { curve, tube, trail, duration, progress: null, onArrive: null, lastPulse: 0, heartbeatOffset };
+  return { curve, trail, duration, progress: null, onArrive: null, lastPulse: 0, heartbeatOffset };
 }
 
 function sendPulse(beam: Beam, time: number, onArrive: (() => void) | null) {

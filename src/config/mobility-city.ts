@@ -85,7 +85,7 @@ export const CITY_DATA = {
       { at: 9.0, delta: 1 },
       { at: 17.2, delta: -1 }
     ],
-    startCount: 14,
+    startCount: 2,
     startEntries: 126
   },
   // Where data beams arrive under the floating Insights panel.
@@ -143,8 +143,8 @@ export const CAMERA_VIEWS: Record<MobilityView, { position: [number, number, num
   // Frames the Insights panel, its "all sources" tag and the data arcs
   // arriving from both boards.
   insights: {
-    position: [-0.7, 1.68, -2.96],
-    target: [-1.45, 1.1, -1.25],
+    position: [-0.95, 1.79, -2.52],
+    target: [-1.55, 1.33, -1.15],
     fov: 42
   }
 };
