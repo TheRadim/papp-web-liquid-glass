@@ -357,15 +357,11 @@ export function MobilityCityModel({
       return;
     }
 
-    const stillOverSelectableArea = event.intersections.some((hit) => {
-      if (hit.object === event.object) {
-        return false;
-      }
-
-      return Boolean(getMobilityAreaFromObject(hit.object));
-    });
-
-    if (stillOverSelectableArea) {
+    // Only the nearest thing under the pointer counts. Checking every hit
+    // along the ray kept the label on when an area was merely behind the
+    // ground the pointer had moved onto.
+    const nearest = event.intersections.find((hit) => hit.object !== event.object);
+    if (nearest && getMobilityAreaFromObject(nearest.object) === area) {
       return;
     }
 

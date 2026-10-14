@@ -55,64 +55,69 @@ const BOUNDS_CORNERS = CITY_FRAMING_BOXES.flatMap(({ min, max }) => {
   return corners;
 });
 
+/** Smallest camera distance along `direction` from `target` that keeps the framing boxes inside the frame. */
+function fitDistance(target: Vector3, direction: Vector3, aspect: number, fov: number, probe = new PerspectiveCamera(fov, aspect, 0.05, 200)) {
+  probe.fov = fov;
+  probe.aspect = aspect;
+  probe.updateProjectionMatrix();
+
+  const fits = (distance: number) => {
+    const box = measureFrame(probe, target, direction, distance);
+    return (box.maxX - box.minX) / 2 <= FIT_MARGIN_X && (box.maxY - box.minY) / 2 <= FIT_MARGIN_Y;
+  };
+
+  let near = 0.5;
+  let far = 40;
+  for (let step = 0; step < 24; step += 1) {
+    const middle = (near + far) / 2;
+    if (fits(middle)) far = middle;
+    else near = middle;
+  }
+  return far;
+}
+
+const projected = new Vector3();
+
+function measureFrame(probe: PerspectiveCamera, target: Vector3, direction: Vector3, distance: number) {
+  probe.position.copy(target).addScaledVector(direction, distance);
+  probe.lookAt(target);
+  probe.updateMatrixWorld();
+  let minX = Infinity;
+  let maxX = -Infinity;
+  let minY = Infinity;
+  let maxY = -Infinity;
+  BOUNDS_CORNERS.forEach((corner) => {
+    projected.copy(corner).project(probe);
+    minX = Math.min(minX, projected.x);
+    maxX = Math.max(maxX, projected.x);
+    minY = Math.min(minY, projected.y);
+    maxY = Math.max(maxY, projected.y);
+  });
+  return { minX, maxX, minY, maxY };
+}
+
 /**
  * Places the overview camera along the designed viewing direction, at the
- * distance (and with the small sideways shift) that makes the model's bounding
- * box fill the canvas for its current aspect ratio.
+ * distance (and with the small sideways shift) that makes the model fill the
+ * canvas for its current aspect ratio.
  */
 function fitOverview(aspect: number): { pose: CameraPose; distance: number } {
   const base = CAMERA_VIEWS.overview;
   const target = new Vector3(...base.target);
   const direction = new Vector3(...base.position).sub(target).normalize();
   const probe = new PerspectiveCamera(base.fov, aspect, 0.05, 200);
-  const projected = new Vector3();
-
-  const measure = (distance: number) => {
-    probe.position.copy(target).addScaledVector(direction, distance);
-    probe.lookAt(target);
-    probe.updateMatrixWorld();
-    let minX = Infinity;
-    let maxX = -Infinity;
-    let minY = Infinity;
-    let maxY = -Infinity;
-    BOUNDS_CORNERS.forEach((corner) => {
-      projected.copy(corner).project(probe);
-      minX = Math.min(minX, projected.x);
-      maxX = Math.max(maxX, projected.x);
-      minY = Math.min(minY, projected.y);
-      maxY = Math.max(maxY, projected.y);
-    });
-    return { minX, maxX, minY, maxY };
-  };
-
-  const fits = (distance: number) => {
-    const box = measure(distance);
-    return (box.maxX - box.minX) / 2 <= FIT_MARGIN_X && (box.maxY - box.minY) / 2 <= FIT_MARGIN_Y;
-  };
-
-  const search = () => {
-    let near = 1;
-    let far = 40;
-    for (let step = 0; step < 28; step += 1) {
-      const middle = (near + far) / 2;
-      if (fits(middle)) far = middle;
-      else near = middle;
-    }
-    return far;
-  };
-
-  let distance = search();
+  let distance = fitDistance(target, direction, aspect, base.fov, probe);
 
   // Shift the look-at point so the model sits in the middle of the frame.
   for (let pass = 0; pass < 2; pass += 1) {
-    const box = measure(distance);
+    const box = measureFrame(probe, target, direction, distance);
     const centerX = (box.minX + box.maxX) / 2;
     const centerY = (box.minY + box.maxY) / 2;
     const halfHeight = Math.tan((base.fov * Math.PI) / 360) * distance;
     const right = new Vector3().setFromMatrixColumn(probe.matrixWorld, 0);
     const up = new Vector3().setFromMatrixColumn(probe.matrixWorld, 1);
     target.addScaledVector(right, centerX * halfHeight * aspect).addScaledVector(up, centerY * halfHeight);
-    distance = search();
+    distance = fitDistance(target, direction, aspect, base.fov, probe);
   }
 
   return {
@@ -184,17 +189,19 @@ function CameraController({
     const controls = controlsRef.current;
     if (!controls) return;
     controls.target.copy(lookAt.current);
+    zoomRatio.current = 1;
+    lastDistance.current = null;
     controls.enabled = view === "overview" || debug;
     if (controls.enabled) controls.update();
   }, [controlsRef, debug, view]);
 
-  // Zoom limits follow the fitted overview distance.
-  useEffect(() => {
-    const controls = controlsRef.current;
-    if (!controls) return;
-    controls.minDistance = poses.distance * CITY_ZOOM_LIMITS.closest;
-    controls.maxDistance = poses.distance * CITY_ZOOM_LIMITS.farthest;
-  }, [controlsRef, poses.distance]);
+  // Zoom is kept as a ratio of the distance that fits the whole model for the
+  // current orbit angle, so rotating never pushes the Insights panel or the
+  // ground out of frame, and wheel / pinch zoom stays within the limits.
+  const zoomRatio = useRef(1);
+  const lastDistance = useRef<number | null>(null);
+  const probe = useMemo(() => new PerspectiveCamera(), []);
+  const orbitDirection = useMemo(() => new Vector3(), []);
 
   // Move to the requested view: straight away on first load or with reduced
   // motion, otherwise (view change, reset, resize) with an eased glide that
@@ -230,7 +237,27 @@ function CameraController({
 
   useFrame((_, delta) => {
     const active = tween.current;
-    if (!active) return;
+    if (!active) {
+      const controls = controlsRef.current;
+      if (view !== "overview" || debug || !controls?.enabled || !(camera instanceof PerspectiveCamera)) return;
+
+      orbitDirection.copy(camera.position).sub(controls.target);
+      const distance = orbitDirection.length();
+      orbitDirection.normalize();
+      const fitted = fitDistance(controls.target, orbitDirection, aspect, camera.fov, probe);
+
+      if (lastDistance.current === null || Math.abs(distance - lastDistance.current) > 1e-4) {
+        zoomRatio.current = Math.min(CITY_ZOOM_LIMITS.farthest, Math.max(CITY_ZOOM_LIMITS.closest, distance / fitted));
+      }
+
+      const wanted = zoomRatio.current * fitted;
+      if (Math.abs(wanted - distance) > 1e-4) {
+        camera.position.copy(controls.target).addScaledVector(orbitDirection, wanted);
+        invalidate();
+      }
+      lastDistance.current = wanted;
+      return;
+    }
 
     active.elapsed = Math.min(TWEEN_SECONDS, active.elapsed + Math.min(delta, 0.05));
     const progress = easeInOutCubic(active.elapsed / TWEEN_SECONDS);
@@ -399,8 +426,8 @@ export function MobilityCityScene({
         zoomSpeed={0.6}
         dampingFactor={0.08}
         rotateSpeed={0.35}
-        minPolarAngle={0.72}
-        maxPolarAngle={1.38}
+        minPolarAngle={0.95}
+        maxPolarAngle={1.32}
         makeDefault
       />
     </>

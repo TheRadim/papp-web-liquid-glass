@@ -26,12 +26,14 @@ export const MOBILITY_AREAS: MobilityArea[] = ["sensors", "cameras", "insights"]
 
 /**
  * Boxes (in scene units, from the GLB) that the overview camera must keep in
- * frame: the ground plate and the floating Insights panel, with a little room
- * for its pulse. The camera distance is fitted to the canvas aspect ratio so
+ * frame: the ground plate (plus its soft shadow) and the floating Insights
+ * panel, with a little room for its pulse. The camera distance is fitted to the canvas aspect ratio so
  * the model fills the frame on wide and narrow screens alike.
  */
 export const CITY_FRAMING_BOXES: { min: [number, number, number]; max: [number, number, number] }[] = [
   { min: [-3.3, 0, -3.25], max: [2.17, 0.08, 0.88] },
+  // Soft contact shadow spilling past the ground plate, so it isn't cut by the frame.
+  { min: [-3.6, 0, -3.55], max: [2.5, 0, 1.2] },
   { min: [-2.15, 1.0, -1.65], max: [-1.11, 1.66, -0.5] }
 ];
 
@@ -76,10 +78,12 @@ export const CAMERA_VIEWS: Record<MobilityView, { position: [number, number, num
     target: [-0.84, -0.1, -0.92],
     fov: 46
   },
+  // Close-up on the far sensor (-0.89, -0.78): no car parks on it during the
+  // animation, unlike the near one where the grey car parks.
   sensors: {
-    position: [0.1, 0.85, -2.5],
-    target: [-0.89, 0.04, -1.14],
-    fov: 38
+    position: [-0.36, 0.5, -1.56],
+    target: [-0.89, 0.03, -0.8],
+    fov: 36
   },
   cameras: {
     position: [0.8, 1.2, -3.1],

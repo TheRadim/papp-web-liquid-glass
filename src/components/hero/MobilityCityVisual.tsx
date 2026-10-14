@@ -143,10 +143,16 @@ export function MobilityCityVisual({
 
   const handleHover = useCallback(
     (area: MobilityArea | null) => {
+      // While a product is open, hovering the model must not bring back a
+      // label: it would still be showing when the visitor returns to overview.
+      if (area && selectedArea && !lockedArea) {
+        return;
+      }
+
       setHoveredArea(area);
       onAreaHover?.(area);
     },
-    [onAreaHover]
+    [lockedArea, onAreaHover, selectedArea]
   );
 
   const handleSelect = useCallback(

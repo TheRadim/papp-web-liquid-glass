@@ -92,6 +92,12 @@ export default function MobilityCityCanvas({
           }
         }}
         onPointerMissed={onReturnToOverview}
+        onPointerLeave={() => {
+          // Leaving the canvas always clears the hover label and cursor, even
+          // if the model's own pointer-out events were missed.
+          document.body.style.cursor = "";
+          onAreaHover(null);
+        }}
       >
         <Suspense fallback={<LoadingStatus onStatusChange={onStatusChange} />}>
           <MobilityCityScene
