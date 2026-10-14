@@ -3,7 +3,7 @@ import type { Locale } from "@/content/types";
 import { withBasePath } from "@/lib/site/basePath";
 import type { MobilityArea, MobilityView } from "@/types/mobility-city";
 
-export const MOBILITY_CITY_MODEL_URL = withBasePath("/models/papp-city-draft.glb");
+export const MOBILITY_CITY_MODEL_URL = withBasePath("/models/papp-city.glb");
 
 export const CITY_OBJECT_NAMES = {
   base: "parking",

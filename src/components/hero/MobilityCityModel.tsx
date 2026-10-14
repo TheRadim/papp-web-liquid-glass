@@ -3,7 +3,7 @@
 import { useGLTF } from "@react-three/drei";
 import { ThreeEvent, useFrame, useThree } from "@react-three/fiber";
 import { useEffect, useMemo } from "react";
-import { AnimationMixer, Color, Group, LoopPingPong, Material, Mesh, MeshStandardMaterial, Object3D } from "three";
+import { AnimationMixer, Color, Group, LoopRepeat, Material, Mesh, MeshStandardMaterial, Object3D } from "three";
 import { CITY_OBJECT_NAMES, getMobilityAreaFromObject, MOBILITY_AREAS, MOBILITY_CITY_MODEL_URL } from "@/config/mobility-city";
 import type { MobilityArea, MobilityModelStatus } from "@/types/mobility-city";
 
@@ -146,6 +146,21 @@ export function MobilityCityModel({
     );
   }, [roots]);
 
+  // Objects whose scale is driven by the baked animation (the Insights pulse)
+  // must not be eased back to their rest scale every frame.
+  const scaleAnimatedNames = useMemo(() => {
+    const names = new Set<string>();
+    gltf.animations.forEach((clip) => {
+      clip.tracks.forEach((track) => {
+        const dot = track.name.lastIndexOf(".");
+        if (dot > 0 && track.name.slice(dot + 1) === "scale") {
+          names.add(track.name.slice(0, dot));
+        }
+      });
+    });
+    return names;
+  }, [gltf.animations]);
+
   const mixer = useMemo(() => new AnimationMixer(model), [model]);
 
   useEffect(() => {
@@ -153,12 +168,14 @@ export function MobilityCityModel({
       return undefined;
     }
 
+    // The model ships one baked timeline split into a clip per object, all the
+    // same length. Play them forward at real speed and loop them together so
+    // the cars, counters and Insights pulse stay in sync.
     const actions = gltf.animations.map((clip) => {
       const action = mixer.clipAction(clip);
-      const clipName = clip.name.toLowerCase();
       action.reset();
-      action.setLoop(LoopPingPong, Infinity);
-      action.timeScale = clipName.includes("insights") ? 0.4 : 0.3;
+      action.setLoop(LoopRepeat, Infinity);
+      action.timeScale = 1;
       action.clampWhenFinished = false;
       action.enabled = true;
       action.paused = false;
@@ -217,7 +234,7 @@ export function MobilityCityModel({
       const object = roots[area];
       const baseScale = baseScales[area];
 
-      if (!object || !baseScale) {
+      if (!object || !baseScale || (!reducedMotion && scaleAnimatedNames.has(object.name))) {
         return;
       }
 
