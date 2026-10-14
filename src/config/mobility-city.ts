@@ -56,46 +56,53 @@ export const CITY_COUNTER_FADE_SECONDS = 0.35;
 type Vec3 = [number, number, number];
 
 /**
- * Digital boards in the scene (scene units, from the GLB). Boards face the
- * overview camera. `pole` is the post height, `size` the board width/height.
+ * Live data layer on top of the model (scene units, from the GLB). Nothing
+ * here is made up per frame: the numbers follow the baked animation.
  */
-export const CITY_BOARDS = {
-  size: [0.8, 0.5] as [number, number],
-  pole: 0.36,
-  // Live board for the small lot by the building, fed by the on-ground sensors.
-  live: {
-    position: [-0.8, 0, 0.25] as Vec3,
+export const CITY_DATA = {
+  // Small lot in front of the building: two spots with on-ground sensors.
+  frontLot: {
     totalSpots: 2,
-    // The grey car parks on one of the two sensor spots; while it's parked
-    // one spot is free, while it's driving both are.
+    // The grey car parks on one sensor spot; while it's parked one spot is
+    // free, while it's driving both are.
     car: "Car.002",
     parkedAt: [-0.87, -1.53] as [number, number],
     parkedRadius: 0.15,
-    sensors: [
-      [-0.89, 0.03, -0.78],
-      [-0.89, 0.03, -1.5]
-    ] as Vec3[],
-    title: { en: "PARKING SPOTS AVAILABLE", da: "LEDIGE P-PLADSER" },
-    source: { en: "LIVE · ON-GROUND SENSORS", da: "LIVE · SENSORER I JORDEN" }
+    sensors: [-0.89, 0.04, -1.14] as Vec3
   },
-  // Statistics board for the big lot, fed by camera analytics over time.
-  stats: {
-    position: [1.75, 0, -1.15] as Vec3,
-    camera: [0.45, 0.66, -1.79] as Vec3,
-    value: "74%",
-    bars: [4, 5, 6, 6, 7, 3, 2],
-    title: { en: "AVG. OCCUPANCY · 30 DAYS", da: "GNS. BELÆGNING · 30 DAGE" },
-    source: { en: "CAMERA ANALYTICS · FOR PLANNING", da: "KAMERAANALYSE · TIL PLANLÆGNING" }
+  // Small "FREE n" sign on the grass strip in front of the building.
+  sign: {
+    position: [-1.25, 0.058, -2.09] as Vec3,
+    size: [0.34, 0.17] as [number, number],
+    pole: 0.17,
+    label: { en: "FREE", da: "LEDIG" }
   },
-  // Insights is the hub: both boards feed into it.
-  hub: {
-    inlet: [-1.2, 1.3, -1.0] as Vec3,
-    tag: [-1.5, 0.98, -1.8] as Vec3,
-    tagSize: [0.95, 0.178] as [number, number],
-    text: { en: "ALL SOURCES · ONE VIEW", da: "ALLE KILDER · ÉT OVERBLIK" }
+  // The camera counts cars in and out of the main lot. Times are seconds on
+  // the 26 s timeline, matching the +1 / -1 counters above the camera.
+  camera: {
+    position: [0.45, 0.7, -1.79] as Vec3,
+    events: [
+      { at: 9.0, delta: 1 },
+      { at: 17.2, delta: -1 }
+    ],
+    startCount: 14,
+    startEntries: 126
+  },
+  // Where data beams arrive under the floating Insights panel.
+  insightsInlet: [-1.58, 1.08, -1.08] as Vec3,
+  // Seconds between idle "heartbeat" pulses on each beam.
+  heartbeatSeconds: 7,
+  labels: {
+    title: { en: "Papp Insights", da: "Papp Insights" },
+    live: { en: "LIVE", da: "LIVE" },
+    free: { en: "free", da: "ledig" },
+    frontLot: { en: "Front lot · sensors", da: "Forplads · sensorer" },
+    mainLot: { en: "Main lot · camera count", da: "Hovedparkering · kameratælling" },
+    vehicles: { en: "Vehicles now", da: "Biler nu" },
+    entries: { en: "Entries today", da: "Indkørsler i dag" },
+    updated: { en: "Updated live", da: "Opdateres live" }
   }
 };
-
 
 export const MOBILITY_AREA_ANCHORS: Record<MobilityArea, string> = {
   sensors: "solution-sensors",

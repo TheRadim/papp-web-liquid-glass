@@ -12,7 +12,7 @@ import type { Locale } from "@/content/types";
 import { getMobilityCityProduct, pickMobilityText } from "@/content/mobility-city/mobility-city";
 import type { MobilityView } from "@/types/mobility-city";
 import { MobilityCityModel } from "@/components/hero/MobilityCityModel";
-import { MobilityCityBoards } from "@/components/hero/MobilityCityBoards";
+import { MobilityCityDataLayer } from "@/components/hero/MobilityCityDataLayer";
 import type { MobilityArea, MobilityModelStatus } from "@/types/mobility-city";
 
 interface MobilityCitySceneProps {
@@ -386,7 +386,7 @@ export function MobilityCityScene({
         onAreaSelect={onAreaSelect}
         onStatusChange={onStatusChange}
       />
-      <MobilityCityBoards locale={locale} reducedMotion={reducedMotion} />
+      <MobilityCityDataLayer locale={locale} reducedMotion={reducedMotion} />
       {showMarkers ? (
         <MobilityCityMarkers
           hoveredArea={hoveredArea}

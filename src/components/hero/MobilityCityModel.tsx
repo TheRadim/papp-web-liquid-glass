@@ -6,7 +6,7 @@ import { useEffect, useMemo } from "react";
 import { AnimationMixer, Color, Group, LoopRepeat, Material, Mesh, MeshStandardMaterial, Object3D, PropertyBinding } from "three";
 import {
   CITY_COUNTER_FADE_SECONDS,
-  CITY_BOARDS,
+  CITY_DATA,
   CITY_COUNTER_FADES,
   CITY_OBJECT_NAMES,
   getMobilityAreaFromObject,
@@ -186,12 +186,14 @@ export function MobilityCityModel({
     return found;
   }, [model]);
 
-  // Let the live parking board follow the grey car.
+  // Hand the live data layer what it follows: the grey car and the Insights panel.
   useEffect(() => {
-    const name = CITY_BOARDS.live.car;
-    mobilityCityRuntime.greyCar = model.getObjectByName(name) ?? model.getObjectByName(PropertyBinding.sanitizeNodeName(name)) ?? null;
+    const find = (name: string) => model.getObjectByName(name) ?? model.getObjectByName(PropertyBinding.sanitizeNodeName(name)) ?? null;
+    mobilityCityRuntime.greyCar = find(CITY_DATA.frontLot.car);
+    mobilityCityRuntime.insightsPanel = find(CITY_OBJECT_NAMES.insights);
     return () => {
       mobilityCityRuntime.greyCar = null;
+      mobilityCityRuntime.insightsPanel = null;
     };
   }, [model]);
 
@@ -302,6 +304,8 @@ export function MobilityCityModel({
     }
 
     const timelineTime = timelineDuration > 0 ? mixer.time % timelineDuration : 0;
+    mobilityCityRuntime.timelineTime = timelineTime;
+    mobilityCityRuntime.animating = needsAnotherFrame;
     counters.forEach(({ materials, windows }) => {
       const opacity = needsAnotherFrame ? counterOpacity(windows, timelineTime) : 0;
       materials.forEach((material) => {
