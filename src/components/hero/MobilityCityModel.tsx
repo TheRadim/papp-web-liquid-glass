@@ -3,8 +3,15 @@
 import { useGLTF } from "@react-three/drei";
 import { ThreeEvent, useFrame, useThree } from "@react-three/fiber";
 import { useEffect, useMemo } from "react";
-import { AnimationMixer, Color, Group, LoopRepeat, Material, Mesh, MeshStandardMaterial, Object3D } from "three";
-import { CITY_OBJECT_NAMES, getMobilityAreaFromObject, MOBILITY_AREAS, MOBILITY_CITY_MODEL_URL } from "@/config/mobility-city";
+import { AnimationMixer, Color, Group, LoopRepeat, Material, Mesh, MeshStandardMaterial, Object3D, PropertyBinding } from "three";
+import {
+  CITY_COUNTER_FADE_SECONDS,
+  CITY_COUNTER_FADES,
+  CITY_OBJECT_NAMES,
+  getMobilityAreaFromObject,
+  MOBILITY_AREAS,
+  MOBILITY_CITY_MODEL_URL
+} from "@/config/mobility-city";
 import type { MobilityArea, MobilityModelStatus } from "@/types/mobility-city";
 
 interface MobilityCityModelProps {
@@ -101,6 +108,21 @@ function isSelectableHelper(object: Object3D) {
   return object.name.toLowerCase().includes("selectable");
 }
 
+/** Opacity of a counter at time `t` on the baked timeline, from its fade windows. */
+function counterOpacity(windows: { in: number; out: number }[], t: number) {
+  const fade = CITY_COUNTER_FADE_SECONDS;
+  let opacity = 0;
+
+  windows.forEach((window) => {
+    if (t < window.in || t > window.out) return;
+    const fadeIn = Math.min(1, (t - window.in) / fade);
+    const fadeOut = Math.min(1, (window.out - t) / fade);
+    opacity = Math.max(opacity, Math.min(fadeIn, fadeOut));
+  });
+
+  return opacity;
+}
+
 export function MobilityCityModel({
   hoveredArea,
   selectedArea,
@@ -125,6 +147,44 @@ export function MobilityCityModel({
 
     return clone;
   }, [gltf.scene]);
+
+  // The +1 / -1 counters come out of Blender fully transparent (their fade
+  // was an opacity animation glTF can't carry), so we drive their opacity here.
+  const counters = useMemo(() => {
+    const found: { materials: MeshStandardMaterial[]; windows: { in: number; out: number }[] }[] = [];
+
+    Object.entries(CITY_COUNTER_FADES).forEach(([name, windows]) => {
+      // GLTFLoader sanitises node names ("+1 green" becomes "+1_green").
+      const object = model.getObjectByName(name) ?? model.getObjectByName(PropertyBinding.sanitizeNodeName(name));
+      if (!object) return;
+
+      const materials: MeshStandardMaterial[] = [];
+      object.traverse((child) => {
+        if (!(child instanceof Mesh)) return;
+        child.castShadow = false;
+        child.renderOrder = 2;
+        eachMaterial(child.material, (material) => {
+          const standard = material as MeshStandardMaterial;
+          standard.transparent = true;
+          standard.alphaTest = 0;
+          standard.depthWrite = false;
+          standard.opacity = 0;
+          if (standard.emissive) {
+            standard.emissive.copy(standard.color);
+            standard.emissiveIntensity = 0.55;
+          }
+          standard.needsUpdate = true;
+          materials.push(standard);
+        });
+      });
+
+      found.push({ materials, windows });
+    });
+
+    return found;
+  }, [model]);
+
+  const timelineDuration = useMemo(() => gltf.animations.reduce((longest, clip) => Math.max(longest, clip.duration), 0), [gltf.animations]);
 
   const roots = useMemo(() => {
     return MOBILITY_AREAS.reduce<Record<MobilityArea, Object3D | null>>(
@@ -229,6 +289,15 @@ export function MobilityCityModel({
     if (needsAnotherFrame) {
       mixer.update(delta);
     }
+
+    const timelineTime = timelineDuration > 0 ? mixer.time % timelineDuration : 0;
+    counters.forEach(({ materials, windows }) => {
+      const opacity = needsAnotherFrame ? counterOpacity(windows, timelineTime) : 0;
+      materials.forEach((material) => {
+        material.opacity = opacity;
+        material.visible = opacity > 0.001;
+      });
+    });
 
     MOBILITY_AREAS.forEach((area) => {
       const object = roots[area];

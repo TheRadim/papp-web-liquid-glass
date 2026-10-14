@@ -24,6 +24,33 @@ export const CITY_OBJECT_AREA_ALIASES: Record<string, MobilityArea> = {
 
 export const MOBILITY_AREAS: MobilityArea[] = ["sensors", "cameras", "insights"];
 
+/**
+ * Bounding box of the city model in scene units (from the GLB). Used to fit the
+ * overview camera to whatever size the canvas has, so the model fills the
+ * frame on wide and narrow screens alike.
+ */
+export const CITY_MODEL_BOUNDS = {
+  min: [-3.3, 0, -3.25] as [number, number, number],
+  max: [2.17, 1.58, 0.88] as [number, number, number]
+};
+
+/** How much the visitor may zoom with the wheel or a pinch, relative to the fitted overview distance. */
+export const CITY_ZOOM_LIMITS = { closest: 0.62, farthest: 1.18 };
+
+/**
+ * The +1 / -1 counters above the camera are faded in code: Blender animated
+ * their opacity, which glTF cannot export, so the file only carries their
+ * movement. Times are seconds on the 26 s baked timeline (Blender frame / 24).
+ * Each window fades in at `in`, stays visible and fades out ending at `out`.
+ */
+export const CITY_COUNTER_FADES: Record<string, { in: number; out: number }[]> = {
+  "+1 green": [{ in: 9.0, out: 11.2 }],
+  "-1red": [{ in: 17.2, out: 19.6 }]
+};
+
+export const CITY_COUNTER_FADE_SECONDS = 0.35;
+
+
 export const MOBILITY_AREA_ANCHORS: Record<MobilityArea, string> = {
   sensors: "solution-sensors",
   cameras: "solution-cameras",

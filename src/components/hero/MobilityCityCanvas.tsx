@@ -2,7 +2,7 @@
 
 import { Canvas } from "@react-three/fiber";
 import { Component, ReactNode, Suspense, useEffect } from "react";
-import { ACESFilmicToneMapping, PCFSoftShadowMap, SRGBColorSpace } from "three";
+import { NeutralToneMapping, PCFSoftShadowMap, SRGBColorSpace } from "three";
 import { CAMERA_VIEWS } from "@/config/mobility-city";
 import { MobilityCityScene } from "@/components/hero/MobilityCityScene";
 import type { Locale } from "@/content/types";
@@ -79,8 +79,10 @@ export default function MobilityCityCanvas({
         gl={{ alpha: true, antialias: true, powerPreference: "low-power" }}
         onCreated={({ gl }) => {
           gl.outputColorSpace = SRGBColorSpace;
-          gl.toneMapping = ACESFilmicToneMapping;
-          gl.toneMappingExposure = 1.02;
+          // Neutral keeps the model's colours (ACES washed the greens out and
+          // darkened the scene).
+          gl.toneMapping = NeutralToneMapping;
+          gl.toneMappingExposure = 1;
           gl.shadowMap.enabled = true;
           gl.shadowMap.type = PCFSoftShadowMap;
 
