@@ -1,6 +1,6 @@
 import type { ContactFormPayload } from "@/lib/contact/contact-service";
 
-export interface ContactValidationResult {
+interface ContactValidationResult {
   valid: boolean;
   errors: Partial<Record<keyof ContactFormPayload, string>>;
 }

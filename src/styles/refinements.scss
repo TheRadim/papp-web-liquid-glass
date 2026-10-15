@@ -1,5 +1,5 @@
-// Page refinements, September 2026 feedback round.
-// Loaded after globals.scss and glass-surfaces.scss so these rules win at equal specificity.
+/* Page refinements, September 2026 feedback round.*/
+/* Loaded after globals.scss and glass-surfaces.scss so these rules win at equal specificity.*/
 
 /* ------------------------------------------------------------------
    Homepage hero
@@ -30,7 +30,7 @@
 }
 
 .hero-message {
-  // Nudge up slightly so the pair reads as centred rather than low.
+  /* Nudge up slightly so the pair reads as centred rather than low.*/
   padding-bottom: clamp(2rem, 7svh, 5rem);
 }
 
@@ -42,7 +42,7 @@
 .hero-footer {
   position: absolute;
   inset-inline: 0;
-  // Lifted off the bottom edge so the actions read as part of the hero.
+  /* Lifted off the bottom edge so the actions read as part of the hero.*/
   bottom: clamp(2rem, 8svh, 5.5rem);
   display: flex;
   flex-direction: column;
@@ -85,10 +85,10 @@
   flex-basis: auto;
 }
 
-// All phrases share one grid cell. Before hydration the slot is as wide as the
-// longest phrase; afterwards CapabilityStatement sets the current phrase's width
-// and glides the surrounding words into place (see the component). The slot
-// clips only top and bottom, so the rolling word is never cut at the sides.
+/* All phrases share one grid cell. Before hydration the slot is as wide as the*/
+/* longest phrase; afterwards CapabilityStatement sets the current phrase's width*/
+/* and glides the surrounding words into place (see the component). The slot*/
+/* clips only top and bottom, so the rolling word is never cut at the sides.*/
 .hero-message .capability-statement__window {
   min-width: 0;
   grid-template-columns: minmax(0, 1fr);
@@ -126,15 +126,15 @@
   }
 
   .hero-message .capability-statement > p:not(.visually-hidden) {
-    // Scaled from the longest sentence (set inline by CapabilityStatement) so it
-    // stays on one line on any phone width. 0.52em is a safe average glyph width
-    // for this semibold sans, checked in English and Danish at 360px.
+    /* Scaled from the longest sentence (set inline by CapabilityStatement) so it*/
+    /* stays on one line on any phone width. 0.52em is a safe average glyph width*/
+    /* for this semibold sans, checked in English and Danish at 360px.*/
     font-size: min(1.05rem, calc((100vw - 2.5rem) / (var(--capability-chars, 50) * 0.52)));
     gap: 0.25em;
   }
 
-  // Phones: the title and capability line sit in the upper third of the screen
-  // (their centre at about 33% of the viewport height) instead of the middle.
+  /* Phones: the title and capability line sit in the upper third of the screen*/
+  /* (their centre at about 33% of the viewport height) instead of the middle.*/
   .hero-layout--centered .hero-copy {
     justify-content: flex-start;
   }
@@ -144,7 +144,7 @@
     margin-top: max(1rem, calc(33svh - var(--hero-header-offset, 68px) - 2.9rem));
   }
 
-  // Phones: the scroll arrow sits near the bottom edge, well clear of the buttons.
+  /* Phones: the scroll arrow sits near the bottom edge, well clear of the buttons.*/
   .hero-footer {
     bottom: clamp(0.75rem, 2.5svh, 1.5rem);
     gap: clamp(2.75rem, 8svh, 4.5rem);
@@ -165,7 +165,7 @@
     white-space: nowrap;
   }
 
-  // The text button needs no pill padding; this keeps both on one row at 360px.
+  /* The text button needs no pill padding; this keeps both on one row at 360px.*/
   .hero-footer .hero-actions .hero-action--salmon {
     padding-inline: 0.25rem;
   }
@@ -180,7 +180,7 @@
   container-type: size;
   display: grid;
   grid-template-rows: auto auto minmax(0, 1fr);
-  // cq units cannot be used on the container itself, so its own spacing is in %.
+  /* cq units cannot be used on the container itself, so its own spacing is in %.*/
   gap: 2.4%;
   padding: 1.6% 1.8%;
   border-radius: 0;
@@ -325,7 +325,7 @@
   font-weight: 600;
 }
 
-// Reset the older bordered inner panels; the card now provides the surface.
+/* Reset the older bordered inner panels; the card now provides the surface.*/
 .dp-card .dashboard-preview__activity,
 .dp-card .dashboard-preview__origin,
 .dp-card .dashboard-preview__manufacturers {
@@ -407,8 +407,8 @@
 @keyframes dp-rise { from { opacity: 0; transform: translateY(1.2cqh); } to { opacity: 1; transform: none; } }
 @keyframes dp-donut-in { from { opacity: 0; transform: rotate(-40deg); } to { opacity: 1; transform: none; } }
 
-// Phones: the screen is small, so show one clean chart without the KPI row
-// or the drivetrain card.
+/* Phones: the screen is small, so show one clean chart without the KPI row*/
+/* or the drivetrain card.*/
 @media (max-width: 767.98px) {
   .insight-dashboard--light .insight-dashboard__screen.dashboard-preview {
     grid-template-rows: auto minmax(0, 1fr);
@@ -919,7 +919,7 @@
     grid-template-columns: minmax(0, 1fr);
   }
 
-  // Stacked: read the workshop story first, then see the photo and what is included.
+  /* Stacked: read the workshop story first, then see the photo and what is included.*/
   .consultancy-workshop__copy {
     order: -1;
   }
@@ -1018,7 +1018,7 @@
     padding-block: 0.5rem 0.6rem;
   }
 
-  // White behind the date that fades out softly below it, so there is no hard edge.
+  /* White behind the date that fades out softly below it, so there is no hard edge.*/
   .history-story__current::before {
     position: absolute;
     inset: 0 calc(var(--container-padding) * -1) -2.25rem;
@@ -1094,7 +1094,7 @@
 
   .hero-message {
     padding-bottom: 0;
-    // Half of the title plus capability line is about 0.85 of the title size.
+    /* Half of the title plus capability line is about 0.85 of the title size.*/
     margin-top: max(1.5rem, calc(33svh - var(--hero-header-offset, 76px) - var(--hero-title-size) * 0.85));
   }
 
@@ -1102,7 +1102,7 @@
     font-size: var(--hero-title-size);
   }
 
-  // The arrow keeps its place in the footer; the buttons sit well above it.
+  /* The arrow keeps its place in the footer; the buttons sit well above it.*/
   .hero-footer .hero-actions {
     position: absolute;
     inset-inline: 0;

@@ -1,6 +1,6 @@
 import type { Locale, Testimonial } from "@/content/types";
 
-export const testimonials: Testimonial[] = [
+const testimonials: Testimonial[] = [
   {
     slug: "aarhus-data-basis",
     quote: {

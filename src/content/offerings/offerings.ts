@@ -5,7 +5,7 @@ const insightVisual = "/images/corporate/insights-laptop.webp";
 const analysisVisual = "/images/corporate/insights-meeting-city.jpg";
 const consultancyVisual = "/images/corporate/parking-consultation-charger.jpg";
 
-export const offerings: Offering[] = [
+const offerings: Offering[] = [
   {
     slug: "sensors",
     category: "sensors",

@@ -1,6 +1,6 @@
 import { meetingAvailability as availability } from "@/config/meeting";
 
-export function copenhagenDate(now = new Date()) {
+function copenhagenDate(now = new Date()) {
   return new Intl.DateTimeFormat("en-CA", { timeZone: availability.timezone, year: "numeric", month: "2-digit", day: "2-digit" }).format(now);
 }
 

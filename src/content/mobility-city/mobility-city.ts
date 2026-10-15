@@ -1,13 +1,13 @@
 import type { Locale, LocalisedText } from "@/content/types";
 import type { MobilityArea } from "@/types/mobility-city";
 
-export interface MobilityCityProductContent {
+interface MobilityCityProductContent {
   name: LocalisedText;
   description: LocalisedText;
   cta: LocalisedText;
 }
 
-export const mobilityCityProducts: Record<MobilityArea, MobilityCityProductContent> = {
+const mobilityCityProducts: Record<MobilityArea, MobilityCityProductContent> = {
   sensors: {
     name: { en: "On-ground sensors", da: "Jordmonterede sensorer" },
     description: {
@@ -73,9 +73,6 @@ export function getMobilityCityProduct(area: MobilityArea) {
   return mobilityCityProducts[area];
 }
 
-export function getMobilityCityProducts() {
-  return mobilityCityProducts;
-}
 
 export function pickMobilityText(locale: Locale, text: LocalisedText) {
   return text[locale] || text.en;

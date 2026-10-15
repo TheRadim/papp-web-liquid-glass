@@ -38,7 +38,6 @@ button.project-category-card,
   padding: clamp(1.1rem, 3vw, 2.4rem);
 }
 .home-solution-row__visual,
-.project-card__media,
 .history-story__media,
 .camera-installation__grid img {
   border-radius: 18px;
@@ -147,21 +146,15 @@ button.project-category-card:focus-visible {
   @include frosted-surface;
 }
 .process-flow__step::before { display: none; }
-.project-workflow__step,
 .process-flow__step { border-radius: 28px; }
 .process-timeline__stream > li.is-active .process-flow__step {
   border-color: #fff;
   background: rgba(255, 255, 255, 0.92);
   box-shadow: var(--glass-shadow);
 }
-.project-article-meta span {
-  @include frosted-surface;
-  border-radius: 999px;
-}
 .project-gallery img,
 .history-story__media,
 .home-solution-row__visual,
-.project-card__media,
 .insights-data-lab__plot { border-radius: 24px; }
 
 .sensor-product-lab__copy ol { gap: 12px; }
@@ -200,8 +193,7 @@ button.project-category-card:focus-visible {
 .mobility-city__control,
 .mobility-city__learn,
 .mobility-city__back,
-.mobility-city__close,
-.insights-data-lab__segmented > div { border-radius: 999px; }
+.mobility-city__close { border-radius: 999px; }
 .mobility-city__control {
   @include frosted-surface;
   border-radius: 999px;
@@ -210,12 +202,6 @@ button.project-category-card:focus-visible {
   background: rgba(255, 255, 255, 0.96);
   border-color: #fff;
   box-shadow: 0 4px 14px rgba(55, 81, 126, 0.13), inset 0 0 0 1px rgba(55, 81, 126, 0.17);
-}
-.insights-data-lab__segmented > div { padding: 4px; gap: 4px; }
-.insights-data-lab__segmented button { border: 0; border-radius: 999px; }
-.insights-data-lab__segmented button.is-active {
-  background: #fff;
-  box-shadow: 0 2px 8px rgba(55, 81, 126, 0.1);
 }
 @media (max-width: 767.98px) {
   :root { --glass-radius: 28px; --papp-radius: 26px; }
@@ -227,12 +213,6 @@ button.project-category-card:focus-visible {
 .testimonial-carousel { padding-block: 1rem; }
 /* Preserve the monitor's dark dashboard and chart geometry. */
 .insight-dashboard__tabs button { border-radius: 999px; }
-.insight-dashboard__panel,
-.insight-dashboard__kpis article {
-  border-radius: 14px;
-  border-color: rgba(255, 255, 255, 0.12);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
-}
 
 /* Keep editorial text open; use the glass material on actionable controls. */
 .testimonial-arrow {
@@ -249,25 +229,6 @@ button.project-category-card:focus-visible {
 .partners-section { background: #fff; }
 
 /* No progress line: one gentle glass pulse moves from step 1 to step 4. */
-.project-workflow::before,
-.project-workflow::after { display: none; }
-.project-workflow .project-workflow__step > span {
-  background: rgba(248, 252, 255, 0.95);
-  color: var(--papp-blue);
-  border: 1px solid #fff;
-  box-shadow: 0 4px 14px rgba(55, 81, 126, 0.1), inset 0 1px 1px #fff;
-  animation: workflow-glass-pulse 8s ease-in-out infinite;
-}
-.project-workflow .project-workflow__step:nth-child(2) > span { animation-delay: 2s; }
-.project-workflow .project-workflow__step:nth-child(3) > span { animation-delay: 4s; }
-.project-workflow .project-workflow__step:nth-child(4) > span { animation-delay: 6s; }
-@keyframes workflow-glass-pulse {
-  0%, 25%, 100% { transform: scale(1); box-shadow: 0 4px 14px rgba(55, 81, 126, 0.1), inset 0 1px 1px #fff; }
-  12% { transform: scale(1.06); box-shadow: 0 0 0 6px rgba(71, 178, 228, 0.075), 0 5px 18px rgba(55, 81, 126, 0.14), inset 0 1px 1px #fff; }
-}
-@media (prefers-reduced-motion: reduce) {
-  .project-workflow .project-workflow__step > span { animation: none; }
-}
 @media (max-width: 767.98px) {
   .project-category-grid--filters { gap: 12px; }
   .project-category-grid--filters .project-category-card { min-height: 104px; padding: 16px; border-radius: 24px; }
@@ -280,7 +241,6 @@ button.project-category-card:focus-visible {
 body,
 .papp-section--soft,
 .partners-section,
-.project-intelligence-section,
 .project-listing-section,
 .app-promo,
 .camera-explorer,
@@ -302,15 +262,6 @@ body,
   transition: background 400ms ease-in-out, color 400ms ease-in-out, box-shadow 400ms ease-in-out, transform 400ms ease-in-out;
 }
 .testimonial-arrow:hover { transform: translateY(-1px); }
-
-.project-workflow .project-workflow__step > span { animation-duration: 16s; }
-.project-workflow .project-workflow__step:nth-child(2) > span { animation-delay: 4s; }
-.project-workflow .project-workflow__step:nth-child(3) > span { animation-delay: 8s; }
-.project-workflow .project-workflow__step:nth-child(4) > span { animation-delay: 12s; }
-@keyframes workflow-glass-pulse {
-  0%, 30%, 100% { transform: scale(1); box-shadow: 0 4px 14px rgba(55, 81, 126, 0.1), inset 0 1px 1px #fff; }
-  15% { transform: scale(1.025); box-shadow: 0 0 0 3px rgba(71, 178, 228, 0.035), 0 5px 16px rgba(55, 81, 126, 0.115), inset 0 1px 1px #fff; }
-}
 
 .contact-floating-balls { filter: blur(55px); opacity: 0.24; }
 .contact-floating-balls__ball { opacity: 0.5; }
@@ -336,8 +287,6 @@ body,
 }
 .project-article-gallery-section .container { max-width: 984px; }
 .project-article-gallery-section { padding-top: 0; }
-.offering-use-cases-section { padding-block: 1.5rem 2.5rem; }
-.offering-use-cases { border: 0; }
 .project-article-hero h1 { font-size: clamp(2rem, 4vw, 3.25rem); line-height: 1.14; }
 
 /* Product introductions share a quieter, centred hierarchy. */
@@ -394,7 +343,6 @@ main,
   @include frosted-surface;
 }
 .footer-social a { border-radius: 50%; }
-.insights-data-lab__segmented > div { border-radius: 999px; }
 .app-feature-selector__icon { border-radius: 21px; }
 .contact-form input:not([type="checkbox"]),
 .contact-form textarea,
@@ -445,7 +393,6 @@ main,
 .capability-statement__window > span { grid-area: 1 / 1; opacity: 0; transform: translateY(-65%); transition: opacity .45s ease, transform .45s ease; }
 .capability-statement__window > span.is-active { opacity: 1; transform: translateY(0); animation: capability-enter .45s ease; }
 @keyframes capability-enter { from { opacity: 0; transform: translateY(65%); } to { opacity: 1; transform: translateY(0); } }
-.capability-statement__pause { border: 0; background: none; color: var(--papp-muted); font-size: .75rem; padding: .4rem .75rem; border-radius: 20px; }
 .solution-outcomes { max-width: 1060px; margin: 0 auto 2rem; }
 .solution-outcomes__lead { max-width: 780px; margin: 0 auto 2rem; text-align: center; }
 .solution-outcomes__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; margin-bottom: 1.5rem; }
@@ -461,8 +408,6 @@ main,
 .project-listing-section { padding-top: 2rem; }
 .service-meeting-section { padding-block: 2rem; }
 .service-meeting-section .meeting-request { max-width: 840px; margin-inline: auto; }
-.contact-page-options { display: grid; gap: 1.5rem; min-width: 0; }
-.contact-page-options .contact-form { width: 100%; }
 .meeting-request { padding: clamp(1rem, 3vw, 2rem); border: 1px solid rgba(55,81,126,.1); border-radius: var(--glass-radius); background: rgba(250,252,254,.96); }
 .meeting-request__intro { display: flex; align-items: center; gap: 1.25rem; margin-bottom: 1.2rem; }
 .meeting-request__intro img { width: 88px; height: 88px; flex-shrink: 0; border-radius: 50%; object-fit: cover; }
@@ -473,18 +418,10 @@ main,
 .meeting-request__form { display: grid; gap: 1.2rem; margin-top: 1.5rem; }
 .meeting-request__form fieldset { min-width: 0; }
 .meeting-request__form legend { font-size: .95rem; font-weight: 600; margin-bottom: .6rem; }
-.meeting-request__weeks { display: flex; align-items: center; justify-content: space-between; gap: .5rem; }
-.meeting-request__weeks span { text-align: center; font-size: .85rem; }
-.meeting-request__weeks button { padding: .65rem; background: white; border: 1px solid #cbd5df; border-radius: 16px; color: var(--papp-heading); }
-.meeting-request__weeks button:disabled { opacity: .45; cursor: default; }
-.meeting-request__choices { display: flex; flex-wrap: wrap; gap: .6rem; }
-.meeting-request__choices label { display: flex; align-items: center; gap: .5rem; padding: .7rem; border: 1px solid #cbd5df; border-radius: 16px; cursor: pointer; }
 .meeting-request__choices label:has(:checked) { background: #e6f4fc; border-color: var(--papp-blue); }
-.meeting-request__choices input { accent-color: var(--papp-blue); }
 .meeting-request__fields { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
 .meeting-request__fields label, .meeting-request__form > label:not(.checkbox-label) { display: grid; gap: .4rem; font-weight: 600; }
 .meeting-request__fields input, .meeting-request__form textarea { width: 100%; min-width: 0; padding: .7rem; border: 1px solid #bbc9d5; border-radius: 12px; background: #fff; color: var(--papp-heading); }
-.meeting-request__note { font-size: .87rem; margin: 0; }
 .meeting-request pre { white-space: pre-wrap; overflow-wrap: anywhere; font-family: inherit; padding: 1rem; background: #fff; border-radius: 12px; }
 @media (max-width: 767.98px) {
   .solution-outcomes__grid { grid-template-columns: 1fr; gap: 1rem; }
@@ -493,11 +430,9 @@ main,
   .meeting-request__fields { grid-template-columns: 1fr; }
   .meeting-request__intro { align-items: flex-start; gap: .8rem; }
   .meeting-request__intro img { width: 64px; height: 64px; }
-  .meeting-request__weeks button { font-size: .8rem; }
 }
 @media (prefers-reduced-motion: reduce) {
   .capability-statement__window > span { transition: none; animation: none; }
-  .capability-statement__pause { display: none; }
   .app-feature-selector__phone--crossfade img { transition: none; }
 }
 
@@ -519,8 +454,6 @@ main,
 #solution-app .offering-feature__visual img { object-fit: contain; max-height: 420px; }
 
 .insight-dashboard--light .insight-dashboard__screen { background: #f8fafb; color: #33424d; animation: dashboard-panel-in .45s ease both; border-color: #dce7ee; grid-template-rows: auto auto minmax(0, 1fr); gap: 3%; padding: 2%; }
-.insight-dashboard--light .insight-dashboard__screen-header, .insight-dashboard--light .insight-dashboard__screen-header strong { color: #3b5262; text-transform: none; letter-spacing: 0; font-family: inherit; }
-.dashboard-preview__title { font-weight: 600; font-family: inherit; font-size: clamp(.5rem, 1.1vw, .9rem); line-height: 1.25; margin: 0; }
 .dashboard-preview__origin { display: grid; grid-template-columns: 1fr 1fr; min-height: 0; gap: 5%; align-items: center; }
 .dashboard-preview__origin svg { width: 100%; height: 100%; min-height: 0; }
 .dashboard-preview__legend { font-size: clamp(.4rem, .9vw, .76rem); }
@@ -533,7 +466,6 @@ main,
 .dashboard-preview__activity { min-height: 0; }
 .dashboard-preview__activity svg { width: 100%; height: 100%; }
 .dashboard-preview__activity text { font: 11px system-ui, sans-serif; fill: #647787; }
-.dashboard-example-note { max-width: 740px; text-align: center; color: var(--papp-muted); font-size: .85rem; margin: .65rem auto 0; }
 .insight-dashboard__caption { margin-bottom: 0; }
 
 .service-story-heading { max-width: 760px; margin: 0 auto 3rem; text-align: center; }
@@ -556,12 +488,6 @@ main,
 .service-path li { counter-increment: service; }
 .service-path li::before { content: "0" counter(service); color: var(--papp-blue); display: block; margin-bottom: .75rem; }
 .service-path h3 { font-size: 1.3rem; }
-.workshop-story__intro { max-width: 780px; margin: 0 auto 3rem; text-align: center; }
-.workshop-story__image { width: 100%; max-height: 450px; object-fit: cover; border-radius: 32px; }
-.workshop-agenda { display: grid; grid-template-columns: .8fr 1.2fr; gap: 4rem; margin-top: 4rem; }
-.workshop-agenda article { display: flex; gap: 1.5rem; border-bottom: 1px solid #e5ecf0; padding-bottom: 1.5rem; margin-bottom: 1.5rem; }
-.workshop-agenda article > span { color: var(--papp-blue); }
-.workshop-agenda h4 { font-size: 1.35rem; }
 .workshop-outcomes > .container > h2 { text-align: center; margin-bottom: 3rem; }
 
 .meeting-request--calendar { max-width: 940px !important; background: linear-gradient(135deg, #fafcfd, #f3f8fc); border-color: #e6edf2; box-shadow: 0 12px 50px rgba(55,81,126,.05); }
@@ -607,10 +533,9 @@ main,
 @media (max-width: 767.98px) {
   .capability-statement > p:not(.visually-hidden) { flex-wrap: wrap; row-gap: .1em; font-size: 1.1rem; }
   .capability-statement > p > span:last-child { flex-basis: 100%; }
-  .service-question-grid, .report-layout, .workshop-agenda { grid-template-columns: 1fr; gap: 2rem; }
+  .service-question-grid,
+.report-layout { grid-template-columns: 1fr; gap: 2rem; }
   .service-path ol { grid-template-columns: 1fr 1fr; gap: 1.5rem; }
-  .workshop-story__image { border-radius: 22px; }
-  .workshop-agenda { margin-top: 2rem; }
   .meeting-calendar-layout { grid-template-columns: 1fr; }
   .meeting-month { max-width: 360px; width: 100%; margin: auto; }
   .meeting-month__days button { max-height: 43px; }
@@ -656,7 +581,7 @@ main,
   .dashboard-preview__manufacturers i, .dashboard-preview__trace, .dashboard-preview__origin path { animation: none; }
 }
 
-// HubSpot Meetings embed inside the calendar card.
+/* HubSpot Meetings embed inside the calendar card.*/
 .meeting-hubspot { position: relative; height: 680px; border-radius: 22px; overflow: hidden; background: #fff; border: 1px solid #e4f1fa; transition: height .35s ease; }
 .meeting-hubspot iframe { display: block; width: 100%; height: 100%; border: 0; opacity: 0; transition: opacity .35s ease; }
 .meeting-hubspot.is-loaded iframe { opacity: 1; }

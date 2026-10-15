@@ -1,6 +1,6 @@
 import type { Partner } from "@/content/types";
 
-export const partners: Partner[] = [
+const partners: Partner[] = [
   {"slug": "varde", "name": "Varde Kommune", "logo": "/images/partners/varde.svg", "category": "client", "published": true},
   {"slug": "thisted", "name": "Thisted Kommune", "logo": "/images/partners/thisted.svg", "category": "client", "published": true},
   {"slug": "aalborg", "name": "Aalborg Kommune", "logo": "/images/partners/aalborg.svg", "category": "client", "published": true},

@@ -6,22 +6,22 @@ import type { LocalisedText } from "@/content/types";
  * Chart numbers are illustrative.
  */
 
-export interface ServiceStat {
+interface ServiceStat {
   value: LocalisedText;
   label: LocalisedText;
 }
 
-export interface ServiceStep {
+interface ServiceStep {
   title: LocalisedText;
   body: LocalisedText;
 }
 
-export interface ServiceUseCase {
+interface ServiceUseCase {
   title: LocalisedText;
   body: LocalisedText;
 }
 
-export interface ServiceFaq {
+interface ServiceFaq {
   question: LocalisedText;
   answer: LocalisedText;
 }
@@ -37,7 +37,7 @@ export type ServiceSignature =
 /** Which sections the page shows, in order, so the pages don't all read alike. */
 export type ServiceSection = "stats" | "signature" | "answers" | "steps" | "deliverables" | "use-cases" | "tools" | "setup" | "projects" | "faq";
 
-export interface ServiceTopicDetails {
+interface ServiceTopicDetails {
   /** Short line above the hero title. */
   eyebrow: LocalisedText;
   /** Hero image on the left instead of the right. */

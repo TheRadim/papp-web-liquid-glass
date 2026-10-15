@@ -131,8 +131,7 @@ textarea:focus-visible {
   color: color-mix(in srgb, var(--papp-body), transparent 18%);
 }
 
-.check-list,
-.tag-list {
+.check-list {
   display: grid;
   gap: 0.65rem;
   margin: 0 0 1.5rem;
@@ -160,20 +159,4 @@ textarea:focus-visible {
   font-weight: 800;
   line-height: 1rem;
   text-align: center;
-}
-
-.tag-list {
-  display: flex;
-  flex-wrap: wrap;
-}
-
-.tag-list li {
-  border: 0;
-  border-top: 1px solid color-mix(in srgb, var(--papp-heading), transparent 84%);
-  border-radius: 0;
-  background: transparent;
-  padding: 0.75rem 0 0;
-  color: var(--papp-heading);
-  font-size: 0.94rem;
-  font-weight: 600;
 }

@@ -5,12 +5,12 @@ export interface ContactFormPayload {
   privacyAccepted: boolean;
 }
 
-export interface ContactFormResult {
+interface ContactFormResult {
   ok: boolean;
   message: string;
 }
 
-export interface ContactFormService {
+interface ContactFormService {
   submit(payload: ContactFormPayload): Promise<ContactFormResult>;
 }
 

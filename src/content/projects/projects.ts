@@ -1,6 +1,6 @@
 import type { Locale, Project } from "@/content/types";
 
-export const projects: Project[] = [
+const projects: Project[] = [
   {
     slug: "sensordata-herning",
     category: "sensors",

@@ -12,7 +12,7 @@ export const CITY_OBJECT_NAMES = {
   insights: "PappInsights"
 } as const;
 
-export const CITY_OBJECT_AREA_ALIASES: Record<string, MobilityArea> = {
+const CITY_OBJECT_AREA_ALIASES: Record<string, MobilityArea> = {
   "parking selectable": "sensors",
   "pappsensor selectable": "sensors",
   "papp sensor selectable": "sensors",

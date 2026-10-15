@@ -28,15 +28,11 @@
     "three": "^0.185.1"
   },
   "devDependencies": {
-    "@testing-library/jest-dom": "^6.6.3",
-    "@testing-library/react": "^16.1.0",
     "@types/node": "^22.10.5",
     "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3",
     "eslint": "^9.32.0",
     "eslint-config-next": "^16.2.10",
-    "jsdom": "^25.0.1",
-    "patch-package": "^8.0.1",
     "typescript": "^5.7.2",
     "vitest": "^4.1.10"
   },
@@ -45,6 +41,5 @@
     "minimatch": "10.2.5",
     "postcss": "8.5.20",
     "sharp": "0.35.3"
-  },
-  "packageManager": "yarn@4.5.0+sha256.cc00dce5de4f68d11450519a0f69eadf2a1cbe5cc0d8e740bfac817a31d76874"
+  }
 }

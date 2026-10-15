@@ -9,11 +9,11 @@ export function hubspotEmbedUrl(link = hubspotMeetings.url) {
   return url.toString();
 }
 
-export function isHubspotHost(hostname: string) {
+function isHubspotHost(hostname: string) {
   return /(^|\.)hubspot(\.com|\.eu)$/.test(hostname) || /(^|\.)hs-sites(-eu1)?\.com$/.test(hostname);
 }
 
-export interface HubspotEmbedMessage { height?: number; booked?: boolean }
+interface HubspotEmbedMessage { height?: number; booked?: boolean }
 
 /** Read the messages the HubSpot meetings iframe posts to its parent page. */
 export function readHubspotMessage(origin: string, data: unknown): HubspotEmbedMessage | null {

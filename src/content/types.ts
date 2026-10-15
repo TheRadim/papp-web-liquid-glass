@@ -84,26 +84,3 @@ export interface Partner {
   published: boolean;
 }
 
-export interface TeamMember {
-  slug: string;
-  name: string;
-  role: LocalisedText;
-  biography?: LocalisedText;
-  image: string;
-  linkedinUrl?: string;
-  published: boolean;
-  contentStatus: ContentStatus;
-}
-
-export interface Article {
-  slug: string;
-  title: LocalisedText;
-  excerpt: LocalisedText;
-  body?: LocalisedText;
-  category: LocalisedText;
-  coverImage: string;
-  publishedAt?: string;
-  published: boolean;
-  contentStatus: ContentStatus;
-  seo: SeoContent;
-}
