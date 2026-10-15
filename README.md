@@ -27,6 +27,10 @@ npm run dev        # http://localhost:3000
 
 Every push to `main` builds and deploys to GitHub Pages via `.github/workflows/pages.yml` (`npm ci` → `npm run pages:build` → upload `out/`). With `GITHUB_PAGES=1` the site is exported statically under the `/papp-web-liquid-glass` base path (see `next.config.mjs`).
 
+### Redirects from the old site
+
+Old Wix addresses forward to the new pages via `src/config/legacy-redirects.json` (applied in `next.config.mjs` on server hosts; not on GitHub Pages). The bare domain picks Danish or English from the browser. Details and the launch steps: `docs/redirect-plan.md`.
+
 ### Build-time settings
 
 | Variable | Purpose |

@@ -1,23 +1,35 @@
-# Redirect Plan
+# Redirects from the old site
 
-## High Priority
+When this site replaces the Wix site on pappmobility.com, old addresses forward to the new pages.
 
-- `/` -> `/da` or locale-negotiated homepage.
-- `/produkter` -> `/da/products/sensors` or `/da` depending owner preference.
-- `/udstyr` -> `/da/products/sensors`
-- `/analyse` -> `/da/services/analysis`
-- `/rådgivning` and `/r%C3%A5dgivning` -> `/da/services/consultancy`
-- `/projekter` -> `/da/projects`
-- `/app` -> `/da/app`
-- `/om-os` -> `/da/about`
-- `/kontakt` -> `/da/contact`
-- `/privatlivspolitik` -> `/da/privacy`
+## What is set up
 
-## Project Redirects
+- **Bare domain** (`pappmobility.com/`): picks Danish or English from the visitor's browser languages (first Danish or English preference wins, otherwise English). See `src/components/layout/LanguageRedirect.tsx`.
+- **Old pages and all 8 old project pages**: permanent (308) redirects, listed in `src/config/legacy-redirects.json`. Encoded and unencoded forms of æ/ø/å are both covered. `tests/redirects.test.ts` checks every target page exists.
 
-Project detail URLs from the Wix crawl should redirect to matching slugs in `/da/projects/[slug]` after final legacy URL extraction.
+| Old address | New page |
+| --- | --- |
+| /produkter | /da/products/insights |
+| /udstyr | /da/products/sensors |
+| /analyse | /da/services/analysis |
+| /analyse-parkeringsanalyse | /da/services/parking-analysis |
+| /rådgivning | /da/services/consultancy |
+| /projekter | /da/projects |
+| /app, /papp-mobility-app | /da/app |
+| /om-os, /mød-teamet | /da/about |
+| /kontakt | /da/contact |
+| /privatlivspolitik | /da/privacy |
+| /projekter/sensordata-i-herning | /da/projects/sensordata-herning |
+| /projekter/datadrevet-parkering-med-iot-løsninger-ved-kysten-i-thisted | /da/projects/kystparkering-thisted |
+| /projekter/bedre-overblik-og-regulering-af-parkeringskapaciteten-i-ishøj | /da/projects/parkeringsmoenstre-ishoej |
+| /projekter/ladeindsigter-paa-frederiksberg | /da/projects/ladeindsigter-frederiksberg |
+| /projekter/iot-teknologi-i-varde | /da/projects/iot-teknologi-varde |
+| /projekter/handicap-og-ladepladser-i-gentofte | /da/projects/handicap-og-ladepladser-gentofte |
+| /projekter/dataoptimering-i-faaborg | /da/projects/dataoptimering-faaborg |
+| /projekter/erhvervsparkering-i-aalborg | /da/projects/erhvervsparkering-aalborg |
 
-## Notes
+## Still to do at launch
 
-- Redirect implementation depends on hosting platform.
-- English route redirects are not required for old Danish-only Wix URLs unless analytics show English legacy traffic.
+1. Host the site on a platform that runs Next.js redirects (Vercel, Netlify or another Node host). GitHub Pages serves static files only, so the page redirects above don't run there; the language choice on the bare domain does.
+2. Point pappmobility.com at the new host.
+3. In Google Search Console, add the site and submit `/sitemap.xml`.

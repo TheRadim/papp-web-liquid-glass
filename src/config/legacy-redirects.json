@@ -1,0 +1,25 @@
+{
+  "_comment": "Old pappmobility.com (Wix) addresses and where they now live. Used by next.config.mjs; checked by tests/redirects.test.ts. Paths are written unencoded; the encoded forms (e.g. %C3%B8 for ø) are added automatically.",
+  "redirects": [
+    { "from": "/produkter", "to": "/da/products/insights" },
+    { "from": "/udstyr", "to": "/da/products/sensors" },
+    { "from": "/analyse", "to": "/da/services/analysis" },
+    { "from": "/analyse-parkeringsanalyse", "to": "/da/services/parking-analysis" },
+    { "from": "/rådgivning", "to": "/da/services/consultancy" },
+    { "from": "/projekter", "to": "/da/projects" },
+    { "from": "/app", "to": "/da/app" },
+    { "from": "/papp-mobility-app", "to": "/da/app" },
+    { "from": "/om-os", "to": "/da/about" },
+    { "from": "/mød-teamet", "to": "/da/about" },
+    { "from": "/kontakt", "to": "/da/contact" },
+    { "from": "/privatlivspolitik", "to": "/da/privacy" },
+    { "from": "/projekter/sensordata-i-herning", "to": "/da/projects/sensordata-herning" },
+    { "from": "/projekter/datadrevet-parkering-med-iot-løsninger-ved-kysten-i-thisted", "to": "/da/projects/kystparkering-thisted" },
+    { "from": "/projekter/bedre-overblik-og-regulering-af-parkeringskapaciteten-i-ishøj", "to": "/da/projects/parkeringsmoenstre-ishoej" },
+    { "from": "/projekter/ladeindsigter-paa-frederiksberg", "to": "/da/projects/ladeindsigter-frederiksberg" },
+    { "from": "/projekter/iot-teknologi-i-varde", "to": "/da/projects/iot-teknologi-varde" },
+    { "from": "/projekter/handicap-og-ladepladser-i-gentofte", "to": "/da/projects/handicap-og-ladepladser-gentofte" },
+    { "from": "/projekter/dataoptimering-i-faaborg", "to": "/da/projects/dataoptimering-faaborg" },
+    { "from": "/projekter/erhvervsparkering-i-aalborg", "to": "/da/projects/erhvervsparkering-aalborg" }
+  ]
+}
