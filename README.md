@@ -21,6 +21,8 @@ npm run dev        # http://localhost:3000
 | `npm run lint` | ESLint (Next.js core-web-vitals rules) |
 | `npm test` | Unit tests (Vitest) |
 
+`patch-package` looks unused but must stay: `@ybouane/liquidglass` (the glass effect) runs it when it installs, and `npm ci` fails without it.
+
 ## Deployment
 
 Every push to `main` builds and deploys to GitHub Pages via `.github/workflows/pages.yml` (`npm ci` → `npm run pages:build` → upload `out/`). With `GITHUB_PAGES=1` the site is exported statically under the `/papp-web-liquid-glass` base path (see `next.config.mjs`).
