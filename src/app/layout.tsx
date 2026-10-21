@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "@/styles/globals.scss";
 import "@/styles/glass-surfaces.scss";
 import "@/styles/refinements.scss";
+import "@/styles/interaction.scss";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://theradim.github.io/papp-web-liquid-glass/"),

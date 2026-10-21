@@ -22,6 +22,8 @@ export function GlassSurface() {
     let instance: LiquidGlass | undefined;
     // Native backdrop blur remains available if WebGL is unavailable.
     async function enhance() {
+      // People who ask for less transparency or more contrast get the solid CSS surface.
+      if (window.matchMedia("(prefers-reduced-transparency: reduce), (prefers-contrast: more)").matches) return;
       try {
         const { LiquidGlass } = await import("@ybouane/liquidglass");
         if (disposed || !root.current || !surface.current) return;

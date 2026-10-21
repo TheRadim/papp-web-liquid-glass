@@ -19,6 +19,8 @@ Things only you can decide or do. Claude keeps this list up to date: items get t
 
 ## Content to check
 
+- [ ] **Brand font: decide whether the site should use Poppins.** The styles always asked for Jost/Poppins/Open Sans but never loaded them, so every visitor has been seeing their device's system font (San Francisco on your Mac). The site now uses the system font on purpose. If you want Poppins everywhere, Claude can self-host it; it's a two-line switch in `src/styles/tokens.scss`.
+
 - [ ] Danish wording on the 3D scene: the sign says "LEDIG" (also when it shows 2) and the dashboard labels (`CITY_DATA` in `src/config/mobility-city.ts`).
 - [ ] Example numbers on the 3D Insights dashboard (2–3 vehicles, 126 entries today) — fine as illustration, change if you'd rather show something else.
 

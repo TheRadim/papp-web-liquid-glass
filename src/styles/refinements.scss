@@ -251,7 +251,7 @@
   align-items: baseline;
   gap: 0.7cqi;
   color: #16364b;
-  font-family: Jost, Poppins, system-ui, sans-serif;
+  font-family: var(--font-display);
   font-size: 3.6cqi;
   font-weight: 600;
   letter-spacing: -0.02em;
@@ -261,7 +261,7 @@
 .dp-kpi small {
   overflow: hidden;
   color: #8a9aa5;
-  font-family: "Open Sans", system-ui, sans-serif;
+  font-family: var(--font-text);
   font-size: 1.45cqi;
   font-weight: 500;
   letter-spacing: 0;
@@ -306,7 +306,7 @@
   overflow: hidden;
   margin: 0;
   color: #1d3647;
-  font-family: Jost, Poppins, system-ui, sans-serif;
+  font-family: var(--font-display);
   font-size: 2.3cqi;
   font-weight: 600;
   letter-spacing: -0.01em;
@@ -382,7 +382,7 @@
   animation: dp-donut-in 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) both;
 }
 
-.dp-donut__value { fill: #16364b; font-family: Jost, Poppins, sans-serif; font-size: 7px; font-weight: 600; }
+.dp-donut__value { fill: #16364b; font-family: var(--font-display); font-size: 7px; font-weight: 600; }
 .dp-donut__label { fill: #7a8c98; font-size: 3.4px; }
 
 .dp-donut ul {
@@ -717,7 +717,8 @@
 
 .workshop-board svg text {
   fill: #7a8791;
-  font: 11px "Open Sans", system-ui, sans-serif;
+  font-size: 11px;
+  font-family: var(--font-text);
 }
 
 .workshop-board svg text.workshop-board__label {
@@ -1037,7 +1038,7 @@
 
   .history-story__current-label strong {
     color: var(--papp-blue);
-    font-family: Jost, system-ui, sans-serif;
+    font-family: var(--font-display);
     font-size: clamp(2.2rem, 11vw, 3.4rem);
     font-weight: 700;
     letter-spacing: -0.03em;
@@ -1046,7 +1047,7 @@
 
   .history-story__current-label em {
     color: var(--papp-heading);
-    font-family: Jost, system-ui, sans-serif;
+    font-family: var(--font-display);
     font-size: clamp(1.1rem, 5vw, 1.5rem);
     font-style: normal;
     font-weight: 600;
@@ -1268,7 +1269,7 @@
 }
 .service-topic__stats strong {
   color: var(--topic-accent);
-  font-family: Poppins, system-ui, sans-serif;
+  font-family: var(--font-display);
   font-size: clamp(1.35rem, 2.4vw, 1.75rem);
   line-height: 1.15;
 }
@@ -1305,7 +1306,7 @@
 .signature-chart__note { fill: #e0645c; font-size: 12px; font-weight: 600; }
 .signature-chart__gap { fill: rgba(71, 178, 228, 0.16); }
 .signature-chart__total { margin: 0 0 0.85rem; color: var(--papp-muted); }
-.signature-chart__total strong { color: var(--topic-accent); font-family: Poppins, system-ui, sans-serif; font-size: 1.6rem; margin-right: 0.25rem; }
+.signature-chart__total strong { color: var(--topic-accent); font-family: var(--font-display); font-size: 1.6rem; margin-right: 0.25rem; }
 .signature-chart__legend {
   display: flex;
   flex-wrap: wrap;
@@ -1366,7 +1367,7 @@
 .signature-donut svg { width: 140px; height: 140px; }
 .signature-donut__track { fill: none; stroke: var(--papp-soft); stroke-width: 16; }
 .signature-donut__value { fill: none; stroke: #1a8f6e; stroke-width: 16; stroke-linecap: round; }
-.signature-donut text { fill: var(--papp-heading); font-family: Poppins, system-ui, sans-serif; font-size: 24px; font-weight: 700; }
+.signature-donut text { fill: var(--papp-heading); font-family: var(--font-display); font-size: 24px; font-weight: 700; }
 .signature-donut figcaption { color: var(--papp-muted); font-size: 0.85rem; }
 @media (max-width: 575.98px) {
   .signature-chart--origins { grid-template-columns: 1fr; }
@@ -1440,7 +1441,7 @@
   display: block;
   margin-bottom: 0.5rem;
   color: var(--topic-accent);
-  font-family: Poppins, system-ui, sans-serif;
+  font-family: var(--font-display);
   font-size: 1.6rem;
   font-weight: 700;
   opacity: 0.55;

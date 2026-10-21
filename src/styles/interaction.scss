@@ -1,0 +1,83 @@
+/*
+ * Interaction and accessibility foundations, loaded last.
+ *
+ * - Press feedback appears the moment a control is pressed, not on release.
+ * - Menus grow out of the control that opened them.
+ * - Glass surfaces turn solid for people who ask for less transparency or
+ *   more contrast in their system settings.
+ */
+
+/* Press feedback */
+.papp-button:active,
+.contact-form__submit:active {
+  transform: translateY(0) scale(0.97);
+  transition-duration: var(--press-duration);
+}
+
+button:not(:disabled):active,
+[role="tab"]:active,
+.dp-pill:active,
+.footer-social a:active {
+  scale: 0.96;
+}
+
+/* Menus open from where they were triggered */
+.solutions-dropdown {
+  transform-origin: top left;
+}
+
+.site-header .mobile-panel {
+  transform-origin: top right;
+}
+
+/* Less transparency: solid surfaces, no blur */
+@media (prefers-reduced-transparency: reduce) {
+  *,
+  *::before,
+  *::after {
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+  }
+
+  .site-header .nav-shell,
+  .site-header .mobile-panel,
+  .solutions-dropdown,
+  .mobility-city__panel {
+    background: #fff !important;
+  }
+
+  .glass-render-root {
+    display: none;
+  }
+}
+
+/* More contrast: solid surfaces with a clear edge, stronger secondary text */
+@media (prefers-contrast: more) {
+  :root {
+    --papp-muted: #3d4a57;
+    --papp-body: #222;
+    --papp-heading: #111;
+  }
+
+  .site-header .nav-shell,
+  .site-header .mobile-panel,
+  .solutions-dropdown,
+  .mobility-city__panel,
+  .site-footer > .container {
+    border: 1px solid rgba(17, 24, 39, 0.55) !important;
+    background: #fff !important;
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+  }
+
+  .glass-render-root {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .papp-button:active,
+  .contact-form__submit:active {
+    transform: none;
+  }
+}

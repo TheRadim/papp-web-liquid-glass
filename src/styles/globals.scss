@@ -155,7 +155,7 @@ img {
   border: 0;
   background: transparent;
   color: var(--papp-heading);
-  font-family: Poppins, system-ui, sans-serif;
+  font-family: var(--font-display);
   font-size: 0.94rem;
   font-weight: 500;
   line-height: 1;
@@ -284,7 +284,7 @@ img {
 .dropdown-label {
   margin: 0 0 0.7rem;
   color: var(--papp-heading);
-  font-family: Poppins, system-ui, sans-serif;
+  font-family: var(--font-display);
   font-size: 0.75rem;
   font-weight: 700;
   text-transform: uppercase;
@@ -360,7 +360,7 @@ img {
   background: transparent;
   color: var(--papp-heading);
   padding: 0.75rem 0;
-  font-family: Poppins, system-ui, sans-serif;
+  font-family: var(--font-display);
   font-weight: 500;
   text-align: left;
 }
@@ -1385,7 +1385,7 @@ img {
   background: rgba(255, 255, 255, 0.78);
   color: var(--papp-heading);
   padding: 0.62rem 1rem;
-  font-family: Poppins, system-ui, sans-serif;
+  font-family: var(--font-display);
   font-size: 0.82rem;
   font-weight: 700;
   letter-spacing: 0.01em;
@@ -1476,7 +1476,7 @@ img {
 
 .process-timeline__number {
   color: color-mix(in srgb, var(--papp-blue), transparent 8%);
-  font-family: Jost, system-ui, sans-serif;
+  font-family: var(--font-display);
   font-size: clamp(7.5rem, 17vw, 17rem);
   font-weight: 800;
   letter-spacing: -0.12em;
@@ -1571,7 +1571,7 @@ img {
   border-radius: 0;
   background: transparent;
   color: var(--process-accent, var(--papp-blue));
-  font-family: Jost, system-ui, sans-serif;
+  font-family: var(--font-display);
   font-size: 0.92rem;
   font-weight: 700;
   letter-spacing: 0.12em;
@@ -1722,7 +1722,7 @@ button.project-category-card {
   top: 1.2rem;
   right: 1.4rem;
   color: color-mix(in srgb, var(--papp-heading), transparent 88%);
-  font-family: Jost, system-ui, sans-serif;
+  font-family: var(--font-display);
   font-size: 3.8rem;
   font-weight: 800;
   line-height: 1;
@@ -1797,7 +1797,7 @@ button.project-category-card {
   border-radius: 50%;
   background: var(--papp-blue-light);
   color: #fff;
-  font-family: Jost, system-ui, sans-serif;
+  font-family: var(--font-display);
   font-weight: 700;
 }
 
@@ -1930,7 +1930,7 @@ button.project-category-card {
   box-shadow: var(--papp-shadow);
   padding: 0.42rem 0.75rem;
   color: var(--papp-heading);
-  font-family: Poppins, system-ui, sans-serif;
+  font-family: var(--font-display);
   font-size: 0.8rem;
   font-weight: 700;
   opacity: 0;
@@ -2013,7 +2013,7 @@ button.project-category-card {
 .mobility-city__eyebrow {
   margin-bottom: 0.35rem;
   color: var(--papp-blue);
-  font-family: Poppins, system-ui, sans-serif;
+  font-family: var(--font-display);
   font-size: 0.75rem;
   font-weight: 700;
   text-transform: uppercase;
@@ -2103,14 +2103,14 @@ button.project-category-card {
   border-radius: 50%;
   background: var(--papp-blue-light);
   color: #fff;
-  font-family: Jost, system-ui, sans-serif;
+  font-family: var(--font-display);
   font-size: 1.6rem;
   font-weight: 800;
 }
 
 .testimonial-card strong {
   color: var(--papp-heading);
-  font-family: Jost, system-ui, sans-serif;
+  font-family: var(--font-display);
   font-size: 1.2rem;
 }
 
@@ -2466,7 +2466,7 @@ button.project-category-card {
     linear-gradient(135deg, rgba(71, 178, 228, 0.12), rgba(251, 134, 127, 0.12)),
     #f8fafc;
   color: color-mix(in srgb, var(--papp-heading), transparent 28%);
-  font-family: Jost, system-ui, sans-serif;
+  font-family: var(--font-display);
   font-size: clamp(2.3rem, 5vw, 4rem);
   font-weight: 800;
   letter-spacing: 0.02em;
@@ -2741,7 +2741,7 @@ button.project-category-card {
 
 .contact-page-details strong {
   color: var(--papp-heading);
-  font-family: Poppins, system-ui, sans-serif;
+  font-family: var(--font-display);
   font-size: 0.78rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -3077,7 +3077,7 @@ button.project-category-card {
   background: transparent;
   color: var(--papp-heading);
   padding: 0;
-  font-family: Poppins, system-ui, sans-serif;
+  font-family: var(--font-display);
   font-weight: 700;
   text-align: center;
   transition: flex 0.22s ease, color 0.22s ease;
@@ -3188,7 +3188,7 @@ button.project-category-card {
   display: inline-block;
   margin-bottom: 0.75rem;
   color: var(--papp-coral);
-  font-family: Jost, system-ui, sans-serif;
+  font-family: var(--font-display);
   font-weight: 800;
   letter-spacing: 0.12em;
 }
