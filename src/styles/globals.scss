@@ -64,7 +64,7 @@ main:has(.app-feature-page) > * {
 }
 
 .page-transition {
-  animation: page-enter 0.28s ease both;
+  animation: page-enter 200ms var(--ease-out) both;
 }
 
 @keyframes page-enter {
@@ -98,7 +98,7 @@ img {
   border-bottom: 1px solid rgba(55, 81, 126, 0.1);
   box-shadow: 0 8px 30px rgba(55, 81, 126, 0.06);
   backdrop-filter: blur(18px);
-  transition: background 0.3s ease, box-shadow 0.3s ease;
+  transition: background 200ms ease, box-shadow 200ms ease;
 }
 
 .site-header.is-scrolled {
@@ -183,7 +183,7 @@ img {
 }
 
 .nav-item--solutions-combined svg {
-  transition: transform 0.25s ease;
+  transition: transform 200ms var(--ease-out);
 }
 
 .nav-item--solutions-combined[aria-expanded="true"] svg {
@@ -223,7 +223,7 @@ img {
   width: 22px;
   height: 2px;
   background: currentColor;
-  transition: transform 0.28s ease, opacity 0.2s ease, top 0.28s ease;
+  transition: transform 200ms var(--ease-out), opacity 200ms var(--ease-out);
 }
 
 .hamburger-icon span:nth-child(1) {
@@ -239,8 +239,7 @@ img {
 }
 
 .mobile-menu-button.is-open .hamburger-icon span:nth-child(1) {
-  top: 7px;
-  transform: rotate(45deg);
+  transform: translateY(7px) rotate(45deg);
 }
 
 .mobile-menu-button.is-open .hamburger-icon span:nth-child(2) {
@@ -248,8 +247,7 @@ img {
 }
 
 .mobile-menu-button.is-open .hamburger-icon span:nth-child(3) {
-  top: 7px;
-  transform: rotate(-45deg);
+  transform: translateY(-7px) rotate(-45deg);
 }
 
 .solutions-menu {
@@ -278,7 +276,7 @@ img {
   background: #fff;
   box-shadow: var(--papp-shadow-lg);
   padding: 1.25rem;
-  animation: menu-disclosure-in 0.28s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: menu-disclosure-in 200ms var(--ease-out) both;
 }
 
 .dropdown-label {
@@ -321,7 +319,7 @@ img {
   box-shadow: 0 20px 44px rgba(55, 81, 126, 0.12);
   backdrop-filter: blur(18px);
   padding: 1rem 0 1.4rem;
-  animation: mobile-panel-in 0.34s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: mobile-panel-in 240ms var(--ease-out) both;
 }
 
 .mobile-panel__inner {
@@ -330,7 +328,7 @@ img {
 }
 
 .mobile-panel__inner > * {
-  animation: mobile-item-in 0.32s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: mobile-item-in 240ms var(--ease-out) both;
 }
 
 .mobile-panel__inner > *:nth-child(2) {
@@ -381,7 +379,7 @@ img {
 }
 
 .mobile-group svg {
-  transition: transform 0.25s ease;
+  transition: transform 200ms var(--ease-out);
 }
 
 .mobile-group__links a {
@@ -391,7 +389,7 @@ img {
 }
 
 .mobile-group__links {
-  animation: menu-disclosure-in 0.28s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: menu-disclosure-in 200ms var(--ease-out) both;
   transform-origin: top;
 }
 
@@ -506,7 +504,7 @@ img {
   grid-template-columns: minmax(0, 0.9fr) minmax(360px, 1.1fr);
   align-items: center;
   gap: clamp(2.8rem, 6vw, 6.5rem);
-  transition: grid-template-columns 0.35s ease, gap 0.35s ease;
+  transition: none;
 }
 
 .hero-layout--centered {
@@ -541,8 +539,8 @@ img {
 }
 
 .hero-title {
-  -webkit-animation: tracking-in-expand 0.7s cubic-bezier(0.215, 0.610, 0.355, 1.000) both;
-  animation: tracking-in-expand 0.7s cubic-bezier(0.215, 0.610, 0.355, 1.000) both;
+  -webkit-animation: tracking-in-expand 700ms var(--ease-out) both;
+  animation: tracking-in-expand 700ms var(--ease-out) both;
 }
 
 .hero-title__word {
@@ -561,8 +559,8 @@ img {
 }
 
 .tracking-in-expand {
-  -webkit-animation: tracking-in-expand 0.7s cubic-bezier(0.215, 0.610, 0.355, 1.000) both;
-  animation: tracking-in-expand 0.7s cubic-bezier(0.215, 0.610, 0.355, 1.000) both;
+  -webkit-animation: tracking-in-expand 700ms var(--ease-out) both;
+  animation: tracking-in-expand 700ms var(--ease-out) both;
 }
 
 .hero-copy .hero-lead {
@@ -592,7 +590,7 @@ img {
   border: 0;
   background: transparent;
   color: var(--papp-blue);
-  transition: color 0.2s ease, opacity 0.2s ease;
+  transition: color 200ms ease, opacity 200ms var(--ease-out);
 }
 
 .hero-scroll-cue svg {
@@ -638,16 +636,6 @@ img {
   }
 }
 
-@keyframes dashboard-screen-breathe {
-  0%,
-  100% {
-    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04);
-  }
-
-  50% {
-    box-shadow: inset 0 0 22px var(--dashboard-accent-soft);
-  }
-}
 
 @keyframes contact-ball-float {
   to {
@@ -699,17 +687,14 @@ img {
 }
 
 @keyframes tracking-in-expand {
-  0% {
-    letter-spacing: -0.5em;
+  from {
     opacity: 0;
+    transform: translateY(0.12em) scale(0.97);
   }
 
-  40% {
-    opacity: 0.6;
-  }
-
-  100% {
+  to {
     opacity: 1;
+    transform: none;
   }
 }
 
@@ -808,11 +793,14 @@ img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.6s ease;
+  transition: transform 300ms var(--ease-out);
 }
+
+@media (hover: hover) and (pointer: fine){
 
 .home-solution-row:hover .home-solution-row__visual img {
   transform: scale(1.04);
+}
 }
 
 .home-solution-row__copy {
@@ -839,12 +827,18 @@ img {
   border: 1px solid rgba(55, 81, 126, 0.1);
   box-shadow: none;
   padding: clamp(1.3rem, 3vw, 2rem);
-  transition: transform 0.35s ease, box-shadow 0.35s ease;
+  transition: transform 300ms var(--ease-out), box-shadow 200ms ease;
 }
 
 .offering-feature:hover {
-  transform: translateY(-4px);
   box-shadow: 0 16px 36px rgba(55, 81, 126, 0.08);
+}
+
+@media (hover: hover) and (pointer: fine){
+
+.offering-feature:hover {
+  transform: translateY(-4px);
+}
 }
 
 .offering-feature--reverse .offering-feature__visual {
@@ -861,11 +855,14 @@ img {
   width: 100%;
   aspect-ratio: 16 / 10;
   object-fit: cover;
-  transition: transform 0.6s ease;
+  transition: transform 300ms var(--ease-out);
 }
+
+@media (hover: hover) and (pointer: fine){
 
 .offering-feature:hover .offering-feature__visual img {
   transform: scale(1.06);
+}
 }
 
 .offering-feature__copy h2 {
@@ -942,7 +939,7 @@ img {
   padding: 0;
   border-top: 1px solid rgba(68, 68, 68, 0.12);
   opacity: 1;
-  transition: opacity 0.35s ease, transform 0.35s ease;
+  transition: opacity 300ms var(--ease-out), transform 300ms var(--ease-out);
 }
 
 .sensor-product-lab__copy li button {
@@ -1389,7 +1386,7 @@ img {
   font-size: 0.82rem;
   font-weight: 700;
   letter-spacing: 0.01em;
-  transition: border-color 0.25s ease, background 0.25s ease, color 0.25s ease, box-shadow 0.25s ease;
+  transition: border-color 200ms ease, background 200ms ease, color 200ms ease, box-shadow 200ms ease;
 }
 
 .insight-dashboard__tabs button:hover,
@@ -1437,8 +1434,8 @@ img {
     linear-gradient(145deg, #0c1620, #152536 74%, #0d1721);
   color: #ecf7ff;
   padding: clamp(0.34rem, 0.82vw, 0.64rem);
-  animation: dashboard-panel-in 0.45s ease both, dashboard-screen-breathe 6.8s ease-in-out infinite;
-  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+  animation: dashboard-panel-in 300ms var(--ease-out) both;
+  transition: border-color 200ms ease, box-shadow 200ms ease;
 }
 
 .insight-dashboard__device-link:hover .insight-dashboard__screen,
@@ -1481,7 +1478,7 @@ img {
   font-weight: 800;
   letter-spacing: -0.12em;
   line-height: 0.82;
-  transition: color 0.3s ease, opacity 0.3s ease;
+  transition: color 200ms ease, opacity 200ms var(--ease-out);
 }
 
 .process-timeline__stream {
@@ -1504,7 +1501,7 @@ img {
   min-height: 260px;
   opacity: 0.28;
   transform: translateY(22px) scale(0.98);
-  transition: opacity 0.38s ease, transform 0.38s ease, border-color 0.38s ease;
+  transition: opacity 300ms var(--ease-out), transform 300ms var(--ease-out), border-color 200ms ease;
 }
 
 .process-timeline__stream > li.is-active .process-flow__step {
@@ -1598,7 +1595,7 @@ img {
   grid-template-columns: minmax(0, 0.92fr) minmax(320px, 1.08fr);
   align-items: center;
   gap: clamp(2rem, 5vw, 4rem);
-  transition: grid-template-columns 0.35s ease, gap 0.35s ease;
+  transition: none;
 }
 
 .projects-hero {
@@ -1677,7 +1674,7 @@ img {
   padding: 2rem;
   color: var(--papp-body);
   text-align: left;
-  transition: transform 0.35s ease, box-shadow 0.35s ease;
+  transition: transform 300ms var(--ease-out), box-shadow 200ms ease;
 }
 
 button.project-category-card {
@@ -1688,8 +1685,16 @@ button.project-category-card {
 .project-category-card:hover,
 .project-category-card.is-active,
 .project-card:hover {
-  transform: translateY(-4px);
   box-shadow: 0 16px 36px rgba(55, 81, 126, 0.08);
+}
+
+@media (hover: hover) and (pointer: fine){
+
+.project-category-card:hover,
+.project-category-card.is-active,
+.project-card:hover {
+  transform: translateY(-4px);
+}
 }
 
 .project-category-card.is-active {
@@ -1749,11 +1754,14 @@ button.project-category-card {
   width: 100%;
   aspect-ratio: 2.05 / 1;
   object-fit: cover;
-  transition: transform 0.55s ease;
+  transition: transform 300ms var(--ease-out);
 }
+
+@media (hover: hover) and (pointer: fine){
 
 .project-card:hover img {
   transform: scale(1.06);
+}
 }
 
 .project-card > div:not(.project-card__media) {
@@ -1935,13 +1943,20 @@ button.project-category-card {
   font-weight: 700;
   opacity: 0;
   transform: translate(-50%, 8px);
-  transition: opacity 0.24s ease, transform 0.24s ease;
+  transition: opacity 200ms var(--ease-out), transform 200ms var(--ease-out);
 }
 
 .mobility-city-marker:hover .mobility-city-marker__label,
 .mobility-city-marker.is-active .mobility-city-marker__label {
   opacity: 1;
+}
+
+@media (hover: hover) and (pointer: fine){
+
+.mobility-city-marker:hover .mobility-city-marker__label,
+.mobility-city-marker.is-active .mobility-city-marker__label {
   transform: translate(-50%, 0);
+}
 }
 
 .mobility-city-marker--cameras .mobility-city-marker__label {
@@ -2070,7 +2085,7 @@ button.project-category-card {
 
 .testimonial-track {
   display: flex;
-  transition: transform 0.45s ease;
+  transition: transform 300ms var(--ease-in-out);
 }
 
 .testimonial-card {
@@ -2241,7 +2256,7 @@ button.project-category-card {
 .history-story__nav li {
   position: relative;
   min-height: 2.7rem;
-  transition: padding 0.35s ease, opacity 0.35s ease;
+  transition: opacity 300ms var(--ease-out);
 }
 
 .history-story__nav li::before {
@@ -2256,7 +2271,7 @@ button.project-category-card {
   background: #dbe6ee;
   box-shadow: 0 0 0 1px rgba(68, 68, 68, 0.08);
   content: "";
-  transition: background 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+  transition: background 200ms ease, box-shadow 200ms ease, transform 200ms var(--ease-out);
 }
 
 .history-story__nav li::after {
@@ -2268,7 +2283,7 @@ button.project-category-card {
   border-radius: 999px;
   background: color-mix(in srgb, var(--papp-heading), transparent 88%);
   content: "";
-  transition: background 0.35s ease, bottom 0.35s ease;
+  transition: background 200ms ease;
 }
 
 .history-story__nav li:last-child::after {
@@ -2287,12 +2302,18 @@ button.project-category-card {
   font-weight: 800;
   letter-spacing: 0.02em;
   text-decoration: none;
-  transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, color 0.25s ease, transform 0.25s ease, padding 0.3s ease;
+  transition: background 200ms ease, border-color 200ms ease, box-shadow 200ms ease, color 200ms ease, transform 200ms var(--ease-out);
 }
 
 .history-story__nav a:hover {
   color: var(--papp-blue);
+}
+
+@media (hover: hover) and (pointer: fine){
+
+.history-story__nav a:hover {
   transform: translateX(0.35rem);
+}
 }
 
 .history-story__date {
@@ -2366,7 +2387,7 @@ button.project-category-card {
   padding: clamp(1.25rem, 3vw, 2.1rem);
   opacity: 0.26;
   transform: translateY(2.3rem) scale(0.985);
-  transition: opacity 0.45s ease, transform 0.45s ease, border-color 0.45s ease, box-shadow 0.45s ease;
+  transition: opacity 300ms var(--ease-out), transform 300ms var(--ease-out), border-color 200ms ease, box-shadow 200ms ease;
 }
 
 .history-story__stream > li.is-active .history-story__card {
@@ -2452,7 +2473,7 @@ button.project-category-card {
   background: #fff;
   color: var(--papp-heading);
   padding: 1rem;
-  transition: border-color 0.28s ease, transform 0.28s ease, box-shadow 0.28s ease;
+  transition: border-color 200ms ease, transform 200ms var(--ease-out), box-shadow 200ms ease;
 }
 
 .team-card__portrait {
@@ -2470,7 +2491,7 @@ button.project-category-card {
   font-size: clamp(2.3rem, 5vw, 4rem);
   font-weight: 800;
   letter-spacing: 0.02em;
-  transition: filter 0.3s ease;
+  transition: filter 200ms ease;
 }
 
 .team-card__portrait img {
@@ -2484,14 +2505,14 @@ button.project-category-card {
   inset: 0;
   background: rgba(20, 28, 35, 0);
   content: "";
-  transition: background 0.3s ease;
+  transition: background 200ms ease;
 }
 
 .team-card__content {
   display: grid;
   gap: 0.25rem;
   margin-top: 1.1rem;
-  transition: transform 0.35s ease;
+  transition: transform 300ms var(--ease-out);
 }
 
 .team-card h3,
@@ -2516,13 +2537,19 @@ button.project-category-card {
   opacity: 0;
   color: var(--papp-blue);
   font-size: 0.78rem;
-  transition: opacity 0.3s ease;
+  transition: opacity 200ms var(--ease-out);
 }
 
 .team-card:hover {
   border-color: var(--papp-blue-light);
   box-shadow: 0 14px 34px rgba(55, 81, 126, 0.08);
+}
+
+@media (hover: hover) and (pointer: fine){
+
+.team-card:hover {
   transform: translateY(-4px);
+}
 }
 
 .team-card:hover .team-card__portrait {
@@ -2533,8 +2560,11 @@ button.project-category-card {
   background: rgba(20, 28, 35, 0.1);
 }
 
+@media (hover: hover) and (pointer: fine){
+
 .team-card:hover .team-card__content {
   transform: translateY(-0.35rem);
+}
 }
 
 .team-card:hover .team-card__content span {
@@ -2754,7 +2784,7 @@ button.project-category-card {
 
 .contact-page-details a {
   text-decoration: none;
-  transition: color 0.2s ease;
+  transition: color 200ms ease;
 }
 
 .contact-page-details a:hover {
@@ -2817,7 +2847,7 @@ button.project-category-card {
   background: #fff;
   padding: 0.74rem 0.8rem;
   color: var(--papp-body);
-  transition: border-color 0.2s ease, background 0.2s ease;
+  transition: border-color 200ms ease, background 200ms ease;
 }
 
 .contact-form textarea {
@@ -2863,7 +2893,7 @@ button.project-category-card {
   min-width: 190px;
   min-height: 54px;
   overflow: hidden;
-  transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1), min-width 0.4s cubic-bezier(0.4, 0, 0.2, 1), background 0.4s ease, border-color 0.4s ease, box-shadow 0.3s ease;
+  transition: width 300ms var(--ease-in-out), min-width 300ms var(--ease-in-out), background 200ms ease, border-color 200ms ease, box-shadow 200ms ease;
 }
 
 .contact-form__submit.is-success {
@@ -2881,7 +2911,7 @@ button.project-category-card {
 }
 
 .contact-form__submit-text {
-  transition: opacity 0.2s ease, transform 0.2s ease;
+  transition: opacity 200ms var(--ease-out), transform 200ms var(--ease-out);
 }
 
 .contact-form__submit.is-success .contact-form__submit-text {
@@ -2896,7 +2926,7 @@ button.project-category-card {
   height: 25px;
   opacity: 0;
   transform: scale(0.65);
-  transition: opacity 0.2s 0.35s ease, transform 0.3s 0.35s ease;
+  transition: opacity 200ms var(--ease-out) 0.35s, transform 200ms var(--ease-out) 0.35s;
 }
 
 .contact-form__submit-check polyline {
@@ -2910,7 +2940,7 @@ button.project-category-card {
 }
 
 .contact-form__submit.is-success .contact-form__submit-check polyline {
-  animation: submit-check-draw 0.42s ease 0.4s forwards;
+  animation: submit-check-draw 300ms var(--ease-out) 0.4s forwards;
 }
 
 .contact-page-grid {
@@ -3025,14 +3055,14 @@ button.project-category-card {
   display: grid;
   justify-items: center;
   transform: translate(var(--app-phone-pan-x, 0), var(--app-phone-pan-y, 0)) scale(var(--app-phone-scale, 1));
-  transition: transform 0.72s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: transform 400ms var(--ease-in-out);
 }
 
 .app-feature-selector__phone img {
   width: min(260px, 64vw);
   height: auto;
   filter: drop-shadow(0 24px 38px rgba(20, 28, 35, 0.12));
-  animation: app-phone-fade 0.95s ease both;
+  animation: app-phone-fade 500ms var(--ease-out) both;
 }
 
 .app-feature-selector__arrow {
@@ -3080,7 +3110,7 @@ button.project-category-card {
   font-family: var(--font-display);
   font-weight: 700;
   text-align: center;
-  transition: flex 0.22s ease, color 0.22s ease;
+  transition: color 200ms ease;
   outline: none;
 }
 
@@ -3094,7 +3124,7 @@ button.project-category-card {
   content: "";
   transform: translateX(-50%) scaleY(var(--show, 0));
   transform-origin: 50% 100%;
-  transition: transform 0.2s ease;
+  transition: transform 200ms var(--ease-out);
 }
 
 .app-feature-selector__buttons button.is-active::after {
@@ -3118,7 +3148,7 @@ button.project-category-card {
   border: 1px solid rgba(71, 178, 228, 0.2);
   background: linear-gradient(135deg, color-mix(in srgb, var(--papp-blue-light), transparent 72%), #fff);
   transform: translateY(calc(var(--lerp) * -75%));
-  transition: transform 0.22s ease, background 0.22s ease, border-color 0.22s ease, outline 0.22s ease;
+  transition: transform 200ms var(--ease-out), background 200ms ease, border-color 200ms ease, outline 200ms ease;
 }
 
 .app-feature-selector__icon svg {
@@ -3248,12 +3278,18 @@ button.project-category-card {
   height: 34px;
   place-items: center;
   border: 1px solid rgba(55, 81, 126, 0.12);
-  transition: border-color 0.25s ease, color 0.25s ease, transform 0.25s ease;
+  transition: border-color 200ms ease, color 200ms ease, transform 200ms var(--ease-out);
 }
 
 .footer-social a:hover {
   border-color: var(--papp-blue-light);
+}
+
+@media (hover: hover) and (pointer: fine){
+
+.footer-social a:hover {
   transform: translateY(-2px);
+}
 }
 
 .footer-envelope {
@@ -3281,12 +3317,18 @@ button.project-category-card {
   background: color-mix(in srgb, var(--papp-coral), transparent 82%);
   opacity: 0;
   transform: translateY(4px);
-  transition: opacity 0.25s ease, transform 0.25s ease;
+  transition: opacity 200ms var(--ease-out), transform 200ms var(--ease-out);
 }
 
 .footer-email:hover .footer-envelope__letter {
   opacity: 1;
+}
+
+@media (hover: hover) and (pointer: fine){
+
+.footer-email:hover .footer-envelope__letter {
   transform: translateY(-8px);
+}
 }
 
 .footer-legal {
@@ -3469,8 +3511,11 @@ button.project-category-card {
     padding: 0.7rem 0.85rem;
   }
 
+  @media (hover: hover) and (pointer: fine){
+
   .history-story__nav a:hover {
     transform: none;
+  }
   }
 
   .history-story__date {
@@ -3667,17 +3712,23 @@ button.project-category-card {
     font-size: 2.1rem;
   }
 
+  @media (hover: hover) and (pointer: fine){
+
   .project-category-card:hover,
 .project-card:hover,
 .home-solution-row:hover,
 .offering-feature:hover {
     transform: none;
   }
+  }
+
+  @media (hover: hover) and (pointer: fine){
 
   .project-card:hover img,
   .home-solution-row:hover .home-solution-row__visual img,
   .offering-feature:hover .offering-feature__visual img {
     transform: none;
+  }
   }
 
   .home-solution-row--reverse .home-solution-row__visual {
@@ -4206,7 +4257,7 @@ body:has(.camera-explorer) .footer-camera-credit { display: block; }
   backdrop-filter: blur(22px) saturate(100%);
   pointer-events: auto;
   isolation: isolate;
-  transition: background 240ms ease, box-shadow 240ms ease;
+  transition: background 200ms ease, box-shadow 200ms ease;
 }
 
 .site-header.is-scrolled .nav-shell {
@@ -4247,7 +4298,7 @@ body:has(.camera-explorer) .footer-camera-credit { display: block; }
   background: rgba(255, 255, 255, 0.88);
   box-shadow: 0 2px 7px rgba(55, 81, 126, 0.06), inset 0 1px 0 #fff;
   pointer-events: none;
-  transition: transform 280ms ease, width 280ms ease, opacity 180ms ease;
+  transition: transform 250ms var(--ease-in-out), width 250ms var(--ease-in-out), opacity 150ms var(--ease-out);
 }
 .site-header .nav-item { position: relative; font-size: 0.86rem; padding-inline: 17px; border-radius: 24px; }
 .site-header .nav-actions { gap: 5px; }
@@ -4268,7 +4319,7 @@ body:has(.camera-explorer) .footer-camera-credit { display: block; }
   border: 1px solid rgba(255, 255, 255, 0.95);
   background: rgba(249, 250, 251, 0.97);
   box-shadow: 0 14px 40px rgba(55, 81, 126, 0.14), inset 0 1px 0 #fff;
-  animation: glass-menu-in 200ms ease both;
+  animation: glass-menu-in 200ms var(--ease-out) both;
 }
 .site-header .solutions-menu::after { height: 24px; }
 .site-header .solutions-dropdown a { border-radius: 16px; }
@@ -4288,7 +4339,7 @@ body:has(.camera-explorer) .footer-camera-credit { display: block; }
   box-shadow: 0 14px 40px rgba(55, 81, 126, 0.14);
 }
 .site-header .mobile-panel__inner > a { border-radius: 16px; }
-@keyframes glass-menu-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes glass-menu-in { from { opacity: 0; transform: translateY(-4px) scale(0.97); } to { opacity: 1; transform: none; } }
 @media (max-width: 767.98px) {
   .site-header { padding-block: 8px; }
   .site-header > .container { padding-inline: 10px; }

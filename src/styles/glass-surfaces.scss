@@ -49,7 +49,14 @@ button.project-category-card.is-active {
   border-color: #fff;
   background: rgba(255, 255, 255, 0.94);
   box-shadow: 0 12px 30px rgba(55, 81, 126, 0.14), inset 0 0 0 1px rgba(55, 81, 126, 0.13);
+}
+
+@media (hover: hover) and (pointer: fine) {
+
+button.project-category-card:hover,
+button.project-category-card.is-active {
   transform: translateY(-2px);
+}
 }
 button.project-category-card.is-active h2 { color: var(--papp-blue); }
 button.project-category-card:focus-visible {
@@ -66,7 +73,7 @@ button.project-category-card:focus-visible {
 .history-story__nav a {
   border-radius: 18px;
   padding: 10px 14px;
-  transition: background 220ms ease, box-shadow 220ms ease, color 220ms ease;
+  transition: background 200ms ease, box-shadow 200ms ease, color 200ms ease;
 }
 .history-story__nav li.is-active a {
   background: rgba(255, 255, 255, 0.86);
@@ -259,9 +266,11 @@ body,
 .testimonial-carousel { overflow: visible; }
 .testimonial-viewport { overflow: hidden; }
 .testimonial-arrow {
-  transition: background 400ms ease-in-out, color 400ms ease-in-out, box-shadow 400ms ease-in-out, transform 400ms ease-in-out;
+  transition: background 200ms ease, color 200ms ease, box-shadow 200ms ease, transform 300ms var(--ease-out);
 }
+@media (hover: hover) and (pointer: fine) {
 .testimonial-arrow:hover { transform: translateY(-1px); }
+}
 
 .contact-floating-balls { filter: blur(55px); opacity: 0.24; }
 .contact-floating-balls__ball { opacity: 0.5; }
@@ -352,7 +361,7 @@ main,
 .project-card,
 .team-card,
 .camera-explorer__features article,
-.sensor-product-lab__copy li { transition: background 400ms ease-in-out, box-shadow 400ms ease-in-out, border-color 400ms ease-in-out; }
+.sensor-product-lab__copy li { transition: background 200ms ease, box-shadow 200ms ease, border-color 200ms ease; }
 @media (prefers-reduced-transparency: reduce) {
   main, .site-footer { --glass-fill: #f8fafc; }
   .contact-form input:not([type="checkbox"]), .contact-form textarea, .contact-form select,
@@ -390,8 +399,8 @@ main,
 .capability-statement { margin: 1rem auto; max-width: 820px; }
 .capability-statement > p:not(.visually-hidden) { display: grid; gap: .15rem; margin-bottom: .2rem; font-size: clamp(1.1rem, 2.1vw, 1.65rem); line-height: 1.4; }
 .capability-statement__window { position: relative; display: grid; overflow: hidden; min-height: 1.5em; color: var(--papp-blue); font-weight: 650; }
-.capability-statement__window > span { grid-area: 1 / 1; opacity: 0; transform: translateY(-65%); transition: opacity .45s ease, transform .45s ease; }
-.capability-statement__window > span.is-active { opacity: 1; transform: translateY(0); animation: capability-enter .45s ease; }
+.capability-statement__window > span { grid-area: 1 / 1; opacity: 0; transform: translateY(-65%); transition: opacity 300ms var(--ease-out), transform 300ms var(--ease-out); }
+.capability-statement__window > span.is-active { opacity: 1; transform: translateY(0); animation: capability-enter 300ms var(--ease-out); }
 @keyframes capability-enter { from { opacity: 0; transform: translateY(65%); } to { opacity: 1; transform: translateY(0); } }
 .solution-outcomes { max-width: 1060px; margin: 0 auto 2rem; }
 .solution-outcomes__lead { max-width: 780px; margin: 0 auto 2rem; text-align: center; }
@@ -453,7 +462,7 @@ main,
 .solution-outcomes__deployment { text-align: center; font-size: .95rem; color: var(--papp-muted); max-width: 650px; margin: 2rem auto 0; }
 #solution-app .offering-feature__visual img { object-fit: contain; max-height: 420px; }
 
-.insight-dashboard--light .insight-dashboard__screen { background: #f8fafb; color: #33424d; animation: dashboard-panel-in .45s ease both; border-color: #dce7ee; grid-template-rows: auto auto minmax(0, 1fr); gap: 3%; padding: 2%; }
+.insight-dashboard--light .insight-dashboard__screen { background: #f8fafb; color: #33424d; animation: dashboard-panel-in 300ms var(--ease-out) both; border-color: #dce7ee; grid-template-rows: auto auto minmax(0, 1fr); gap: 3%; padding: 2%; }
 .dashboard-preview__origin { display: grid; grid-template-columns: 1fr 1fr; min-height: 0; gap: 5%; align-items: center; }
 .dashboard-preview__origin svg { width: 100%; height: 100%; min-height: 0; }
 .dashboard-preview__legend { font-size: clamp(.4rem, .9vw, .76rem); }
@@ -494,7 +503,7 @@ main,
 .meeting-request--calendar .meeting-request__intro { margin-bottom: 0; flex-wrap: wrap; }
 .meeting-request--calendar .meeting-request__intro > div { flex: 1; min-width: 210px; }
 .meeting-request--calendar .meeting-request__intro > button { font-size: .88rem; padding: .8rem 1.1rem; }
-.meeting-reveal { display: grid; grid-template-rows: 0fr; opacity: 0; transition: grid-template-rows .5s cubic-bezier(.2,.7,.2,1), opacity .35s ease; }
+.meeting-reveal { display: grid; grid-template-rows: 0fr; opacity: 0; transition: grid-template-rows 300ms var(--ease-in-out), opacity 300ms var(--ease-out); }
 .meeting-reveal.is-open { grid-template-rows: 1fr; opacity: 1; }
 .meeting-reveal > div { overflow: hidden; min-height: 0; }
 .meeting-calendar-content { padding-top: 2.5rem; }
@@ -505,9 +514,12 @@ main,
 .meeting-month__header button { display: grid; place-items: center; width: 34px; height: 34px; border: 0; background: #fff; border-radius: 50%; color: var(--papp-blue); }
 .meeting-month__weekdays, .meeting-month__days { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: .35rem; }
 .meeting-month__weekdays { text-align: center; color: var(--papp-muted); font-size: .8rem; margin-bottom: .5rem; }
-.meeting-month__days button { aspect-ratio: 1; border-radius: 50%; border: 0; color: var(--papp-blue); background: #e4f1fa; font-size: .95rem; transition: background .2s ease, color .2s ease, transform .2s ease; }
+.meeting-month__days button { aspect-ratio: 1; border-radius: 50%; border: 0; color: var(--papp-blue); background: #e4f1fa; font-size: .95rem; transition: background 200ms ease, color 200ms ease, transform 200ms var(--ease-out); }
 .meeting-month__days button:disabled { color: #a9b2ba; background: transparent; cursor: default; }
-.meeting-month__days button:not(:disabled):hover { background: #cde9f8; transform: scale(1.04); }
+.meeting-month__days button:not(:disabled):hover { background: #cde9f8; }
+@media (hover: hover) and (pointer: fine) {
+.meeting-month__days button:not(:disabled):hover { transform: scale(1.04); }
+}
 .meeting-month__days button[aria-pressed=true] { background: var(--papp-blue); color: white; }
 .meeting-month__header button:disabled { opacity: .3; }
 .meeting-slot { display: grid; align-content: start; gap: 1.5rem; padding-top: .2rem; }
@@ -517,7 +529,7 @@ main,
 .meeting-duration label { flex: 1; }
 .meeting-times { display: grid; grid-template-columns: 1fr 1fr; gap: .6rem; }
 .meeting-duration input, .meeting-times input { position: absolute; width: 1px; height: 1px; opacity: 0; }
-.meeting-duration span, .meeting-times span { display: block; text-align: center; padding: .65rem; border-radius: 11px; cursor: pointer; transition: background .2s ease, box-shadow .2s ease; }
+.meeting-duration span, .meeting-times span { display: block; text-align: center; padding: .65rem; border-radius: 11px; cursor: pointer; transition: background 200ms ease, box-shadow 200ms ease; }
 .meeting-duration input:checked + span { background: white; box-shadow: 0 2px 8px #37517e12; }
 .meeting-times span { background: #fff; border: 1px solid #dae5ed; }
 .meeting-times input:checked + span { border-color: var(--papp-blue); color: var(--papp-blue); background: #e8f5fc; }
@@ -528,7 +540,7 @@ main,
 .meeting-selection { display: flex; flex-wrap: wrap; justify-content: space-between; gap: .5rem; align-items: center; }
 .meeting-selection button { background: none; border: 0; color: var(--papp-blue); }
 .meeting-request__form select { width: 100%; padding: .8rem; border: 1px solid #bbc9d5; border-radius: 12px; background: #fff; color: var(--papp-heading); }
-.meeting-request--calendar .meeting-request__form { margin-top: 0; animation: meeting-step-in .3s ease; }
+.meeting-request--calendar .meeting-request__form { margin-top: 0; animation: meeting-step-in 200ms var(--ease-out); }
 @keyframes meeting-step-in { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 @media (max-width: 767.98px) {
   .capability-statement > p:not(.visually-hidden) { flex-wrap: wrap; row-gap: .1em; font-size: 1.1rem; }
@@ -563,8 +575,8 @@ main,
 .insight-dashboard--light .insight-dashboard__tabs button.is-active { background: #e0f1fa; border-color: #8ccbe9; color: #005483; }
 .insight-dashboard--light .insight-dashboard__device-link:hover .insight-dashboard__screen { border-color: #b7dced; box-shadow: none; }
 .insight-dashboard--light .insight-dashboard__caption { width: min(760px, 92%); margin: 0 auto; text-align: center; }
-.dashboard-preview__manufacturers i { transform-origin: left; animation: preview-bar-reveal 1.2s cubic-bezier(.2,.7,.2,1) both; }
-.dashboard-preview__trace { stroke-dasharray: 1; animation: preview-line-reveal 1.8s ease-out both; }
+.dashboard-preview__manufacturers i { transform-origin: left; animation: preview-bar-reveal 1.2s var(--ease-out) both; }
+.dashboard-preview__trace { stroke-dasharray: 1; animation: preview-line-reveal 1.8s var(--ease-out) both; }
 .dashboard-preview__origin path { animation: preview-map-reveal 1.2s ease both; }
 @keyframes preview-bar-reveal { from { transform: scaleX(0); } to { transform: scaleX(1); } }
 @keyframes preview-line-reveal { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
@@ -582,8 +594,8 @@ main,
 }
 
 /* HubSpot Meetings embed inside the calendar card.*/
-.meeting-hubspot { position: relative; height: 680px; border-radius: 22px; overflow: hidden; background: #fff; border: 1px solid #e4f1fa; transition: height .35s ease; }
-.meeting-hubspot iframe { display: block; width: 100%; height: 100%; border: 0; opacity: 0; transition: opacity .35s ease; }
+.meeting-hubspot { position: relative; height: 680px; border-radius: 22px; overflow: hidden; background: #fff; border: 1px solid #e4f1fa; transition: height 300ms var(--ease-in-out); }
+.meeting-hubspot iframe { display: block; width: 100%; height: 100%; border: 0; opacity: 0; transition: opacity 300ms var(--ease-out); }
 .meeting-hubspot.is-loaded iframe { opacity: 1; }
 .meeting-hubspot__loading { position: absolute; inset: 0; display: grid; place-items: center; margin: 0; color: var(--papp-muted); font-size: .9rem; }
 @media (max-width: 767.98px) { .meeting-hubspot { height: 760px; border-radius: 18px; } }

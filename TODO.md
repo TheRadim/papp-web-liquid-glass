@@ -40,3 +40,4 @@ Things only you can decide or do. Claude keeps this list up to date: items get t
 - [x] GitHub connected; history credits only you.
 - [x] Repository cleaned up, README added.
 - [x] Redirects for all old Wix pages and projects; bare domain picks the browser language.
+- [x] Design pass (system font, press feedback, accessible glass) and motion pass (consistent timing, hover only with a mouse, mobile menu exit).

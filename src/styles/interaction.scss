@@ -81,3 +81,44 @@ button:not(:disabled):active,
     transform: none;
   }
 }
+
+/* Mobile menu leaves the way it came in: back up and out, faster than it arrived */
+.site-header .mobile-panel.is-closing {
+  pointer-events: none;
+  animation: mobile-panel-out 160ms var(--ease-out) both;
+}
+
+.site-header .mobile-panel.is-closing .mobile-panel__inner > * {
+  animation: none;
+}
+
+@keyframes mobile-panel-out {
+  to {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+}
+
+/* Reduced motion: keep fades that explain a change, drop movement and looping backgrounds */
+@media (prefers-reduced-motion: reduce) {
+  main:has(.app-feature-page)::before,
+  .app-feature-section::before,
+  .app-promo::before {
+    animation: none;
+  }
+
+  .meeting-sent,
+  .insights-picker__list {
+    animation-name: fade-in;
+  }
+
+  .hero-scroll-cue svg {
+    animation: none;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}

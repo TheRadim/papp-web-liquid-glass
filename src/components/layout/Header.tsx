@@ -19,9 +19,16 @@ interface HeaderProps {
   locale: Locale;
 }
 
+/** Matches the mobile-panel-out animation in globals.scss. */
+const MENU_EXIT_MS = 160;
+
 export function Header({ locale }: HeaderProps) {
   const [solutionsOpen, setSolutionsOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  // The panel stays mounted briefly after closing so it can leave the way it came in.
+  const [menuClosing, setMenuClosing] = useState(false);
+  const menuCloseTimer = useRef<number | null>(null);
+  const menuOpenRef = useRef(false);
   const [mobileGroupsOpen, setMobileGroupsOpen] = useState<Record<string, boolean>>({});
   const [scrolled, setScrolled] = useState(false);
   const [dockIndicator, setDockIndicator] = useState({ x: 0, width: 0, opacity: 0 });
@@ -31,6 +38,28 @@ export function Header({ locale }: HeaderProps) {
   const pathname = usePathname();
 
   const localeRoot = `/${locale}`;
+
+  const closeMenu = useCallback(() => {
+    setMobileGroupsOpen({});
+    if (!menuOpenRef.current) return;
+    menuOpenRef.current = false;
+    setMenuOpen(false);
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    setMenuClosing(true);
+    if (menuCloseTimer.current) window.clearTimeout(menuCloseTimer.current);
+    menuCloseTimer.current = window.setTimeout(() => setMenuClosing(false), MENU_EXIT_MS);
+  }, []);
+
+  const openMenu = useCallback(() => {
+    if (menuCloseTimer.current) window.clearTimeout(menuCloseTimer.current);
+    setMenuClosing(false);
+    menuOpenRef.current = true;
+    setMenuOpen(true);
+  }, []);
+
+  useEffect(() => () => {
+    if (menuCloseTimer.current) window.clearTimeout(menuCloseTimer.current);
+  }, []);
 
   function isActive(href: string) {
     if (href === localeRoot) {
@@ -48,8 +77,7 @@ export function Header({ locale }: HeaderProps) {
     function onKeyDown(event: KeyboardEvent) {
       if (event.key === "Escape") {
         setSolutionsOpen(false);
-        setMenuOpen(false);
-        setMobileGroupsOpen({});
+        closeMenu();
       }
     }
 
@@ -68,7 +96,7 @@ export function Header({ locale }: HeaderProps) {
       document.removeEventListener("pointerdown", onPointerDown);
       document.body.classList.remove("has-open-menu");
     };
-  }, [menuOpen]);
+  }, [closeMenu, menuOpen]);
 
   useEffect(() => {
     let animationFrame = 0;
@@ -167,9 +195,8 @@ export function Header({ locale }: HeaderProps) {
             href={`/${locale}`}
             aria-label="Papp Mobility home"
             onClick={(event) => {
-              setMenuOpen(false);
+              closeMenu();
               setSolutionsOpen(false);
-              setMobileGroupsOpen({});
               // Already on the homepage: go back up to the hero instead of doing nothing.
               if (pathname.replace(/\/$/, "") === localeRoot) {
                 event.preventDefault();
@@ -253,15 +280,7 @@ export function Header({ locale }: HeaderProps) {
               type="button"
               aria-label={menuOpen ? navLabels.close[locale] : navLabels.menu[locale]}
               aria-expanded={menuOpen}
-              onClick={() => {
-                setMenuOpen((open) => {
-                  if (open) {
-                    setMobileGroupsOpen({});
-                  }
-
-                  return !open;
-                });
-              }}
+              onClick={() => (menuOpen ? closeMenu() : openMenu())}
             >
               <span className="hamburger-icon" aria-hidden="true">
                 <span />
@@ -273,14 +292,11 @@ export function Header({ locale }: HeaderProps) {
         </nav>
       </div>
 
-      {menuOpen ? (
-        <div className="mobile-panel">
+      {menuOpen || menuClosing ? (
+        <div className={`mobile-panel ${menuOpen ? "" : "is-closing"}`} aria-hidden={!menuOpen}>
           <div className="container">
             <div className="mobile-panel__inner">
-              <Link href={`/${locale}/solutions`} onClick={() => {
-                setMenuOpen(false);
-                setMobileGroupsOpen({});
-              }}>
+              <Link href={`/${locale}/solutions`} onClick={closeMenu}>
                 {navLabels.solutions[locale]}
               </Link>
               {solutionGroups.map((group) => (
@@ -296,10 +312,7 @@ export function Header({ locale }: HeaderProps) {
                   {mobileGroupsOpen[group.id] ? (
                     <div className="mobile-group__links">
                       {group.items.map((item) => (
-                        <Link key={pick(locale, item.label)} href={item.href[locale]} onClick={() => {
-                          setMenuOpen(false);
-                          setMobileGroupsOpen({});
-                        }}>
+                        <Link key={pick(locale, item.label)} href={item.href[locale]} onClick={closeMenu}>
                           {pick(locale, item.label)}
                         </Link>
                       ))}
@@ -308,10 +321,7 @@ export function Header({ locale }: HeaderProps) {
                 </div>
               ))}
               {primaryNavigation(locale).map((item) => (
-                <Link key={item.href} href={item.href} onClick={() => {
-                  setMenuOpen(false);
-                  setMobileGroupsOpen({});
-                }}>
+                <Link key={item.href} href={item.href} onClick={closeMenu}>
                   {item.label}
                 </Link>
               ))}

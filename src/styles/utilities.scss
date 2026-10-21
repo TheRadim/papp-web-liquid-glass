@@ -8,7 +8,7 @@
   background: var(--papp-blue-deep);
   color: #fff;
   padding: 0.7rem 1rem;
-  transition: transform 0.2s ease;
+  transition: transform 200ms var(--ease-out);
 }
 
 .skip-link:focus {
@@ -31,14 +31,20 @@
   font-weight: 600;
   line-height: 1;
   text-decoration: none;
-  transition: background 0.3s ease, color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+  transition: background 200ms ease, color 200ms ease, box-shadow 200ms ease, transform 200ms var(--ease-out);
 }
 
 .papp-button:hover {
-  transform: translateY(-2px);
   background: color-mix(in srgb, var(--papp-blue-light), #000 12%);
   color: #fff;
   box-shadow: 0 8px 24px rgba(71, 178, 228, 0.28);
+}
+
+@media (hover: hover) and (pointer: fine) {
+
+.papp-button:hover {
+  transform: translateY(-2px);
+}
 }
 
 .papp-button--secondary {
