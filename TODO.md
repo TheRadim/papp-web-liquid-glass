@@ -24,6 +24,8 @@ Things only you can decide or do. Claude keeps this list up to date: items get t
 - [ ] Danish wording on the 3D scene: the sign says "LEDIG" (also when it shows 2) and the dashboard labels (`CITY_DATA` in `src/config/mobility-city.ts`).
 - [ ] Example numbers on the 3D Insights dashboard (2–3 vehicles, 126 entries today) — fine as illustration, change if you'd rather show something else.
 
+- [ ] **Homepage first line.** "Papp Mobility / We do parking simple." doesn't say what Papp does. Consider a plain line under it, e.g. "Sensors, cameras and data that show how parking and streets are really used." (your wording).
+
 ## Nice to have (Claude can do these, needs your OK)
 
 - [ ] Compress images and the 12 MB sensor model so pages load faster (about 50 MB of assets are served at full size).
@@ -41,3 +43,4 @@ Things only you can decide or do. Claude keeps this list up to date: items get t
 - [x] Repository cleaned up, README added.
 - [x] Redirects for all old Wix pages and projects; bare domain picks the browser language.
 - [x] Design pass (system font, press feedback, accessible glass) and motion pass (consistent timing, hover only with a mouse, mobile menu exit).
+- [x] Typography and polish pass (readable small text, fewer font sizes, balanced headings, scroll-in for sections, arrow hovers).

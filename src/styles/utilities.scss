@@ -27,7 +27,7 @@
   color: #fff;
   padding: 0.75rem 1.65rem;
   font-family: var(--font-display);
-  font-size: 0.96rem;
+  font-size: var(--text-ui);
   font-weight: 600;
   line-height: 1;
   text-decoration: none;
@@ -41,7 +41,6 @@
 }
 
 @media (hover: hover) and (pointer: fine) {
-
 .papp-button:hover {
   transform: translateY(-2px);
 }
@@ -134,7 +133,12 @@ textarea:focus-visible {
 }
 
 .section-heading p {
+  max-width: 62ch;
   color: color-mix(in srgb, var(--papp-body), transparent 18%);
+}
+
+.section-heading--center p {
+  margin-inline: auto;
 }
 
 .check-list {
@@ -161,7 +165,7 @@ textarea:focus-visible {
   background: color-mix(in srgb, var(--papp-blue-light), transparent 88%);
   color: var(--papp-blue-light);
   content: "✓";
-  font-size: 0.78rem;
+  font-size: var(--text-caption);
   font-weight: 800;
   line-height: 1rem;
   text-align: center;

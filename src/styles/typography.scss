@@ -60,9 +60,9 @@ a:hover {
   margin-bottom: 0.65rem;
   color: var(--papp-blue);
   font-family: var(--font-display);
-  font-size: 0.78rem;
+  font-size: var(--text-caption);
   font-weight: 700;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
 }
 
@@ -71,4 +71,17 @@ a:hover {
   color: color-mix(in srgb, var(--papp-body), transparent 15%);
   font-size: clamp(1.05rem, 1.8vw, 1.35rem);
   line-height: 1.55;
+}
+
+/* Headings break into even lines; paragraphs avoid a single orphaned word. */
+h1,
+h2,
+h3,
+h4 {
+  text-wrap: balance;
+}
+
+p,
+li {
+  text-wrap: pretty;
 }

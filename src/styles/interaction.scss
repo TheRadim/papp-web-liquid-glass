@@ -122,3 +122,45 @@ button:not(:disabled):active,
     opacity: 0;
   }
 }
+
+/* Arrow links point where they go: the arrow leans forward on hover */
+.papp-button svg {
+  transition: transform 200ms var(--ease-out);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .papp-button:hover svg,
+  .home-solution-row:hover .papp-button svg,
+  .offering-feature:hover .papp-button svg {
+    transform: translateX(3px);
+  }
+}
+
+/*
+ * Sections settle into place as they scroll in. Driven by the scroll position
+ * itself (no script), so content is never left hidden: browsers without
+ * scroll-driven animations, and people who prefer reduced motion, see it as is.
+ * Uses `translate` rather than `transform`, so card hover lifts keep working.
+ */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .section-heading,
+    .home-solution-row,
+    .offering-feature,
+    .project-card,
+    .team-card,
+    .feature-story,
+    .app-promo__grid {
+      animation: settle-in linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 70%;
+    }
+  }
+}
+
+@keyframes settle-in {
+  from {
+    opacity: 0;
+    translate: 0 24px;
+  }
+}

@@ -27,6 +27,11 @@
   --font-display: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --font-text: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 
+  /* Small text steps. Nothing meant to be read goes below --text-caption. */
+  --text-caption: 0.8125rem; /* 13px: labels, captions, meta */
+  --text-small: 0.875rem;    /* 14px: secondary text, compact UI */
+  --text-ui: 0.9375rem;      /* 15px: buttons, navigation, lists */
+
   /* Motion: ease-out for things entering, leaving or responding;
      ease-in-out for things moving across the screen; ease for colour. */
   --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
