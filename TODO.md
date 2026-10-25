@@ -1,6 +1,6 @@
 # Needs your attention
 
-Things only you can decide or do. Claude keeps this list up to date: items get ticked off when they're done and new ones are added as they come up. Last updated: 21 Oct 2026.
+Things only you can decide or do. Claude keeps this list up to date: items get ticked off when they're done and new ones are added as they come up. Last updated: 25 Oct 2026.
 
 ## Before launch (blocking)
 
@@ -33,7 +33,7 @@ Things only you can decide or do. Claude keeps this list up to date: items get t
 
 ## Housekeeping
 
-- [ ] The GitHub access token Claude uses was pasted in chat; create a new one at some point and send it, so the old one can be revoked.
+- [ ] **Revoke the old GitHub token** (GitHub → Settings → Developer settings → Fine-grained tokens). Claude now uses the new one sent on 25 Oct.
 - [ ] On your Mac, run `npm ci` once; the `.next` and `out` folders are build leftovers and safe to delete.
 - [ ] Before re-exporting the city model from Blender, run *Mesh → Normals → Recalculate Outside* on the ground pieces.
 
