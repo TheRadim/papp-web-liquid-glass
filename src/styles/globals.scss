@@ -4299,8 +4299,10 @@ body:has(.camera-explorer) .footer-camera-credit { display: block; }
 
 .site-header .solutions-dropdown {
   top: calc(100% + 18px);
-  left: 50%;
-  transform: translateX(-40%);
+  /* Centred under the navigation bar; Header.tsx sets --dropdown-left.
+     `translate` (not `transform`) so the opening animation can't undo it. */
+  left: var(--dropdown-left, 50%);
+  translate: -50% 0;
   border-radius: 26px;
   border: 1px solid rgba(255, 255, 255, 0.95);
   background: rgba(249, 250, 251, 0.97);

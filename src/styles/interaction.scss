@@ -26,6 +26,10 @@ button:not(:disabled):active,
   transform-origin: top left;
 }
 
+.site-header .solutions-dropdown {
+  transform-origin: top center;
+}
+
 .site-header .mobile-panel {
   transform-origin: top right;
 }

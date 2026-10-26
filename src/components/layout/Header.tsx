@@ -5,7 +5,7 @@ import Link from "next/link";
 import { ChevronDown } from "lucide-react";
 import { usePathname } from "next/navigation";
 import type { CSSProperties } from "react";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import type { Locale } from "@/content/types";
 import { company } from "@/content/global/company";
 import { navLabels, primaryNavigation, solutionGroups } from "@/content/global/navigation";
@@ -35,6 +35,7 @@ export function Header({ locale }: HeaderProps) {
   const navRef = useRef<HTMLDivElement>(null);
   const dockRef = useRef<HTMLDivElement>(null);
   const solutionsCloseTimer = useRef<number | null>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
 
   const localeRoot = `/${locale}`;
@@ -60,6 +61,30 @@ export function Header({ locale }: HeaderProps) {
   useEffect(() => () => {
     if (menuCloseTimer.current) window.clearTimeout(menuCloseTimer.current);
   }, []);
+
+  // Centre the Solutions dropdown under the navigation bar, kept inside the
+  // window on narrow screens. Measured before paint so it never jumps.
+  useLayoutEffect(() => {
+    if (!solutionsOpen) return undefined;
+
+    function place() {
+      const dropdown = dropdownRef.current;
+      const menu = dropdown?.parentElement;
+      const nav = navRef.current;
+      if (!dropdown || !menu || !nav) return;
+
+      const navRect = nav.getBoundingClientRect();
+      const menuRect = menu.getBoundingClientRect();
+      const half = dropdown.offsetWidth / 2;
+      const margin = 12;
+      const centre = Math.min(Math.max(navRect.left + navRect.width / 2, margin + half), window.innerWidth - margin - half);
+      dropdown.style.setProperty("--dropdown-left", `${centre - menuRect.left}px`);
+    }
+
+    place();
+    window.addEventListener("resize", place);
+    return () => window.removeEventListener("resize", place);
+  }, [solutionsOpen]);
 
   function isActive(href: string) {
     if (href === localeRoot) {
@@ -240,7 +265,7 @@ export function Header({ locale }: HeaderProps) {
                 <ChevronDown size={16} aria-hidden="true" />
               </Link>
               {solutionsOpen ? (
-                <div className="solutions-dropdown" id="solutions-dropdown">
+                <div className="solutions-dropdown" id="solutions-dropdown" ref={dropdownRef}>
                   {solutionGroups.map((group) => (
                     <div key={group.id} className={`solutions-dropdown__group solutions-dropdown__group--${group.id}`}>
                       <p className="dropdown-label">{pick(locale, group.label)}</p>
