@@ -1540,18 +1540,6 @@
   font-size: var(--text-small);
   line-height: 1.4;
 }
-/* Partnerships: one highlighted full-width row above services and products. */
-.site-header .solutions-dropdown__group--partnerships {
-  grid-column: 1 / -1;
-  padding-bottom: 0.75rem;
-  border-bottom: 1px solid rgba(55, 81, 126, 0.1);
-}
-.site-header .solutions-dropdown__group--partnerships a {
-  background: linear-gradient(100deg, rgba(71, 178, 228, 0.1), rgba(251, 134, 127, 0.1));
-}
-.site-header .solutions-dropdown__group--partnerships a:hover {
-  background: linear-gradient(100deg, rgba(71, 178, 228, 0.18), rgba(251, 134, 127, 0.18));
-}
 .site-header .solutions-dropdown__group--technology {
   padding-left: 1rem;
   border-left: 1px solid rgba(55, 81, 126, 0.1);
@@ -1819,4 +1807,49 @@
   .insights-explorer > [role="tabpanel"] {
     min-width: 0;
   }
+}
+
+/* About: the team follows the page heading directly, three to a row (nine
+   people, no orphan), and the timeline gets its own heading and spacing. */
+.about-hero-section {
+  padding-bottom: clamp(1rem, 3vw, 2rem);
+}
+
+.about-team-section {
+  padding-top: 0;
+}
+
+@media (min-width: 992px) {
+  .about-team-layout .team-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    width: min(960px, 100%);
+    margin-inline: auto;
+  }
+}
+
+.about-timeline-section {
+  margin-top: 0;
+  padding-top: clamp(2rem, 5vw, 4rem);
+}
+
+.about-timeline-layout > .section-heading {
+  margin-bottom: clamp(2rem, 4vw, 3rem);
+}
+
+/* Partnerships: a quiet logo strip under the hero for credibility. */
+.partnerships-proof {
+  padding-block: 0 clamp(1rem, 3vw, 2rem);
+  text-align: center;
+}
+
+.partnerships-proof__label {
+  margin-bottom: 1rem;
+  color: var(--papp-muted);
+  font-size: var(--text-small);
+}
+
+/* A single related project sits centred instead of hugging the left edge. */
+.project-grid--single {
+  grid-template-columns: minmax(0, 440px);
+  justify-content: center;
 }

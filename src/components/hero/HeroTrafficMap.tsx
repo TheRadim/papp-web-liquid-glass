@@ -32,19 +32,20 @@ const TRAFFIC_WEIGHT: Record<RoadKind, number> = {
   major: 9,
   secondary: 4,
   road: 2.4,
-  ferry: 0.5,
-  local: 1
+  ferry: 0.4,
+  local: 0
 };
 
+// Kept very light: the outline carries the map, roads are only a hint.
 const ROAD_STYLE: Record<RoadKind, { stroke: string; width: number }> = {
-  major: { stroke: "rgba(126, 141, 156, 0.34)", width: 1.25 },
-  secondary: { stroke: "rgba(126, 141, 156, 0.24)", width: 1 },
-  road: { stroke: "rgba(126, 141, 156, 0.18)", width: 0.9 },
-  ferry: { stroke: "rgba(0, 126, 181, 0.12)", width: 0.8 },
-  local: { stroke: "rgba(126, 141, 156, 0.1)", width: 0.7 }
+  major: { stroke: "rgba(126, 141, 156, 0.2)", width: 1 },
+  secondary: { stroke: "rgba(126, 141, 156, 0.12)", width: 0.8 },
+  road: { stroke: "rgba(126, 141, 156, 0.08)", width: 0.7 },
+  ferry: { stroke: "rgba(0, 126, 181, 0.08)", width: 0.7 },
+  local: { stroke: "rgba(0, 0, 0, 0)", width: 0 }
 };
 
-const VEHICLE_COLORS = ["rgba(0, 126, 181, 0.62)", "rgba(0, 126, 181, 0.62)", "rgba(0, 126, 181, 0.62)", "rgba(251, 134, 127, 0.7)"];
+const VEHICLE_COLORS = ["rgba(0, 126, 181, 0.42)", "rgba(0, 126, 181, 0.42)", "rgba(0, 126, 181, 0.42)", "rgba(251, 134, 127, 0.5)"];
 
 function prepareRoads(data: TrafficMapData): Road[] {
   return data.roads.map((road) => {
@@ -151,7 +152,7 @@ export function HeroTrafficMap() {
         speed: (9 + Math.random() * 10) * fast,
         direction,
         color: VEHICLE_COLORS[Math.floor(Math.random() * VEHICLE_COLORS.length)],
-        size: kind === "major" ? 1.5 : 1.15
+        size: kind === "major" ? 1.3 : 1
       };
     }
 
@@ -189,13 +190,13 @@ export function HeroTrafficMap() {
         });
         baseContext.closePath();
       }
-      baseContext.fillStyle = "rgba(240, 244, 247, 0.55)";
+      baseContext.fillStyle = "rgba(244, 247, 249, 0.5)";
       baseContext.fill();
-      baseContext.strokeStyle = "rgba(150, 162, 174, 0.42)";
+      baseContext.strokeStyle = "rgba(150, 162, 174, 0.5)";
       baseContext.lineWidth = 1;
       baseContext.stroke();
 
-      for (const kind of ["local", "ferry", "road", "secondary", "major"] as RoadKind[]) {
+      for (const kind of ["ferry", "road", "secondary", "major"] as RoadKind[]) {
         baseContext.beginPath();
         for (const road of roads) {
           if (road.kind !== kind) {
@@ -241,15 +242,15 @@ export function HeroTrafficMap() {
 
       if (width < 760) {
         const mainlandWidth = 650 - minX;
-        scale = Math.min((width * 1.04) / mainlandWidth, (height * 0.8) / mapHeight);
+        scale = Math.min((width * 0.82) / mainlandWidth, (height * 0.56) / mapHeight);
         offsetX = (width - mainlandWidth * scale) / 2 - minX * scale;
       } else {
-        scale = Math.min((width * 0.86) / mapWidth, (height * 0.86) / mapHeight);
+        scale = Math.min((width * 0.56) / mapWidth, (height * 0.62) / mapHeight);
         offsetX = (width - mapWidth * scale) / 2 - minX * scale;
       }
       offsetY = (height - mapHeight * scale) / 2 - minY * scale + height * 0.02;
 
-      const vehicleCount = Math.round(Math.min(150, Math.max(60, (width * height) / 9000)));
+      const vehicleCount = Math.round(Math.min(70, Math.max(30, (width * height) / 20000)));
       vehicles = Array.from({ length: vehicleCount }, () => spawn(true));
       drawBase();
       render(0);
@@ -279,7 +280,7 @@ export function HeroTrafficMap() {
         );
 
         drawingContext.strokeStyle = vehicle.color;
-        drawingContext.globalAlpha = 0.35;
+        drawingContext.globalAlpha = 0.3;
         drawingContext.lineWidth = vehicle.size * 1.3;
         drawingContext.beginPath();
         drawingContext.moveTo(tailX, tailY);

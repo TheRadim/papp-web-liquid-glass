@@ -50,6 +50,7 @@ export function TestimonialsSection({ locale }: TestimonialsSectionProps) {
     <Section className="testimonials-section">
       <svg width="0" height="0" aria-hidden="true" style={{ position: "absolute" }}><defs><filter id="papp-testimonial-blue" colorInterpolationFilters="sRGB"><feFlood floodColor="#47b2e4" /><feComposite in2="SourceAlpha" operator="in" /></filter></defs></svg>
       <SectionHeading
+        eyebrow={locale === "da" ? "Det siger kunderne" : "What clients say"}
         title={locale === "da" ? "Samarbejde, der gør mobilitetsdata lettere at handle på." : "Collaboration that makes mobility data easier to act on."}
         align="center"
       />

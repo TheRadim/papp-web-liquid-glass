@@ -72,8 +72,8 @@ export function OfferingPage({ locale, offering, afterHero, hideDetailSections =
 
       {relatedProjects.length ? (
         <Section tone="soft">
-          <SectionHeading eyebrow={locale === "da" ? "Relaterede projekter" : "Related projects"} title={locale === "da" ? "Se løsningen i praksis" : "See the solution in practice"} />
-          <div className="project-grid">
+          <SectionHeading eyebrow={locale === "da" ? "Relaterede projekter" : "Related projects"} title={locale === "da" ? "Se løsningen i praksis" : "See the solution in practice"} align="center" />
+          <div className={`project-grid ${relatedProjects.length === 1 ? "project-grid--single" : ""}`}>
             {relatedProjects.map((project) => (
               <ProjectCard key={project.slug} project={project} locale={locale} />
             ))}

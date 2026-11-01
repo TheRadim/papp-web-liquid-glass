@@ -5,6 +5,7 @@ import { Section } from "@/components/layout/Section";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Button } from "@/components/ui/Button";
 import { MeetingRequest } from "@/components/contact/MeetingRequest";
+import { PartnerLogoLoop } from "@/components/social-proof/PartnerLogoLoop";
 
 interface Audience {
   id: string;
@@ -19,7 +20,7 @@ const audiences: Audience[] = [
   {
     id: "consultancies",
     icon: Building2,
-    eyebrow: { en: "Engineering and traffic consultancies", da: "Ingeniør- og trafikrådgivere" },
+    eyebrow: { en: "Consultancies", da: "Rådgivere" },
     title: { en: "We gather the intelligence for you.", da: "Vi indsamler indsigten for jer." },
     body: {
       en: "Your team designs the plan; we deliver the measurements behind it. Papp installs cameras and sensors, runs the counts and hands you clean, validated data for your report.",
@@ -34,7 +35,7 @@ const audiences: Audience[] = [
   {
     id: "retail",
     icon: Store,
-    eyebrow: { en: "Shop owners and retail sites", da: "Butikker og detailhandel" },
+    eyebrow: { en: "Retail sites", da: "Butikker" },
     title: { en: "Understand who visits, and when.", da: "Forstå, hvem der kommer, og hvornår." },
     body: {
       en: "ANPR cameras at your car park show how many customers arrive, how long they stay, how often they return and which areas they drive in from, anonymised and GDPR-compliant.",
@@ -49,7 +50,7 @@ const audiences: Audience[] = [
   {
     id: "data",
     icon: Database,
-    eyebrow: { en: "Data and mapping companies", da: "Data- og kortvirksomheder" },
+    eyebrow: { en: "Data companies", da: "Datavirksomheder" },
     title: { en: "We collect it faster and better for you.", da: "Vi indsamler hurtigere og bedre for jer." },
     body: {
       en: "Papp already measures parking and traffic across Danish cities. Instead of building your own collection network, take a reliable feed from ours.",
@@ -90,6 +91,11 @@ export function PartnershipsStory({ locale }: { locale: Locale }) {
             </div>
           </div>
         </div>
+      </section>
+
+      <section className="partnerships-proof" aria-label={da ? "Byer og partnere, der allerede bruger Papp" : "Cities and partners already using Papp"}>
+        <p className="partnerships-proof__label">{da ? "Måler allerede for byer og partnere i hele Danmark" : "Already measuring for cities and partners across Denmark"}</p>
+        <PartnerLogoLoop />
       </section>
 
       <Section>

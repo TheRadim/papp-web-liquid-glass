@@ -6,7 +6,7 @@ import { useEffect, useMemo } from "react";
 import { AnimationMixer, BoxGeometry, Color, Group, LoopRepeat, Material, Mesh, MeshBasicMaterial, MeshStandardMaterial, Object3D, PropertyBinding } from "three";
 import {
   CITY_CAMERA_NODES,
-  CITY_CAMERA_OFFSET,
+  CITY_CAMERA_MOVE,
   CITY_COUNTER_FADE_SECONDS,
   CITY_GRASS,
   CITY_OLD_CAMERA_PAD,
@@ -111,36 +111,48 @@ function namedObject(scene: Object3D, objectName: string) {
 }
 
 /**
- * Moves the camera and its counters to the lot entrance. Their positions are
- * keyed by the baked animation, so each node gets an offset parent instead of
- * a new position: the animation keeps writing the node's local position, and
- * the parent shifts it. A transparent box around the camera is the new hover
- * and click target.
+ * Moves the camera and its counters to their new spot. Their positions are
+ * keyed by the baked animation, so each node gets parent groups instead of a
+ * new position: the animation keeps writing the node's local position, and
+ * the parents carry it over (and, for the camera, turn it about its pole).
+ * A transparent box around the camera is the new hover and click target.
  */
 function moveCamera(scene: Object3D) {
-  CITY_CAMERA_NODES.forEach((name) => {
+  const { from, to, turn, counters } = CITY_CAMERA_MOVE;
+
+  CITY_CAMERA_NODES.forEach((name, index) => {
     const node = namedObject(scene, name);
     const parent = node?.parent;
     if (!node || !parent) return;
 
-    const offset = new Group();
-    offset.name = `${node.name}_offset`;
-    offset.position.set(...CITY_CAMERA_OFFSET);
-    parent.add(offset);
-    offset.add(node);
-  });
+    const isCamera = index === 0;
+    // Outer group sits at the new spot and turns; inner group cancels the old spot.
+    const outer = new Group();
+    outer.name = `${node.name}_moved`;
+    const inner = new Group();
+    if (isCamera) {
+      outer.position.set(to[0], 0, to[1]);
+      outer.rotation.y = turn;
+      inner.position.set(-from[0], 0, -from[1]);
+    } else {
+      // Counters only shift so they float above the turned camera head.
+      outer.position.set(counters[0] - node.position.x, 0, counters[1] - node.position.z);
+    }
+    parent.add(outer);
+    outer.add(inner);
+    inner.add(node);
 
-  const camera = namedObject(scene, CITY_CAMERA_NODES[0]);
-  if (camera) {
-    const hit = new Mesh(
-      new BoxGeometry(0.34, 0.72, 0.3),
-      new MeshBasicMaterial({ transparent: true, opacity: 0, depthWrite: false, colorWrite: false })
-    );
-    // Named like the GLB's helpers, so it selects "cameras" but is never tinted.
-    hit.name = "PappCamera_selectable_hit";
-    hit.position.set(0.44 + CITY_CAMERA_OFFSET[0], 0.36, -1.8 + CITY_CAMERA_OFFSET[2]);
-    camera.parent?.parent?.add(hit);
-  }
+    if (isCamera) {
+      const hit = new Mesh(
+        new BoxGeometry(0.34, 0.72, 0.3),
+        new MeshBasicMaterial({ transparent: true, opacity: 0, depthWrite: false, colorWrite: false })
+      );
+      // Named like the GLB's helpers, so it selects "cameras" but is never tinted.
+      hit.name = "PappCamera_selectable_hit";
+      hit.position.set(0.44, 0.36, -1.8);
+      inner.add(hit);
+    }
+  });
 
   const oldPad = namedObject(scene, CITY_OLD_CAMERA_PAD);
   if (oldPad) oldPad.name = "grass_strip_end";
@@ -197,7 +209,7 @@ export function MobilityCityModel({
   // The +1 / -1 counters come out of Blender fully transparent (their fade
   // was an opacity animation glTF can't carry), so we drive their opacity here.
   const counters = useMemo(() => {
-    const found: { materials: MeshStandardMaterial[]; windows: { in: number; out: number }[] }[] = [];
+    const found: { object: Object3D; restY: number; materials: MeshStandardMaterial[]; windows: { in: number; out: number }[] }[] = [];
 
     Object.entries(CITY_COUNTER_FADES).forEach(([name, windows]) => {
       // GLTFLoader sanitises node names ("+1 green" becomes "+1_green").
@@ -224,7 +236,7 @@ export function MobilityCityModel({
         });
       });
 
-      found.push({ materials, windows });
+      found.push({ object, restY: object.position.y, materials, windows });
     });
 
     return found;
@@ -355,8 +367,12 @@ export function MobilityCityModel({
     const timelineTime = timelineDuration > 0 ? mixer.time % timelineDuration : 0;
     mobilityCityRuntime.timelineTime = timelineTime;
     mobilityCityRuntime.animating = needsAnotherFrame;
-    counters.forEach(({ materials, windows }) => {
+    counters.forEach(({ object, restY, materials, windows }) => {
       const opacity = needsAnotherFrame ? counterOpacity(windows, timelineTime) : 0;
+      // Lift the counter while it shows (its baked lift was timed for the old spot).
+      const window = windows.find((item) => timelineTime >= item.in && timelineTime <= item.out);
+      const lift = window ? (timelineTime - window.in) / (window.out - window.in) : 0;
+      object.position.y = restY + lift * CITY_CAMERA_MOVE.counterRise;
       materials.forEach((material) => {
         material.opacity = opacity;
         material.visible = opacity > 0.001;

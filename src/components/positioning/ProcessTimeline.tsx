@@ -101,14 +101,14 @@ export function ProcessTimeline({ steps }: ProcessTimelineProps) {
             <article className={`process-flow__step process-flow__step--${index + 1}`}>
               <div>
                 <div className="process-flow__head">
+                  <span className="process-flow__number">{String(index + 1).padStart(2, "0")}</span>
+                  <h3>{step.title}</h3>
                   <span className="process-flow__icon" aria-hidden="true">
                     {(() => {
                       const Icon = STEP_ICONS[index % STEP_ICONS.length];
                       return <Icon size={20} strokeWidth={1.8} />;
                     })()}
                   </span>
-                  <span className="process-flow__number">{String(index + 1).padStart(2, "0")}</span>
-                  <h3>{step.title}</h3>
                 </div>
                 <p>{step.body}</p>
               </div>

@@ -93,7 +93,7 @@ const teamMembers = [
     role: { en: "CEO", da: "CEO" },
     email: "tan.tran@pappmobility.com",
     linkedinUrl: "https://www.linkedin.com/in/tanminhnguyentran/",
-    image: "/images/team/tan-profile-new.jpg"
+    image: "/images/team/tan-portrait.jpg"
   },
   {
     name: "Martin Holk Rasmussen",
@@ -114,14 +114,20 @@ const teamMembers = [
     role: { en: "Development Consultant", da: "Udviklingskonsulent" },
     email: "martine.winther@pappmobility.com",
     linkedinUrl: "https://www.linkedin.com/in/martine-winther-54b29696/",
-    image: "/images/team/martine-profile-new.webp"
+    image: "/images/team/martine-portrait.jpg"
+  },
+  {
+    name: "Felix Henderson",
+    role: { en: "Project Manager", da: "Projektleder" },
+    linkedinUrl: linkedinSearch("Felix Henderson"),
+    image: "/images/team/felix-portrait.jpg"
   },
   {
     name: "Maxim Zavidei",
     role: { en: "Backend Software Engineer", da: "Backend-softwareingeniør" },
     email: "maxim.zavidei@pappmobility.com",
     linkedinUrl: "https://www.linkedin.com/in/v1max/",
-    image: "/images/team/alfred-profile-new.jpg"
+    image: "/images/team/maxim-portrait.jpg"
   },
   {
     name: "Radim Theiner",
@@ -132,12 +138,12 @@ const teamMembers = [
   },
   {
     name: "Sarah Sigvardt",
-    role: { en: "Team Member", da: "Teammedlem" },
+    role: { en: "Mechanical Engineer", da: "Maskiningeniør" },
     linkedinUrl: linkedinSearch("Sarah Sigvardt")
   },
   {
     name: "Henrik Gade Hyldgaard",
-    role: { en: "System Engineer", da: "System engineer" },
+    role: { en: "Electrical Engineer", da: "Elektroingeniør" },
     initials: "HH",
     email: "henrik.hyldgaard@pappmobility.com",
     linkedinUrl: "https://www.linkedin.com/in/henrik-gade-hyldgaard-17233240/"
@@ -177,21 +183,17 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
           <SectionHeading
             align="center"
             eyebrow={locale === "da" ? "Om Papp" : "About Papp"}
-            title={locale === "da" ? "Historien om Papp Mobility" : "The Story of Papp Mobility"}
+            title={locale === "da" ? "Mød holdet bag Papp Mobility." : "Meet the team behind Papp Mobility."}
             body={
               locale === "da"
-                ? "Oplev vores historie. En dynamisk fortælling, der følger vores ydmyge begyndelse, banebrydende innovationer og urokkelige engagement i at revolutionere den måde, verden tilgår parkeringsløsninger på."
-                : "Explore our story. A dynamic journey through our humble beginnings, breakthrough innovations and steady commitment to changing how the world approaches parking solutions."
+                ? "Ingeniører, dataspecialister og rådgivere, der gør parkering og trafik lettere at forstå."
+                : "Engineers, data specialists and consultants who make parking and traffic easier to understand."
             }
           />
         </div>
       </Section>
-      <Section>
+      <Section className="about-team-section">
         <div className="about-team-layout">
-          <SectionHeading
-            eyebrow={locale === "da" ? "Hvem er vi?" : "Who are we?"}
-            title={locale === "da" ? "Mød de hjerner, der former fremtiden inden for parkeringsteknologi." : "Meet the minds shaping the future of parking technology."}
-          />
           <div className="team-grid">
             {teamMembers.map((member) => (
               <a
@@ -221,6 +223,11 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
       </Section>
       <Section className="about-timeline-section">
         <div className="about-timeline-layout">
+          <SectionHeading
+            align="center"
+            eyebrow={locale === "da" ? "Vores historie" : "Our story"}
+            title={locale === "da" ? "Fra en p-bøde til en mobilitetsplatform." : "From a parking fine to a mobility platform."}
+          />
           <AboutTimeline items={timelineItems} locale={locale} />
         </div>
       </Section>

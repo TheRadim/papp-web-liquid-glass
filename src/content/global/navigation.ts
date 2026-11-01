@@ -26,24 +26,10 @@ export function primaryNavigation(locale: Locale) {
 
 const localised = (path: string) => ({ en: `/en${path}`, da: `/da${path}` });
 
-// Partnerships lead the menu as a full-width row. Then services (left column):
-// they are named after what people want to know. Products (right column) are
-// the tools we measure it with.
+// Services come first (left column): they are named after what people want to
+// know. Products (right column) are the tools we measure it with. Partnerships
+// has its own link in the navigation bar.
 export const solutionGroups = [
-  {
-    id: "partnerships",
-    label: navLabels.partnerships,
-    items: [
-      {
-        label: { en: "Partner with Papp", da: "Bliv partner med Papp" },
-        description: {
-          en: "For consultancies, retailers and data companies: we gather the data, you deliver the value.",
-          da: "Til rådgivere, butikker og datavirksomheder: vi indsamler data, I skaber værdien."
-        },
-        href: localised("/partnerships")
-      }
-    ]
-  },
   {
     id: "expertise",
     label: navLabels.expertise,

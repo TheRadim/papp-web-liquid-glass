@@ -69,7 +69,7 @@ export function MeetingRequest({ locale, source }: { locale: Locale; source: str
   }
   return <aside className="meeting-request meeting-request--calendar">
     <div className="meeting-request__intro">
-      <Image src={withBasePath("/images/team/martine-profile-new.webp")} alt="Martine Winther" width={112} height={112} />
+      <Image src={withBasePath("/images/team/martine-portrait.jpg")} alt="Martine Winther" width={112} height={112} />
       <div><p className="eyebrow">{da ? "Tal med Martine" : "Talk to Martine"}</p><h3>{da ? "Lad os finde næste skridt." : "Let’s find your next step."}</h3><p>{da ? "En samtale om jeres spørgsmål og muligheder." : "A conversation about your question and the possibilities."}</p></div>
       <button className="papp-button papp-button--primary" type="button" aria-expanded={open} aria-controls={id} onClick={toggle}><CalendarDays size={18} aria-hidden="true" />{open ? (da ? "Luk kalender" : "Close calendar") : (da ? "Find et tidspunkt" : "Find a time")}</button>
     </div>
