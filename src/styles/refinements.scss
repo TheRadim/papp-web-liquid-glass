@@ -1848,16 +1848,14 @@
 }
 
 /* From data to report: one intro column, three steps of one band. */
-.pp-split,
-.api-groups {
+.pp-split {
   display: grid;
   grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
   align-items: start;
   gap: clamp(2rem, 5vw, 4.5rem);
 }
 
-.pp-split__intro p,
-.api-groups__intro p {
+.pp-split__intro p {
   max-width: 30rem;
   font-size: 1.0625rem;
 }
@@ -2011,54 +2009,6 @@
 }
 
 /* Papp API: grouped capabilities as a definition list. */
-/* The short intro stays in view beside the longer list. */
-@media (min-width: 992px) {
-  .api-groups__intro {
-    position: sticky;
-    top: 120px;
-  }
-}
-
-.api-groups__list {
-  display: grid;
-  gap: 0.75rem;
-}
-
-.api-group {
-  display: grid;
-  grid-template-columns: minmax(140px, 0.6fr) minmax(0, 1.4fr);
-  gap: clamp(1rem, 3vw, 2.5rem);
-  border-radius: var(--papp-radius);
-  background: var(--pp-tint);
-  padding: clamp(1.25rem, 2.5vw, 2rem);
-}
-
-.api-group__head h3 {
-  margin-bottom: 0.35rem;
-}
-
-.api-group__head p {
-  margin: 0;
-  color: var(--papp-muted);
-  font-size: var(--text-small);
-}
-
-.api-group dl {
-  display: grid;
-  gap: 1rem;
-  margin: 0;
-}
-
-.api-group dt {
-  color: var(--papp-heading);
-  font-weight: 700;
-}
-
-.api-group dd {
-  margin: 0.15rem 0 0;
-  line-height: 1.6;
-}
-
 /* Endpoint reference: a real table. */
 .api-reference {
   display: grid;
@@ -2171,7 +2121,8 @@
     .pp-audience,
     .pp-steps li,
     .pp-commitments__grid > div,
-    .api-group,
+    .api-feature,
+    .api-explorer,
     .api-endpoints,
     .pp-hero__picture,
     .pp-process__picture {
@@ -2192,7 +2143,7 @@
 @media (max-width: 991.98px) {
   .pp-hero__grid,
   .pp-split,
-  .api-groups,
+  .api-try__grid,
   .pp-process,
   .api-reference {
     grid-template-columns: 1fr;
@@ -2213,11 +2164,411 @@
   .pp-steps,
   .pp-commitments__grid,
   .api-uses__grid,
-  .api-group {
+  .api-features {
     grid-template-columns: 1fr;
   }
 
   .api-endpoints td:last-child {
     display: none;
+  }
+}
+
+/* Papp API: try-it explorer beside the intro, then the features in three groups. */
+.api-try__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.75fr) minmax(0, 1.25fr);
+  align-items: center;
+  gap: clamp(2rem, 5vw, 4.5rem);
+}
+
+.api-try__intro p {
+  max-width: 30rem;
+  font-size: 1.0625rem;
+}
+
+.api-try__facts {
+  display: grid;
+  gap: 0.6rem;
+  margin: 1.75rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.api-try__facts li {
+  display: grid;
+  gap: 0.1rem;
+  border-radius: 16px;
+  background: var(--pp-tint);
+  padding: 0.85rem 1.1rem;
+}
+
+.api-try__facts strong {
+  color: var(--papp-heading);
+}
+
+.api-try__facts span {
+  color: var(--papp-muted);
+  font-size: var(--text-small);
+}
+
+.api-explorer {
+  overflow: hidden;
+  border-radius: var(--papp-radius);
+  background: #fff;
+  box-shadow: 0 30px 70px -40px rgba(15, 28, 39, 0.45), 0 0 0 1px rgba(55, 81, 126, 0.08);
+}
+
+.api-explorer__tabs {
+  display: flex;
+  gap: 0.35rem;
+  background: #0f1c27;
+  padding: 0.75rem 0.9rem 0;
+}
+
+.api-explorer__tabs button {
+  border: 0;
+  border-radius: 10px 10px 0 0;
+  background: transparent;
+  color: rgba(216, 236, 247, 0.6);
+  padding: 0.55rem 1rem;
+  font: inherit;
+  font-size: var(--text-small);
+  font-weight: 600;
+  transition: color 160ms ease, background-color 160ms ease;
+}
+
+.api-explorer__tabs button.is-active {
+  background: #172a38;
+  color: #fff;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .api-explorer__tabs button:not(.is-active):hover {
+    color: #fff;
+  }
+}
+
+.api-explorer__code {
+  background: #172a38;
+  color: #d8ecf7;
+  padding: 1rem 1.25rem 1.1rem;
+}
+
+.api-explorer__request {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-width: 0;
+  font-size: var(--text-small);
+}
+
+.api-explorer__request code {
+  overflow: hidden;
+  color: #9fd3ee;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.api-explorer__status {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1rem;
+  margin: 0.6rem 0 0.75rem;
+  color: rgba(216, 236, 247, 0.55);
+  font-size: var(--text-caption);
+}
+
+.api-explorer__ok {
+  color: #7ee0a5;
+  font-weight: 700;
+}
+
+.api-explorer pre {
+  max-height: 15.5rem;
+  margin: 0;
+  overflow: auto;
+  font-size: var(--text-small);
+  line-height: 1.55;
+  animation: api-response-in 220ms var(--ease-out);
+}
+
+.api-explorer pre code {
+  color: #c9dbe6;
+}
+
+.json-key { color: #8fd0f2; }
+.json-string { color: #b9e4a8; }
+.json-number { color: #ffb4a8; }
+.json-more { color: rgba(216, 236, 247, 0.45); font-style: italic; }
+
+@keyframes api-response-in {
+  from { opacity: 0; translate: 0 4px; }
+}
+
+.api-explorer__chart {
+  padding: 1rem 1.25rem 1.1rem;
+}
+
+.api-explorer__readout {
+  min-height: 1.6em;
+  margin: 0 0 0.4rem;
+  color: var(--papp-heading);
+  font-size: var(--text-small);
+  font-weight: 600;
+}
+
+.api-explorer__chart svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.api-explorer .chart-line {
+  fill: none;
+  stroke: var(--papp-blue);
+  stroke-width: 2.5;
+  stroke-linejoin: round;
+}
+
+.api-explorer .chart-area { fill: rgba(17, 131, 186, 0.1); }
+.api-explorer .chart-capacity { stroke: var(--papp-coral); stroke-width: 1; stroke-dasharray: 4 4; }
+.api-explorer .chart-dot { fill: #fff; stroke: var(--papp-blue); stroke-width: 2.5; transition: r 120ms var(--ease-out); }
+.api-explorer .chart-label { fill: var(--papp-muted); font-size: 11px; }
+.api-explorer .chart-bar { fill: var(--papp-blue); }
+.api-explorer .chart-bar--out { fill: var(--papp-coral); }
+.api-explorer svg g { transition: opacity 120ms ease; }
+
+.api-explorer__legend {
+  display: flex;
+  gap: 1rem;
+  margin: 0.25rem 0 0;
+  color: var(--papp-muted);
+  font-size: var(--text-caption);
+}
+
+.api-explorer__legend i {
+  display: inline-block;
+  width: 0.6rem;
+  height: 0.6rem;
+  margin-right: 0.35rem;
+  border-radius: 2px;
+  background: var(--papp-blue);
+}
+
+.api-explorer__legend i.is-out { background: var(--papp-coral); }
+
+.api-explorer__bars {
+  display: grid;
+  gap: 0.55rem;
+  padding-block: 0.4rem;
+}
+
+.api-explorer__bars > div {
+  display: grid;
+  grid-template-columns: 8.5rem minmax(0, 1fr) 3.5rem;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: var(--text-small);
+  transition: opacity 120ms ease;
+}
+
+.api-explorer__bars > div.is-dim { opacity: 0.45; }
+
+.api-explorer__bars i {
+  display: block;
+  height: 0.7rem;
+  border-radius: 4px;
+  background: var(--papp-blue);
+  transform-origin: left;
+  animation: api-bar-in 400ms var(--ease-out) both;
+}
+
+.api-explorer__bars strong {
+  color: var(--papp-heading);
+  text-align: right;
+}
+
+@keyframes api-bar-in {
+  from { transform: scaleX(0.2); opacity: 0; }
+}
+
+.api-explorer__note {
+  margin: 0.6rem 0 0;
+  color: var(--papp-muted);
+  font-size: var(--text-caption);
+}
+
+.api-features {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(1.5rem, 3vw, 2.5rem);
+  margin-top: clamp(3rem, 6vw, 5rem);
+}
+
+.api-features__group h3 {
+  margin-bottom: 0.25rem;
+}
+
+.api-features__intro {
+  margin-bottom: 1rem;
+  color: var(--papp-muted);
+  font-size: var(--text-small);
+}
+
+.api-feature {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.85rem;
+  margin-bottom: 0.75rem;
+  border-radius: 18px;
+  background: var(--pp-tint);
+  padding: 1rem 1.1rem;
+}
+
+.api-feature__icon {
+  display: inline-grid;
+  place-items: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 10px;
+  background: #fff;
+  color: var(--papp-blue);
+}
+
+.api-feature h4 {
+  margin: 0 0 0.25rem;
+  color: var(--papp-heading);
+  font-size: 1rem;
+}
+
+.api-feature p {
+  margin: 0;
+  font-size: var(--text-small);
+  line-height: 1.55;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .api-explorer pre,
+  .api-explorer__bars i { animation: none; }
+}
+
+@media (max-width: 991.98px) {
+  .api-features { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 575.98px) {
+  .api-explorer__bars > div { grid-template-columns: 6.5rem minmax(0, 1fr) 3rem; }
+}
+
+/* ------------------------------------------------------------------
+   Partnerships, second pass: lighter and less boxy. Text sits on the
+   page; colour carries the structure in thin filled bars instead of
+   cards. The logo strip stays inside the page margins.
+------------------------------------------------------------------- */
+.pp-proof__strip {
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+}
+
+.pp-spectrum {
+  gap: clamp(1rem, 2.5vw, 2rem);
+  overflow: visible;
+  border-radius: 0;
+}
+
+.pp-spectrum li,
+.pp-spectrum li:nth-child(1),
+.pp-spectrum li:nth-child(2),
+.pp-spectrum li:nth-child(3) {
+  padding: 1.25rem 0 0;
+  background: none;
+}
+
+.pp-spectrum li::before {
+  display: block;
+  height: 6px;
+  margin: -1.25rem 0 1.25rem;
+  border-radius: 3px;
+  background: #cfe8f5;
+  content: "";
+}
+
+/* The bar deepens from data to report: more of the work done by Papp. */
+.pp-spectrum li:nth-child(2)::before { background: var(--papp-blue-light); }
+.pp-spectrum li:nth-child(3)::before { background: var(--papp-hero); }
+
+.pp-spectrum li:nth-child(3) :is(h3, p) { color: var(--papp-heading); }
+.pp-spectrum li:nth-child(3) p { color: var(--papp-body); }
+.pp-spectrum li:nth-child(3) span,
+.pp-spectrum span { color: var(--papp-muted); }
+
+.pp-audiences {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(1.5rem, 4vw, 3.5rem);
+}
+
+.pp-audience {
+  grid-template-columns: 1fr;
+  gap: 0.9rem;
+  border-radius: 0;
+  background: none;
+  padding: 0;
+}
+
+.pp-audience__name {
+  padding-bottom: 0.9rem;
+  background: linear-gradient(var(--papp-blue-light), var(--papp-blue-light)) bottom left / 2.5rem 3px no-repeat;
+}
+
+.pp-commitments--light {
+  background: #fff;
+}
+
+.pp-commitments--light h2,
+.pp-commitments--light h3 {
+  color: var(--papp-heading);
+}
+
+.pp-commitments--light p {
+  color: var(--papp-body);
+}
+
+.pp-commitments__layout {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+  gap: clamp(2rem, 5vw, 4.5rem);
+  align-items: start;
+}
+
+.pp-commitments--light h2 {
+  margin-bottom: 1rem;
+}
+
+.pp-commitments__intro {
+  max-width: 26rem;
+  font-size: 1.0625rem;
+}
+
+.pp-commitments--light .pp-commitments__grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 2rem clamp(1.5rem, 4vw, 3rem);
+}
+
+.pp-commitments--light .pp-commitments__grid > div {
+  padding-top: 1rem;
+  background: linear-gradient(var(--papp-coral), var(--papp-coral)) top left / 2.5rem 3px no-repeat;
+}
+
+@media (max-width: 991.98px) {
+  .pp-audiences,
+  .pp-commitments__layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .pp-commitments--light .pp-commitments__grid {
+    grid-template-columns: 1fr;
   }
 }

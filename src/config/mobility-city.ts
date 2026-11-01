@@ -72,7 +72,7 @@ export const CITY_ZOOM_LIMITS = { closest: 0.62, farthest: 1.18 };
  * Each window fades in at `in`, stays visible and fades out ending at `out`.
  */
 export const CITY_COUNTER_FADES: Record<string, { in: number; out: number }[]> = {
-  "+1 green": [{ in: 8.3, out: 10.5 }],
+  "+1 green": [{ in: 7.8, out: 10.0 }],
   "-1red": [{ in: 19.2, out: 21.4 }]
 };
 
@@ -104,11 +104,11 @@ export const CITY_DATA = {
   },
   // The camera at the main lot's entrance counts cars in and out. Times are
   // seconds on the 26 s timeline: the blue car drives past it into the lot at
-  // about 8.3 s, and past it again on its way out at about 19.2 s.
+  // about 7.8 s, and past it again on its way out at about 19.2 s.
   camera: {
     position: [1.235, 0.7, -2.155] as Vec3,
     events: [
-      { at: 8.3, delta: 1 },
+      { at: 7.8, delta: 1 },
       { at: 19.2, delta: -1 }
     ],
     startCount: 2,
@@ -161,10 +161,10 @@ export const CAMERA_VIEWS: Record<MobilityView, { position: [number, number, num
     target: [-0.89, 0.03, -0.8],
     fov: 36
   },
-  // From behind the camera at the lot entrance, along the road it watches.
+  // In front of the camera at the lot entrance, so its lens faces the viewer.
   cameras: {
-    position: [2.6, 1.25, -3.4],
-    target: [0.55, 0.25, -2.0],
+    position: [0.2, 1.0, -3.4],
+    target: [1.35, 0.28, -1.9],
     fov: 38
   },
   // Puts the Insights panel in the upper left, clear of the product card

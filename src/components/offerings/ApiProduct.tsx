@@ -3,6 +3,8 @@ import { pick } from "@/lib/i18n/locales";
 import { Section } from "@/components/layout/Section";
 import { Button } from "@/components/ui/Button";
 import { MeetingRequest } from "@/components/contact/MeetingRequest";
+import { ApiExplorer } from "@/components/offerings/ApiExplorer";
+import { Activity, BarChart3, Bell, Car, Download, MapPinned, type LucideIcon } from "lucide-react";
 
 interface Group {
   title: LocalisedText;
@@ -55,6 +57,15 @@ const groups: Group[] = [
     ]
   }
 ];
+
+const featureIcons: Record<string, LucideIcon> = {
+  Occupancy: Car,
+  "Counts and flow": Activity,
+  "Time series": BarChart3,
+  "Visitor origins": MapPinned,
+  Webhooks: Bell,
+  Exports: Download
+};
 
 // Illustrative endpoints; the full reference is shared at onboarding.
 const endpoints: { method: string; path: string; description: LocalisedText }[] = [
@@ -119,34 +130,43 @@ export function ApiProduct({ locale }: { locale: Locale }) {
         </div>
       </section>
 
-      <Section className="pp-section">
-        <div className="api-groups">
-          <div className="api-groups__intro">
+      <Section className="pp-section api-try">
+        <div className="api-try__grid">
+          <div className="api-try__intro">
             <h2>{da ? "Samme data som Papp Insights." : "The same data as Papp Insights."}</h2>
             <p>
               {da
-                ? "API'et giver adgang til alt det, dashboardet viser, fra det enkelte øjeblik til flere års historik. I henter det, I har brug for, når I har brug for det."
-                : "The API gives you everything the dashboard shows, from this minute to years of history. Fetch what you need, when you need it."}
+                ? "API'et giver adgang til alt det, dashboardet viser, fra det enkelte øjeblik til flere års historik. Prøv tre af de mest brugte kald, og se hvordan svaret bliver til et diagram."
+                : "The API gives you everything the dashboard shows, from this minute to years of history. Try three of the most used calls and see how a response turns into a chart."}
             </p>
+            <ul className="api-try__facts">
+              <li><strong>REST + JSON</strong><span>{da ? "Forudsigelige endpoints og svar" : "Predictable endpoints and responses"}</span></li>
+              <li><strong>Live</strong><span>{da ? "Belægning og tællinger, mens bilerne kommer og kører" : "Occupancy and counts as cars come and go"}</span></li>
+              <li><strong>{da ? "Fuld historik" : "Full history"}</strong><span>{da ? "Fra første målte dag" : "From the first measured day"}</span></li>
+            </ul>
           </div>
-          <div className="api-groups__list">
-            {groups.map((group) => (
-              <section className="api-group" key={group.title.en} aria-label={pick(locale, group.title)}>
-                <div className="api-group__head">
-                  <h3>{pick(locale, group.title)}</h3>
-                  <p>{pick(locale, group.intro)}</p>
-                </div>
-                <dl>
-                  {group.items.map((item) => (
-                    <div key={item.title.en}>
-                      <dt>{pick(locale, item.title)}</dt>
-                      <dd>{pick(locale, item.body)}</dd>
+          <ApiExplorer locale={locale} />
+        </div>
+
+        <div className="api-features">
+          {groups.map((group) => (
+            <div className="api-features__group" key={group.title.en}>
+              <h3>{pick(locale, group.title)}</h3>
+              <p className="api-features__intro">{pick(locale, group.intro)}</p>
+              {group.items.map((item) => {
+                const Icon = featureIcons[item.title.en] ?? Activity;
+                return (
+                  <article className="api-feature" key={item.title.en}>
+                    <span className="api-feature__icon" aria-hidden="true"><Icon size={18} strokeWidth={1.8} /></span>
+                    <div>
+                      <h4>{pick(locale, item.title)}</h4>
+                      <p>{pick(locale, item.body)}</p>
                     </div>
-                  ))}
-                </dl>
-              </section>
-            ))}
-          </div>
+                  </article>
+                );
+              })}
+            </div>
+          ))}
         </div>
       </Section>
 

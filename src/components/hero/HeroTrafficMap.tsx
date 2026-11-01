@@ -25,6 +25,7 @@ interface Vehicle {
   direction: 1 | -1;
   color: [number, number, number];
   size: number;
+  age: number;
 }
 
 // How often each road class gets traffic, relative to its length.
@@ -54,6 +55,8 @@ const VEHICLE_COLORS: [number, number, number][] = [
 ];
 const TRAIL_LENGTH = 16; // map units behind the head
 const TRAIL_STEPS = 6;
+// Dots fade in where a trip starts and dim slowly over its last stretch.
+const FADE_SECONDS = 1.6;
 
 function prepareRoads(data: TrafficMapData): Road[] {
   return data.roads.map((road) => {
@@ -160,7 +163,8 @@ export function HeroTrafficMap() {
         speed: (9 + Math.random() * 10) * fast,
         direction,
         color: VEHICLE_COLORS[Math.floor(Math.random() * VEHICLE_COLORS.length)],
-        size: kind === "major" ? 2 : 1.6
+        size: kind === "major" ? 2 : 1.6,
+        age: anywhere ? FADE_SECONDS : 0
       };
     }
 
@@ -275,6 +279,7 @@ export function HeroTrafficMap() {
         let vehicle = vehicles[index];
         const road = roads[vehicle.road];
         vehicle.distance += vehicle.speed * vehicle.direction * delta;
+        vehicle.age += delta;
 
         if (vehicle.distance < 0 || vehicle.distance > road.length) {
           vehicle = spawn(false);
@@ -284,6 +289,11 @@ export function HeroTrafficMap() {
         const current = roads[vehicle.road];
         const [red, green, blue] = vehicle.color;
         const [x, y] = project(pointAt(current, vehicle.distance));
+        const remaining = vehicle.direction === 1 ? current.length - vehicle.distance : vehicle.distance;
+        const fadeIn = Math.min(1, vehicle.age / FADE_SECONDS);
+        const fadeOut = Math.min(1, remaining / (vehicle.speed * FADE_SECONDS));
+        const visibility = Math.max(0, Math.min(fadeIn, fadeOut));
+        if (visibility <= 0.01) continue;
 
         // Fading trail: short segments behind the head, each fainter and thinner.
         let [previousX, previousY] = [x, y];
@@ -291,7 +301,7 @@ export function HeroTrafficMap() {
           const back = Math.min(current.length, Math.max(0, vehicle.distance - vehicle.direction * (TRAIL_LENGTH * step) / TRAIL_STEPS));
           const [trailX, trailY] = project(pointAt(current, back));
           const fade = 1 - step / (TRAIL_STEPS + 1);
-          drawingContext.strokeStyle = `rgba(${red}, ${green}, ${blue}, ${0.5 * fade})`;
+          drawingContext.strokeStyle = `rgba(${red}, ${green}, ${blue}, ${0.32 * fade * visibility})`;
           drawingContext.lineWidth = vehicle.size * 1.5 * fade + 0.4;
           drawingContext.beginPath();
           drawingContext.moveTo(previousX, previousY);
@@ -300,12 +310,12 @@ export function HeroTrafficMap() {
           [previousX, previousY] = [trailX, trailY];
         }
 
-        // Soft glow, then the bright head.
-        drawingContext.fillStyle = `rgba(${red}, ${green}, ${blue}, 0.16)`;
+        // Soft glow, then the head.
+        drawingContext.fillStyle = `rgba(${red}, ${green}, ${blue}, ${0.1 * visibility})`;
         drawingContext.beginPath();
         drawingContext.arc(x, y, vehicle.size * 3, 0, Math.PI * 2);
         drawingContext.fill();
-        drawingContext.fillStyle = `rgba(${red}, ${green}, ${blue}, 0.9)`;
+        drawingContext.fillStyle = `rgba(${red}, ${green}, ${blue}, ${0.62 * visibility})`;
         drawingContext.beginPath();
         drawingContext.arc(x, y, vehicle.size, 0, Math.PI * 2);
         drawingContext.fill();

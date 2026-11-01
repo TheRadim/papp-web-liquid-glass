@@ -160,8 +160,12 @@ export function PartnershipsStory({ locale }: { locale: Locale }) {
       </section>
 
       <section className="pp-proof" aria-label={da ? "Byer og partnere, der allerede bruger Papp" : "Cities and partners already using Papp"}>
-        <p>{da ? "Måler allerede for byer og partnere i hele Danmark" : "Already measuring for cities and partners across Denmark"}</p>
-        <PartnerLogoLoop />
+        <div className="container">
+          <p>{da ? "Måler allerede for byer og partnere i hele Danmark" : "Already measuring for cities and partners across Denmark"}</p>
+          <div className="pp-proof__strip">
+            <PartnerLogoLoop />
+          </div>
+        </div>
       </section>
 
       <Section className="pp-section">
@@ -226,9 +230,16 @@ export function PartnershipsStory({ locale }: { locale: Locale }) {
         </div>
       </Section>
 
-      <section className="pp-commitments">
-        <div className="container">
-          <h2>{da ? "Hvad I kan regne med." : "What you can count on."}</h2>
+      <section className="pp-commitments pp-commitments--light">
+        <div className="container pp-commitments__layout">
+          <div>
+            <h2>{da ? "Hvad I kan regne med." : "What you can count on."}</h2>
+            <p className="pp-commitments__intro">
+              {da
+                ? "Et samarbejde med Papp skal være let at stå inde for over for jeres egen kunde."
+                : "Working with Papp should be easy to stand behind in front of your own client."}
+            </p>
+          </div>
           <div className="pp-commitments__grid">
             {commitments.map((item) => (
               <div key={item.title.en}>
