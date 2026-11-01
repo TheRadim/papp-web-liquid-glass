@@ -134,8 +134,8 @@ export function HeroTrafficMap() {
     // Pointer "lens": traffic parts around the cursor and a little more of it
     // heads there. Mouse only, and off with reduced motion.
     const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)");
-    const lens = { x: -9999, y: -9999, strength: 0, target: 0 };
-    const LENS_RADIUS = 90;
+    const lens = { x: -9999, y: -9999, targetX: -9999, targetY: -9999, strength: 0, target: 0 };
+    const LENS_RADIUS = 130;
 
     function pickRoad() {
       const target = Math.random() * pickTotal;
@@ -281,7 +281,7 @@ export function HeroTrafficMap() {
       const distance = Math.hypot(dx, dy) || 1;
       if (distance > LENS_RADIUS) return [x, y, 0];
       const falloff = (1 - distance / LENS_RADIUS) ** 2 * lens.strength;
-      const push = falloff * 26;
+      const push = falloff * 7;
       return [x + (dx / distance) * push, y + (dy / distance) * push, falloff];
     }
 
@@ -300,7 +300,11 @@ export function HeroTrafficMap() {
 
     function render(delta: number) {
       drawingContext.clearRect(0, 0, width, height);
-      lens.strength += (lens.target - lens.strength) * Math.min(1, delta * 3);
+      // Ease the lens in, out and after the pointer, so nothing jumps.
+      lens.strength += (lens.target - lens.strength) * Math.min(1, delta * 1.2);
+      const follow = Math.min(1, delta * 2.5);
+      lens.x += (lens.targetX - lens.x) * follow;
+      lens.y += (lens.targetY - lens.y) * follow;
 
       if (base) {
         drawingContext.drawImage(base, 0, 0, width, height);
@@ -314,7 +318,7 @@ export function HeroTrafficMap() {
 
         if (vehicle.distance < 0 || vehicle.distance > road.length) {
           vehicle = spawn(false);
-          const near = Math.random() < 0.5 ? roadNearPointer() : -1;
+          const near = Math.random() < 0.2 ? roadNearPointer() : -1;
           if (near >= 0) {
             vehicle.road = near;
             vehicle.distance = vehicle.direction === 1 ? 0 : roads[near].length;
@@ -328,7 +332,7 @@ export function HeroTrafficMap() {
         const remaining = vehicle.direction === 1 ? current.length - vehicle.distance : vehicle.distance;
         const fadeIn = Math.min(1, vehicle.age / FADE_SECONDS);
         const fadeOut = Math.min(1, remaining / (vehicle.speed * FADE_SECONDS));
-        const visibility = Math.min(1, Math.max(0, Math.min(fadeIn, fadeOut)) * (1 + lift * 0.8));
+        const visibility = Math.min(1, Math.max(0, Math.min(fadeIn, fadeOut)) * (1 + lift * 0.35));
         if (visibility <= 0.01) continue;
 
         // Fading trail: short segments behind the head, each fainter and thinner.
@@ -421,8 +425,12 @@ export function HeroTrafficMap() {
       const inside = event.clientX >= rect.left && event.clientX <= rect.right && event.clientY >= rect.top && event.clientY <= rect.bottom;
       lens.target = inside ? 1 : 0;
       if (!inside) return;
-      lens.x = event.clientX - rect.left;
-      lens.y = event.clientY - rect.top;
+      lens.targetX = event.clientX - rect.left;
+      lens.targetY = event.clientY - rect.top;
+      if (lens.strength < 0.02) {
+        lens.x = lens.targetX;
+        lens.y = lens.targetY;
+      }
     }
     function onPointerOut(event: PointerEvent) {
       if (!event.relatedTarget) lens.target = 0;
