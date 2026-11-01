@@ -39,9 +39,9 @@ const TRAFFIC_WEIGHT: Record<RoadKind, number> = {
 
 // Kept very light: the outline carries the map, roads are only a hint.
 const ROAD_STYLE: Record<RoadKind, { stroke: string; width: number }> = {
-  major: { stroke: "rgba(126, 141, 156, 0.2)", width: 1 },
-  secondary: { stroke: "rgba(126, 141, 156, 0.12)", width: 0.8 },
-  road: { stroke: "rgba(126, 141, 156, 0.08)", width: 0.7 },
+  major: { stroke: "rgba(126, 141, 156, 0.13)", width: 1 },
+  secondary: { stroke: "rgba(126, 141, 156, 0.08)", width: 0.8 },
+  road: { stroke: "rgba(126, 141, 156, 0.05)", width: 0.7 },
   ferry: { stroke: "rgba(0, 126, 181, 0.08)", width: 0.7 },
   local: { stroke: "rgba(0, 0, 0, 0)", width: 0 }
 };
@@ -202,9 +202,9 @@ export function HeroTrafficMap() {
         });
         baseContext.closePath();
       }
-      baseContext.fillStyle = "rgba(244, 247, 249, 0.5)";
+      baseContext.fillStyle = "rgba(244, 247, 249, 0.4)";
       baseContext.fill();
-      baseContext.strokeStyle = "rgba(150, 162, 174, 0.5)";
+      baseContext.strokeStyle = "rgba(150, 162, 174, 0.34)";
       baseContext.lineWidth = 1;
       baseContext.stroke();
 
@@ -254,10 +254,11 @@ export function HeroTrafficMap() {
       const mapHeight = maxY - minY;
 
       if (width < 760) {
-        scale = Math.min((width * 0.88) / mapWidth, (height * 0.56) / mapHeight);
+        scale = Math.min((width * 1.05) / mapWidth, (height * 0.72) / mapHeight);
         offsetX = (width - mapWidth * scale) / 2 - minX * scale;
       } else {
-        scale = Math.min((width * 0.56) / mapWidth, (height * 0.62) / mapHeight);
+        // Large and quiet: the country runs nearly the full height of the hero.
+        scale = Math.min((width * 0.9) / mapWidth, (height * 1.02) / mapHeight);
         offsetX = (width - mapWidth * scale) / 2 - minX * scale;
       }
       offsetY = (height - mapHeight * scale) / 2 - minY * scale + height * 0.02;
@@ -301,7 +302,7 @@ export function HeroTrafficMap() {
           const back = Math.min(current.length, Math.max(0, vehicle.distance - vehicle.direction * (TRAIL_LENGTH * step) / TRAIL_STEPS));
           const [trailX, trailY] = project(pointAt(current, back));
           const fade = 1 - step / (TRAIL_STEPS + 1);
-          drawingContext.strokeStyle = `rgba(${red}, ${green}, ${blue}, ${0.32 * fade * visibility})`;
+          drawingContext.strokeStyle = `rgba(${red}, ${green}, ${blue}, ${0.26 * fade * visibility})`;
           drawingContext.lineWidth = vehicle.size * 1.5 * fade + 0.4;
           drawingContext.beginPath();
           drawingContext.moveTo(previousX, previousY);
@@ -311,11 +312,11 @@ export function HeroTrafficMap() {
         }
 
         // Soft glow, then the head.
-        drawingContext.fillStyle = `rgba(${red}, ${green}, ${blue}, ${0.1 * visibility})`;
+        drawingContext.fillStyle = `rgba(${red}, ${green}, ${blue}, ${0.08 * visibility})`;
         drawingContext.beginPath();
         drawingContext.arc(x, y, vehicle.size * 3, 0, Math.PI * 2);
         drawingContext.fill();
-        drawingContext.fillStyle = `rgba(${red}, ${green}, ${blue}, ${0.62 * visibility})`;
+        drawingContext.fillStyle = `rgba(${red}, ${green}, ${blue}, ${0.5 * visibility})`;
         drawingContext.beginPath();
         drawingContext.arc(x, y, vehicle.size, 0, Math.PI * 2);
         drawingContext.fill();

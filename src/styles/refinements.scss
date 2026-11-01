@@ -1760,35 +1760,12 @@
 }
 
 /* ------------------------------------------------------------------
-   Partnerships and Papp API: a calmer, corporate composition.
-   Left-aligned text, real photographs, tone steps instead of card rows,
-   and one dark field for the commitments.
+   Shared by Partnerships and Papp API.
 ------------------------------------------------------------------- */
 .partner-page,
 .api-page {
   --pp-tint: #f4f7fa;
   --pp-field: var(--papp-hero-deep);
-}
-
-.pp-hero {
-  padding-block: var(--section-space-md) clamp(2.5rem, 5vw, 4rem);
-}
-
-.pp-hero__grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
-  align-items: center;
-  gap: clamp(2rem, 5vw, 4.5rem);
-}
-
-.pp-hero h1 {
-  margin-bottom: 1.25rem;
-  font-size: clamp(2.25rem, 3.4vw, 3.4rem);
-}
-
-/* Two lines on wider screens: the second sentence starts its own line. */
-@media (min-width: 992px) {
-  .pp-hero__line { display: block; }
 }
 
 .pp-lead {
@@ -1806,25 +1783,6 @@
   margin-top: 1.75rem;
 }
 
-.pp-hero__picture,
-.pp-process__picture {
-  margin: 0;
-  overflow: hidden;
-  border-radius: var(--papp-radius);
-}
-
-.pp-hero__picture img,
-.pp-process__picture img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.pp-hero__picture {
-  aspect-ratio: 4 / 3;
-}
-
 .pp-proof {
   padding-block: clamp(1rem, 3vw, 2rem) clamp(2rem, 5vw, 3.5rem);
   text-align: center;
@@ -1836,143 +1794,12 @@
   font-size: var(--text-small);
 }
 
-.pp-heading {
-  max-width: 22ch;
-  margin-bottom: clamp(1.75rem, 3vw, 2.5rem);
-}
-
 .pp-section--soft,
 .partner-page .papp-section--soft,
 .api-page .papp-section--soft {
   background: var(--pp-tint);
 }
 
-/* From data to report: one intro column, three steps of one band. */
-.pp-split {
-  display: grid;
-  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
-  align-items: start;
-  gap: clamp(2rem, 5vw, 4.5rem);
-}
-
-.pp-split__intro p {
-  max-width: 30rem;
-  font-size: 1.0625rem;
-}
-
-.pp-spectrum {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  overflow: hidden;
-  border-radius: var(--papp-radius);
-}
-
-.pp-spectrum li {
-  display: flex;
-  flex-direction: column;
-  padding: clamp(1.25rem, 2.2vw, 1.75rem);
-}
-
-/* The band darkens from data to report: more of the work done by Papp. */
-.pp-spectrum li:nth-child(1) { background: #eaf5fb; }
-.pp-spectrum li:nth-child(2) { background: #d3ebf7; }
-.pp-spectrum li:nth-child(3) { background: var(--papp-hero); }
-.pp-spectrum li:nth-child(3) :is(h3, p, span) { color: #fff; }
-
-.pp-spectrum h3 {
-  margin-bottom: 0.6rem;
-}
-
-.pp-spectrum p {
-  flex: 1;
-  margin-bottom: 1rem;
-}
-
-.pp-spectrum span {
-  color: var(--papp-heading);
-  font-size: var(--text-small);
-  font-weight: 600;
-}
-
-/* Who we work with: three rows, name / argument / what you get. */
-.pp-audiences {
-  display: grid;
-  gap: 0.75rem;
-}
-
-.pp-audience {
-  display: grid;
-  grid-template-columns: minmax(150px, 0.45fr) minmax(0, 1.3fr) minmax(0, 1fr);
-  gap: clamp(1.25rem, 3vw, 3rem);
-  align-items: start;
-  border-radius: var(--papp-radius);
-  background: #fff;
-  padding: clamp(1.5rem, 3vw, 2.25rem);
-}
-
-.pp-audience__name {
-  margin: 0;
-  color: var(--papp-blue);
-  font-weight: 700;
-}
-
-.pp-audience h3 {
-  margin-bottom: 0.6rem;
-}
-
-.pp-audience p {
-  margin-bottom: 0;
-}
-
-.pp-audience .check-list {
-  margin: 0;
-}
-
-/* How a partnership runs: photograph beside four plain steps. */
-.pp-process {
-  display: grid;
-  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
-  align-items: center;
-  gap: clamp(2rem, 5vw, 4.5rem);
-}
-
-.pp-process__picture {
-  aspect-ratio: 4 / 5;
-}
-
-.pp-process__intro {
-  max-width: 32rem;
-  margin-bottom: 1.75rem;
-  font-size: 1.0625rem;
-}
-
-.pp-steps {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1.75rem 2rem;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.pp-steps li {
-  padding-top: 1rem;
-  background: linear-gradient(var(--papp-blue-light), var(--papp-blue-light)) top left / 2.5rem 3px no-repeat;
-}
-
-.pp-steps h3 {
-  margin-bottom: 0.4rem;
-  font-size: 1.2rem;
-}
-
-.pp-steps p {
-  margin: 0;
-}
-
-/* Commitments: the page's one dark field. */
 .pp-commitments {
   padding-block: var(--section-space-md);
   background: var(--pp-field);
@@ -1993,23 +1820,6 @@
   margin-bottom: clamp(2rem, 4vw, 3rem);
 }
 
-.pp-commitments__grid {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: clamp(1.5rem, 3vw, 2.5rem);
-}
-
-.pp-commitments__grid h3 {
-  margin-bottom: 0.5rem;
-  font-size: 1.2rem;
-}
-
-.pp-commitments__grid p {
-  margin: 0;
-}
-
-/* Papp API: grouped capabilities as a definition list. */
-/* Endpoint reference: a real table. */
 .api-reference {
   display: grid;
   grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
@@ -2073,7 +1883,6 @@
   color: #b54a42;
 }
 
-/* Use cases on the dark field, with security alongside. */
 .api-uses__grid {
   display: grid;
   grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
@@ -2109,38 +1918,12 @@
   margin: 0;
 }
 
-
 .pp-commitments.api-uses h2 {
   margin-bottom: 1.5rem;
 }
 
-/* Gentle entrances for the new blocks, driven by scroll like the rest of the site. */
-@supports (animation-timeline: view()) {
-  @media (prefers-reduced-motion: no-preference) {
-    .pp-spectrum li,
-    .pp-audience,
-    .pp-steps li,
-    .pp-commitments__grid > div,
-    .api-feature,
-    .api-explorer,
-    .api-endpoints,
-    .pp-hero__picture,
-    .pp-process__picture {
-      animation: settle-in linear both;
-      animation-timeline: view();
-      animation-range: entry 0% entry 60%;
-    }
-  }
-}
-
-@media (max-width: 1199.98px) {
-  .pp-commitments__grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-}
-
 @media (max-width: 991.98px) {
+
   .pp-hero__grid,
   .pp-split,
   .api-try__grid,
@@ -2148,18 +1931,10 @@
   .api-reference {
     grid-template-columns: 1fr;
   }
-
-  .pp-audience {
-    grid-template-columns: 1fr;
-    gap: 0.9rem;
-  }
-
-  .pp-process__picture {
-    aspect-ratio: 16 / 10;
-  }
 }
 
 @media (max-width: 767.98px) {
+
   .pp-spectrum,
   .pp-steps,
   .pp-commitments__grid,
@@ -2167,6 +1942,7 @@
   .api-features {
     grid-template-columns: 1fr;
   }
+
 
   .api-endpoints td:last-child {
     display: none;
@@ -2177,7 +1953,7 @@
 .api-try__grid {
   display: grid;
   grid-template-columns: minmax(0, 0.75fr) minmax(0, 1.25fr);
-  align-items: center;
+  align-items: start;
   gap: clamp(2rem, 5vw, 4.5rem);
 }
 
@@ -2283,8 +2059,9 @@
   font-weight: 700;
 }
 
+/* Fixed heights, so switching calls never moves the page. */
 .api-explorer pre {
-  max-height: 15.5rem;
+  height: 15.5rem;
   margin: 0;
   overflow: auto;
   font-size: var(--text-small);
@@ -2306,7 +2083,20 @@
 }
 
 .api-explorer__chart {
+  display: flex;
+  flex-direction: column;
+  height: 19rem;
   padding: 1rem 1.25rem 1.1rem;
+}
+
+.api-explorer__chart > svg,
+.api-explorer__chart > .api-explorer__bars {
+  flex: 1;
+  min-height: 0;
+}
+
+.api-explorer__note {
+  margin-top: auto !important;
 }
 
 .api-explorer__readout {
@@ -2460,115 +2250,434 @@
   .api-explorer__bars > div { grid-template-columns: 6.5rem minmax(0, 1fr) 3rem; }
 }
 
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .api-feature,
+    .api-explorer,
+    .api-endpoints,
+    .pp-deliver,
+    .pp-who__row,
+    .pp-flow li,
+    .pp-promise__card {
+      animation: settle-in linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 60%;
+    }
+  }
+}
+
 /* ------------------------------------------------------------------
-   Partnerships, second pass: lighter and less boxy. Text sits on the
-   page; colour carries the structure in thin filled bars instead of
-   cards. The logo strip stays inside the page margins.
+   Partnerships. One idea per section, carried by photographs, type and
+   the site's glass material rather than rules and accent bars.
 ------------------------------------------------------------------- */
+
+/* Stage: the photograph is the hero; the message sits on glass. */
+.pp-stage {
+  padding-block: clamp(6.5rem, 9vw, 8rem) clamp(1.5rem, 3vw, 2.5rem);
+}
+
+.pp-stage__frame {
+  position: relative;
+  display: grid;
+  align-items: end;
+  min-height: min(78svh, 720px);
+  overflow: hidden;
+  border-radius: 36px;
+}
+
+.pp-stage__photo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 60% 40%;
+}
+
+.pp-stage__panel {
+  position: relative;
+  width: min(560px, calc(100% - 2rem));
+  margin: clamp(1rem, 3vw, 2.5rem);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  border-radius: 28px;
+  background: rgba(255, 255, 255, 0.78);
+  box-shadow: 0 24px 60px rgba(15, 28, 39, 0.18), inset 0 1px 1px #fff;
+  padding: clamp(1.5rem, 3vw, 2.5rem);
+  -webkit-backdrop-filter: blur(24px) saturate(160%);
+  backdrop-filter: blur(24px) saturate(160%);
+}
+
+.pp-stage__kicker {
+  margin-bottom: 0.6rem;
+  color: var(--papp-blue);
+  font-size: var(--text-small);
+  font-weight: 600;
+}
+
+.pp-stage h1 {
+  margin-bottom: 1rem;
+  font-size: clamp(2.1rem, 3.4vw, 3.25rem);
+  letter-spacing: -0.03em;
+}
+
+.pp-stage .pp-lead {
+  margin-bottom: 0;
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .pp-stage__panel {
+    background: #fff;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+}
+
+/* Logo strip: inside the page margins, fading at its edges. */
 .pp-proof__strip {
   overflow: hidden;
   -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
   mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
 }
 
-.pp-spectrum {
-  gap: clamp(1rem, 2.5vw, 2rem);
-  overflow: visible;
-  border-radius: 0;
+.pp-intro {
+  max-width: 40rem;
+  margin-bottom: clamp(2rem, 4vw, 3rem);
 }
 
-.pp-spectrum li,
-.pp-spectrum li:nth-child(1),
-.pp-spectrum li:nth-child(2),
-.pp-spectrum li:nth-child(3) {
-  padding: 1.25rem 0 0;
-  background: none;
+.pp-intro h2 {
+  margin-bottom: 0.75rem;
+  font-size: clamp(1.9rem, 3vw, 2.75rem);
+  letter-spacing: -0.025em;
 }
 
-.pp-spectrum li::before {
-  display: block;
-  height: 6px;
-  margin: -1.25rem 0 1.25rem;
-  border-radius: 3px;
-  background: #cfe8f5;
-  content: "";
-}
-
-/* The bar deepens from data to report: more of the work done by Papp. */
-.pp-spectrum li:nth-child(2)::before { background: var(--papp-blue-light); }
-.pp-spectrum li:nth-child(3)::before { background: var(--papp-hero); }
-
-.pp-spectrum li:nth-child(3) :is(h3, p) { color: var(--papp-heading); }
-.pp-spectrum li:nth-child(3) p { color: var(--papp-body); }
-.pp-spectrum li:nth-child(3) span,
-.pp-spectrum span { color: var(--papp-muted); }
-
-.pp-audiences {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: clamp(1.5rem, 4vw, 3.5rem);
-}
-
-.pp-audience {
-  grid-template-columns: 1fr;
-  gap: 0.9rem;
-  border-radius: 0;
-  background: none;
-  padding: 0;
-}
-
-.pp-audience__name {
-  padding-bottom: 0.9rem;
-  background: linear-gradient(var(--papp-blue-light), var(--papp-blue-light)) bottom left / 2.5rem 3px no-repeat;
-}
-
-.pp-commitments--light {
-  background: #fff;
-}
-
-.pp-commitments--light h2,
-.pp-commitments--light h3 {
-  color: var(--papp-heading);
-}
-
-.pp-commitments--light p {
-  color: var(--papp-body);
-}
-
-.pp-commitments__layout {
-  display: grid;
-  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
-  gap: clamp(2rem, 5vw, 4.5rem);
-  align-items: start;
-}
-
-.pp-commitments--light h2 {
-  margin-bottom: 1rem;
-}
-
-.pp-commitments__intro {
-  max-width: 26rem;
+.pp-intro p {
+  margin: 0;
   font-size: 1.0625rem;
 }
 
-.pp-commitments--light .pp-commitments__grid {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 2rem clamp(1.5rem, 4vw, 3rem);
+.pp-intro--center {
+  margin-inline: auto;
+  text-align: center;
 }
 
-.pp-commitments--light .pp-commitments__grid > div {
-  padding-top: 1rem;
-  background: linear-gradient(var(--papp-coral), var(--papp-coral)) top left / 2.5rem 3px no-repeat;
+/* From data to report: a segmented control switches one panel. */
+.pp-deliver__control {
+  display: inline-flex;
+  gap: 0.25rem;
+  margin-bottom: 1.5rem;
+  border-radius: 999px;
+  background: var(--pp-tint);
+  padding: 0.3rem;
 }
 
-@media (max-width: 991.98px) {
-  .pp-audiences,
-  .pp-commitments__layout {
-    grid-template-columns: 1fr;
+.pp-deliver__control button {
+  min-width: 7.5rem;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--papp-muted);
+  padding: 0.6rem 1.25rem;
+  font: inherit;
+  font-weight: 600;
+  transition: background-color 200ms var(--ease-out), color 200ms ease, box-shadow 200ms ease;
+}
+
+.pp-deliver__control button.is-active {
+  background: #fff;
+  color: var(--papp-heading);
+  box-shadow: 0 4px 14px rgba(55, 81, 126, 0.12);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .pp-deliver__control button:not(.is-active):hover {
+    color: var(--papp-heading);
   }
 }
 
+.pp-deliver__panel {
+  display: grid;
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+  align-items: center;
+  gap: clamp(2rem, 5vw, 4.5rem);
+}
+
+.pp-deliver__copy {
+  animation: pp-swap-in 260ms var(--ease-out);
+}
+
+.pp-deliver__copy h3 {
+  margin-bottom: 0.75rem;
+  font-size: clamp(1.5rem, 2.2vw, 2rem);
+}
+
+.pp-deliver__copy ul {
+  display: grid;
+  gap: 0.5rem;
+  margin: 1.25rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pp-deliver__copy li {
+  color: var(--papp-heading);
+  font-weight: 500;
+}
+
+.pp-deliver__copy li::before {
+  margin-right: 0.6rem;
+  color: var(--papp-blue-light);
+  content: "✓";
+}
+
+.pp-deliver__visual {
+  aspect-ratio: 3 / 2;
+  margin: 0;
+  overflow: hidden;
+  border-radius: 28px;
+  background: #0f1c27;
+  animation: pp-swap-in 320ms var(--ease-out);
+}
+
+.pp-deliver__visual img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.pp-deliver__csv {
+  display: grid;
+  align-content: center;
+  height: 100%;
+  margin: 0;
+  padding: clamp(1.25rem, 3vw, 2.5rem);
+  color: #c9dbe6;
+  font-size: clamp(0.72rem, 1vw, 0.875rem);
+  line-height: 1.9;
+  white-space: pre;
+  overflow: auto;
+}
+
+@keyframes pp-swap-in {
+  from { opacity: 0; translate: 0 8px; }
+}
+
+/* Who we work with: three statements set as type, not cards. */
+.pp-who {
+  background: var(--pp-tint);
+}
+
+.pp-who__list {
+  display: grid;
+  gap: clamp(2rem, 4vw, 3rem);
+}
+
+.pp-who__row {
+  display: grid;
+  grid-template-columns: minmax(140px, 0.45fr) minmax(0, 1.1fr) minmax(0, 1fr);
+  align-items: baseline;
+  gap: clamp(1rem, 3vw, 3rem);
+}
+
+.pp-who__name {
+  margin: 0;
+  color: var(--papp-blue);
+  font-weight: 600;
+}
+
+.pp-who__row h3 {
+  margin: 0;
+  font-size: clamp(1.4rem, 2.2vw, 1.9rem);
+  letter-spacing: -0.02em;
+}
+
+.pp-who__detail p {
+  margin: 0;
+}
+
+.pp-who__points {
+  margin-top: 0.6rem !important;
+  color: var(--papp-muted);
+  font-size: var(--text-small);
+}
+
+/* How it runs: four glass pills joined by arrows, a sentence under each. */
+.pp-flow {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(1rem, 2vw, 1.5rem);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pp-flow__pill {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.9rem;
+  border: 1px solid var(--glass-edge, #fff);
+  border-radius: 999px;
+  background: var(--glass-fill, rgba(250, 251, 252, 0.76));
+  box-shadow: var(--glass-shadow);
+  padding: 0.7rem 1.1rem;
+  color: var(--papp-heading);
+  font-weight: 700;
+}
+
+.pp-flow__pill svg {
+  flex: none;
+  color: var(--papp-blue-light);
+}
+
+.pp-flow p {
+  margin: 0;
+  padding-inline: 0.25rem;
+}
+
+/* Commitments: glass cards over the installation photograph. */
+.pp-promise {
+  padding-block: clamp(1rem, 3vw, 2rem) var(--section-space-md);
+}
+
+.pp-promise__frame {
+  position: relative;
+  overflow: hidden;
+  border-radius: 36px;
+}
+
+.pp-promise__photo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* A soft dark wash keeps the headline legible on the photograph. */
+.pp-promise__frame::before {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: rgba(15, 28, 39, 0.38);
+  content: "";
+}
+
+.pp-promise__content {
+  position: relative;
+  z-index: 2;
+  padding: clamp(2rem, 5vw, 4rem);
+}
+
+.pp-promise__content h2 {
+  margin-bottom: clamp(1.5rem, 3vw, 2.25rem);
+  color: #fff;
+  font-size: clamp(1.9rem, 3vw, 2.75rem);
+  letter-spacing: -0.025em;
+}
+
+.pp-promise__grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(0.75rem, 1.5vw, 1rem);
+}
+
+.pp-promise__card {
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.8);
+  box-shadow: inset 0 1px 1px #fff;
+  padding: clamp(1.1rem, 2vw, 1.5rem);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  backdrop-filter: blur(20px) saturate(160%);
+}
+
+.pp-promise__card h3 {
+  margin-bottom: 0.4rem;
+  font-size: 1.15rem;
+}
+
+.pp-promise__card p {
+  margin: 0;
+  font-size: var(--text-small);
+  line-height: 1.55;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pp-deliver__copy,
+  .pp-deliver__visual { animation: none; }
+}
+
+@media (max-width: 1199.98px) {
+  .pp-promise__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 991.98px) {
+  .pp-deliver__panel,
+  .pp-who__row { grid-template-columns: 1fr; }
+  .pp-who__row { gap: 0.5rem; }
+  .pp-flow { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
 @media (max-width: 767.98px) {
-  .pp-commitments--light .pp-commitments__grid {
-    grid-template-columns: 1fr;
+  .pp-stage__frame {
+    min-height: 0;
+    align-items: stretch;
+  }
+
+  .pp-stage__photo {
+    position: relative;
+    aspect-ratio: 4 / 3;
+    height: auto;
+  }
+
+  .pp-stage__panel {
+    width: auto;
+    margin: -2.5rem 0.75rem 0.75rem;
+  }
+
+  .pp-stage__frame {
+    display: block;
+    border-radius: 28px;
+    background: var(--pp-tint);
+  }
+
+  .pp-deliver__control {
+    display: flex;
+  }
+
+  .pp-deliver__control button {
+    flex: 1;
+    min-width: 0;
+    padding-inline: 0.5rem;
+  }
+
+  .pp-flow,
+  .pp-promise__grid { grid-template-columns: 1fr; }
+
+  .pp-flow__pill svg { transform: rotate(90deg); }
+}
+
+/* Stage, desktop: the photograph sits to the right, the glass panel overlaps
+   its left edge, so the people in the picture stay visible. */
+@media (min-width: 768px) {
+  .pp-stage__frame {
+    align-items: center;
+    min-height: min(70svh, 620px);
+    overflow: visible;
+    border-radius: 0;
+  }
+
+  .pp-stage__photo {
+    left: auto;
+    width: 66%;
+    border-radius: 36px;
+    object-position: 45% 40%;
+  }
+
+  .pp-stage__panel {
+    margin: clamp(1.5rem, 4vw, 3rem) 0;
+    width: min(540px, 52%);
   }
 }
