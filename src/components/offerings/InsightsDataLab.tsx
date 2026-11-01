@@ -39,9 +39,6 @@ const copy = {
     featureTitle: "From mobility data to a clear picture",
     featureIntro:
       "Papp Insights brings sensor, camera and parking-system data into one calm surface, so teams can move from measured activity to patterns they can explain and compare.",
-    contextTitle: "From registrations to useful explanations.",
-    context:
-      "Papp Insights combines measured activity, vehicle profiles, origin signals and dwell time into views that help teams understand what is happening before deciding what to change.",
     hourly: "See when demand actually happens",
     hourlySub: "Hourly patterns show when vehicles arrive, when pressure builds and when capacity remains unused.",
     hourlyNote:
@@ -76,9 +73,6 @@ const copy = {
     featureTitle: "Fra mobilitetsdata til et klart billede",
     featureIntro:
       "Papp Insights samler sensor-, kamera- og parkeringsdata i én rolig flade, så teams kan gå fra målt aktivitet til mønstre, der kan forklares og sammenlignes.",
-    contextTitle: "Fra registreringer til brugbare forklaringer.",
-    context:
-      "Papp Insights kombinerer aktivitet, bilprofiler, opland og opholdstid i visninger, der hjælper teams med at forstå situationen, før der vælges handling.",
     hourly: "Se hvornår efterspørgslen faktisk opstår",
     hourlySub: "Timemønstre viser, hvornår biler ankommer, hvornår presset stiger, og hvornår kapacitet står ubrugt.",
     hourlyNote:
@@ -192,10 +186,6 @@ export function InsightsDataLab({ locale }: { locale: Locale }) {
               </article>
             ))}
           </div>
-        </div>
-        <div className="insights-data-lab__story">
-          <h3>{text.contextTitle}</h3>
-          <p>{text.context}</p>
         </div>
         <PlotCard className="insights-data-lab__card--wide" plot={plots.hourly} />
         <p className="insights-data-lab__note">{text.hourlyNote}</p>

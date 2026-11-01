@@ -11,7 +11,6 @@ import { PartnerLogoLoop } from "@/components/social-proof/PartnerLogoLoop";
 import { Button } from "@/components/ui/Button";
 import { TestimonialsSection } from "@/components/social-proof/TestimonialsSection";
 import { MeetingRequest } from "@/components/contact/MeetingRequest";
-import { AppPromotion } from "@/components/app/AppPromotion";
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: Locale }> }): Promise<Metadata> {
   const { locale } = await params;
@@ -40,8 +39,8 @@ export default async function HomePage({ params }: { params: Promise<{ locale: L
       <Section id="solutions">
         <SectionHeading
           eyebrow={locale === "da" ? "Løsninger" : "Solutions"}
-          title={locale === "da" ? "Teknologi og ekspertise i et samlet system." : "Technology and expertise in one connected system."}
-          body={locale === "da" ? "Sensorer, kameraer, platform, analyse og rådgivning er bygget til at understøtte hinanden." : "Sensors, cameras, platform, analysis and consultancy are designed to support each other."}
+          title={locale === "da" ? "Én platform, leveret gennem kameraer og sensorer." : "One platform, delivered through cameras and sensors."}
+          body={locale === "da" ? "Papp Insights samler data fra vores kameraer og sensorer, og vores rådgivning hjælper jer med at handle på dem." : "Papp Insights brings together the data from our cameras and sensors, and our consultancy helps you act on it."}
           align="center"
         />
         <HomeCategoryCards locale={locale} />
@@ -68,7 +67,6 @@ export default async function HomePage({ params }: { params: Promise<{ locale: L
       <Section className="service-meeting-section home-meeting">
         <div id="contact"><MeetingRequest locale={locale} source="homepage" /></div>
       </Section>
-      <AppPromotion locale={locale} content={content.app} />
     </>
   );
 }

@@ -9,8 +9,11 @@ import {
   forecastHigh, forecastHours, forecastLow, forecastMedian, forecastStart, guestOrigins, landscapeDays,
   manufacturers, occupancyByDay, quarterHours, replayActual
 } from "@/content/insights/advanced-demo";
+import { municipalityOrigins } from "@/content/insights/municipality-origins";
+import { withBasePath } from "@/lib/site/basePath";
 
 const views = [
+  { id: "municipality", en: "Visitor catchment", da: "Opland" },
   { id: "age", en: "Fleet age", da: "Bilernes alder" },
   { id: "brands", en: "Manufacturers", da: "Bilmærker" },
   { id: "origin", en: "Guest origins", da: "Oprindelse" },
@@ -23,6 +26,7 @@ type ViewId = typeof views[number]["id"];
 
 // What each view helps a team answer, shown beneath the chart.
 const explanations: Record<ViewId, { en: string; da: string }> = {
+  municipality: { en: "Home municipality shows a site's real catchment: how far people travel, and which neighbouring areas matter for signage, transport and marketing. Origins are aggregated, never per vehicle.", da: "Hjemkommunen viser stedets reelle opland: hvor langt folk rejser, og hvilke nabokommuner der betyder noget for skiltning, transport og markedsføring. Oprindelse vises samlet, aldrig pr. køretøj." },
   age: { en: "Vehicle age hints at who uses a site and how quickly the fleet is renewing, useful for charging plans and long term demand.", da: "Bilernes alder fortæller noget om brugerne, og hvor hurtigt bilparken fornyes. Nyttigt til ladeplaner og langsigtet efterspørgsel." },
   brands: { en: "See which brands arrive and how electric each of them already is. A quick read on the fleet you are planning for.", da: "Se hvilke mærker der kommer, og hvor stor elandelen allerede er for hvert mærke. Et hurtigt billede af den bilpark, I planlægger for." },
   origin: { en: "Country of registration shows how far a site reaches. Denmark dominates, so colour uses a log scale to keep smaller markets visible.", da: "Registreringslandet viser, hvor langt et sted rækker. Danmark dominerer, så farven bruger en logaritmisk skala, der holder små markeder synlige." },
@@ -42,7 +46,7 @@ const blueRamp: [number, string][] = [[0, "#eaf3fa"], [0.35, "#a9cdea"], [0.7, "
 
 export function AdvancedInsights({ locale }: { locale: Locale }) {
   const da = locale === "da";
-  const [active, setActive] = useState<ViewId>("age");
+  const [active, setActive] = useState<ViewId>("municipality");
   const [compact, setCompact] = useState(false);
   // Carousel: the views advance on their own until the visitor interacts with the explorer.
   const [autoplay, setAutoplay] = useState(true);
@@ -234,6 +238,41 @@ function buildPlot(view: ViewId, locale: Locale, compact: boolean): PlotSpec {
         { type: "scatter", mode: "markers", x: [null], y: [null], hoverinfo: "skip", showlegend: false, marker: { color: [0], cmin: 0, cmax: 100, colorscale: blueRamp, showscale: !compact, colorbar: { title: { text: t("Electric %", "El %"), font: { color: muted } }, thickness: 10, outlinewidth: 0, ticksuffix: "%" } } }
       ],
       layout: { ...layout, margin: { l: 0, r: compact ? 0 : 8, t: 4, b: 4 }, xaxis: { visible: false }, yaxis: { visible: false } }
+    };
+  }
+
+  if (view === "municipality") {
+    const ticks = [1, 10, 100, 1000];
+    return {
+      title: t("Where visitors live", "Hvor de besøgende bor"),
+      subtitle: t("Visits to one site in Herning by the visitor's home municipality, for the last 30 days. Colour is log scaled.", "Besøg på ét sted i Herning efter de besøgendes hjemkommune de seneste 30 dage. Farven er logaritmisk."),
+      data: [{
+        type: "choropleth",
+        geojson: withBasePath("/data/dk-municipalities.json"),
+        featureidkey: "id",
+        locations: municipalityOrigins.map((row) => row.code),
+        z: municipalityOrigins.map((row) => Math.log10(row.visits)),
+        text: municipalityOrigins.map((row) => row.name),
+        customdata: municipalityOrigins.map((row) => number(row.visits)),
+        zmin: 0,
+        zmax: 3.5,
+        colorscale: blueRamp,
+        marker: { line: { color: "#ffffff", width: 0.5 } },
+        showscale: !compact,
+        colorbar: { title: { text: t("Visits", "Besøg"), font: { color: muted } }, thickness: 10, outlinewidth: 0, tickvals: ticks.map((tick) => Math.log10(tick)), ticktext: ["1", "10", "100", "1k"] },
+        hovertemplate: t("<b>%{text}</b><br>%{customdata} visits<extra></extra>", "<b>%{text}</b><br>%{customdata} besøg<extra></extra>")
+      }],
+      layout: {
+        ...layout,
+        margin: { l: 0, r: 0, t: 0, b: 0 },
+        dragmode: false,
+        geo: {
+          projection: { type: "mercator" },
+          fitbounds: "locations",
+          visible: false,
+          bgcolor: "rgba(0,0,0,0)"
+        }
+      }
     };
   }
 

@@ -324,7 +324,8 @@ export function Header({ locale }: HeaderProps) {
               <Link href={`/${locale}/solutions`} onClick={closeMenu}>
                 {navLabels.solutions[locale]}
               </Link>
-              {solutionGroups.map((group) => (
+              {/* Partnerships has its own top-level link below, so it isn't repeated here. */}
+              {solutionGroups.filter((group) => group.id !== "partnerships").map((group) => (
                 <div key={group.id} className="mobile-group">
                   <button
                     type="button"

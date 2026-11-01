@@ -68,6 +68,15 @@ const testimonials: Testimonial[] = [
     contentStatus: "approved"
   },
   {
+    // Camera project. Quote to come from Brøndby; until then the card shows the logo only.
+    slug: "broendby-camera-project",
+    quote: { en: "", da: "" },
+    organisation: "Brøndby Kommune",
+    organisationLogo: "/images/partners/broendby.svg",
+    published: true,
+    contentStatus: "draft"
+  },
+  {
     slug: "damhustorvet-camera-insight",
     quote: {
       en: "Papp Mobility delivered valuable insight into the actual use of the parking area at Damhustorvet and created a solid data basis for future initiatives. The battery-powered camera solution was easy to implement and gave detailed insight into parking behaviour and traffic patterns.",

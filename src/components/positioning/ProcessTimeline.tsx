@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, type CSSProperties } from "react";
+import { ChartLine, Crosshair, Lightbulb, Radar, ShieldCheck, type LucideIcon } from "lucide-react";
 import type { HomeContent } from "@/content/home/home";
 
 interface ProcessTimelineProps {
@@ -8,6 +9,9 @@ interface ProcessTimelineProps {
 }
 
 const PHONE = "(max-width: 575.98px)";
+
+// One icon per step, in order: frame, collect, validate, understand, recommend.
+const STEP_ICONS: LucideIcon[] = [Crosshair, Radar, ShieldCheck, ChartLine, Lightbulb];
 
 /**
  * Scroll-driven steps with a sticky step number.
@@ -96,8 +100,16 @@ export function ProcessTimeline({ steps }: ProcessTimelineProps) {
           >
             <article className={`process-flow__step process-flow__step--${index + 1}`}>
               <div>
-                <span>{String(index + 1).padStart(2, "0")}</span>
-                <h3>{step.title}</h3>
+                <div className="process-flow__head">
+                  <span className="process-flow__icon" aria-hidden="true">
+                    {(() => {
+                      const Icon = STEP_ICONS[index % STEP_ICONS.length];
+                      return <Icon size={20} strokeWidth={1.8} />;
+                    })()}
+                  </span>
+                  <span className="process-flow__number">{String(index + 1).padStart(2, "0")}</span>
+                  <h3>{step.title}</h3>
+                </div>
                 <p>{step.body}</p>
               </div>
             </article>

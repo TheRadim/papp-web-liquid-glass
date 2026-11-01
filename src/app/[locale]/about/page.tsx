@@ -186,11 +186,6 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
           />
         </div>
       </Section>
-      <Section className="about-timeline-section">
-        <div className="about-timeline-layout">
-          <AboutTimeline items={timelineItems} locale={locale} />
-        </div>
-      </Section>
       <Section>
         <div className="about-team-layout">
           <SectionHeading
@@ -222,6 +217,11 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
               </a>
             ))}
           </div>
+        </div>
+      </Section>
+      <Section className="about-timeline-section">
+        <div className="about-timeline-layout">
+          <AboutTimeline items={timelineItems} locale={locale} />
         </div>
       </Section>
     </>

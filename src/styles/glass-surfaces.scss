@@ -393,7 +393,7 @@ main,
 .process-section { padding-block: clamp(2rem, 4vw, 3.5rem); }
 .process-timeline { margin-top: 1.25rem; }
 .process-timeline__stream { padding-block: clamp(2rem, 8vh, 5rem); }
-.process-timeline__stream > li { min-height: clamp(290px, 34svh, 380px); }
+.process-timeline__stream > li { min-height: clamp(220px, 28svh, 300px); }
 .testimonial-card .testimonial-logo { display: block; width: 180px; height: 72px; object-fit: contain; margin: 0 auto 1rem; }
 .capability-statement { margin: 1rem auto; max-width: 820px; }
 .capability-statement > p:not(.visually-hidden) { display: grid; gap: .15rem; margin-bottom: .2rem; font-size: clamp(1.1rem, 2.1vw, 1.65rem); line-height: 1.4; }

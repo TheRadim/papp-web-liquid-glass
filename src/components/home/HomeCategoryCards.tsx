@@ -5,26 +5,11 @@ import { withBasePath } from "@/lib/site/basePath";
 
 const categories = [
   {
-    title: { en: "Technology", da: "Teknologi" },
-    eyebrow: { en: "Sensors and cameras", da: "Sensorer og kameraer" },
-    body: {
-      en: "Sensors and camera analytics that measure real behaviour in parking areas, streets and mobility environments.",
-      da: "Sensorer og kameraanalyse, der måler reel adfærd på parkeringsarealer, gader og mobilitetsmiljøer."
-    },
-    benefits: {
-      en: ["Live occupancy signals", "Area and street measurement", "Temporary or permanent deployments"],
-      da: ["Live belægningssignaler", "Måling af arealer og gader", "Midlertidige eller permanente opsætninger"]
-    },
-    image: "/images/corporate/parking-sensor-ground.jpg",
-    href: "/solutions",
-    cta: { en: "Explore technology", da: "Udforsk teknologi" }
-  },
-  {
     title: { en: "Papp Insights", da: "Papp Insights" },
     eyebrow: { en: "Platform", da: "Platform" },
     body: {
-      en: "Papp Insights brings measurements together in live views, historical comparisons and reporting workflows.",
-      da: "Papp Insights samler målinger i livevisninger, historiske sammenligninger og rapporteringsflow."
+      en: "Papp Insights is the platform at the centre of everything we do: live views, historical comparisons and reports from every site you measure.",
+      da: "Papp Insights er platformen i centrum af alt, hvad vi laver: livevisninger, historiske sammenligninger og rapporter fra alle de steder, I måler."
     },
     benefits: {
       en: ["Maps, charts and live views", "Historical comparisons", "One place for mobility data"],
@@ -33,6 +18,21 @@ const categories = [
     image: "/images/corporate/insights-screen.jpg",
     href: "/products/insights",
     cta: { en: "Open Insights", da: "Åbn Insights" }
+  },
+  {
+    title: { en: "Cameras and sensors", da: "Kameraer og sensorer" },
+    eyebrow: { en: "How the data is delivered", da: "Sådan leveres data" },
+    body: {
+      en: "The platform is delivered through our own cameras and sensors, which measure real behaviour in parking areas, streets and mobility environments.",
+      da: "Platformen leveres gennem vores egne kameraer og sensorer, som måler reel adfærd på parkeringsarealer, gader og mobilitetsmiljøer."
+    },
+    benefits: {
+      en: ["Live occupancy signals", "Area and street measurement", "Temporary or permanent deployments"],
+      da: ["Live belægningssignaler", "Måling af arealer og gader", "Midlertidige eller permanente opsætninger"]
+    },
+    image: "/images/corporate/parking-sensor-ground.jpg",
+    href: "/solutions",
+    cta: { en: "Explore technology", da: "Udforsk teknologi" }
   },
   {
     title: { en: "Consultancy & workshops", da: "Rådgivning og workshops" },

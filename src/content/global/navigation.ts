@@ -3,6 +3,7 @@ import { serviceTopics } from "@/content/services/service-topics";
 
 export const navLabels = {
   solutions: { en: "Solutions", da: "Løsninger" },
+  partnerships: { en: "Partnerships", da: "Partnerskaber" },
   projects: { en: "Projects", da: "Projekter" },
   app: { en: "App", da: "App" },
   about: { en: "About", da: "Om os" },
@@ -16,6 +17,7 @@ export const navLabels = {
 
 export function primaryNavigation(locale: Locale) {
   return [
+    { label: navLabels.partnerships[locale], href: `/${locale}/partnerships` },
     { label: navLabels.projects[locale], href: `/${locale}/projects` },
     { label: navLabels.about[locale], href: `/${locale}/about` },
     { label: navLabels.contact[locale], href: `/${locale}/contact` }
@@ -24,9 +26,24 @@ export function primaryNavigation(locale: Locale) {
 
 const localised = (path: string) => ({ en: `/en${path}`, da: `/da${path}` });
 
-// Services come first (left column): they are named after what people want to
-// know. Products (right column) are the tools we measure it with.
+// Partnerships lead the menu as a full-width row. Then services (left column):
+// they are named after what people want to know. Products (right column) are
+// the tools we measure it with.
 export const solutionGroups = [
+  {
+    id: "partnerships",
+    label: navLabels.partnerships,
+    items: [
+      {
+        label: { en: "Partner with Papp", da: "Bliv partner med Papp" },
+        description: {
+          en: "For consultancies, retailers and data companies: we gather the data, you deliver the value.",
+          da: "Til rådgivere, butikker og datavirksomheder: vi indsamler data, I skaber værdien."
+        },
+        href: localised("/partnerships")
+      }
+    ]
+  },
   {
     id: "expertise",
     label: navLabels.expertise,
@@ -65,6 +82,14 @@ export const solutionGroups = [
           da: "Online dashboard med alle jeres data, live og over tid."
         },
         href: localised("/products/insights")
+      },
+      {
+        label: { en: "Papp API", da: "Papp API" },
+        description: {
+          en: "Live and historical mobility data straight into your own systems.",
+          da: "Live og historiske mobilitetsdata direkte i jeres egne systemer."
+        },
+        href: localised("/products/api")
       },
       {
         label: { en: "Cameras", da: "Kameraer" },

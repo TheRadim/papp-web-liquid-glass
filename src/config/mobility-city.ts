@@ -16,11 +16,27 @@ const CITY_OBJECT_AREA_ALIASES: Record<string, MobilityArea> = {
   "parking selectable": "sensors",
   "pappsensor selectable": "sensors",
   "papp sensor selectable": "sensors",
-  "PappCamera selectable": "cameras",
-  "pappcamera selectable": "cameras",
-  "papp camera selectable": "cameras",
   "PappCamera pole": "cameras"
 };
+
+/**
+ * The camera is moved in code from the grass strip by the building to the
+ * grassy tip at the main lot's entrance, so it faces the lane cars use to
+ * drive in and out. It keeps facing +x, which already points at that lane.
+ * These nodes move together by CITY_CAMERA_OFFSET (scene units).
+ */
+export const CITY_CAMERA_NODES = ["PappCamera", "+1 green", "-1red"];
+export const CITY_CAMERA_OFFSET: [number, number, number] = [0.845, 0, -0.295];
+
+/**
+ * In the GLB the camera's hover area is also the end of the grass strip it
+ * used to stand on. After the move that piece is just grass, so it is renamed
+ * and an invisible hit box around the camera takes over.
+ */
+export const CITY_OLD_CAMERA_PAD = "PappCamera_selectable";
+
+/** The grass ("Sidewalk" material in the GLB) is recoloured to a fresh, natural green. */
+export const CITY_GRASS = { material: "Sidewalk", color: "#74a052" };
 
 export const MOBILITY_AREAS: MobilityArea[] = ["sensors", "cameras", "insights"];
 
@@ -47,8 +63,8 @@ export const CITY_ZOOM_LIMITS = { closest: 0.62, farthest: 1.18 };
  * Each window fades in at `in`, stays visible and fades out ending at `out`.
  */
 export const CITY_COUNTER_FADES: Record<string, { in: number; out: number }[]> = {
-  "+1 green": [{ in: 9.0, out: 11.2 }],
-  "-1red": [{ in: 17.2, out: 19.6 }]
+  "+1 green": [{ in: 9.2, out: 11.4 }],
+  "-1red": [{ in: 17.3, out: 19.7 }]
 };
 
 export const CITY_COUNTER_FADE_SECONDS = 0.35;
@@ -77,13 +93,14 @@ export const CITY_DATA = {
     pole: 0.17,
     label: { en: "FREE", da: "LEDIG" }
   },
-  // The camera counts cars in and out of the main lot. Times are seconds on
-  // the 26 s timeline, matching the +1 / -1 counters above the camera.
+  // The camera at the main lot's entrance counts cars in and out. Times are
+  // seconds on the 26 s timeline: the blue car passes the camera on its way
+  // in at about 9.2 s and on its way out at about 17.3 s.
   camera: {
-    position: [0.45, 0.7, -1.79] as Vec3,
+    position: [1.295, 0.7, -2.085] as Vec3,
     events: [
-      { at: 9.0, delta: 1 },
-      { at: 17.2, delta: -1 }
+      { at: 9.2, delta: 1 },
+      { at: 17.3, delta: -1 }
     ],
     startCount: 2,
     startEntries: 126
@@ -115,7 +132,7 @@ export const MOBILITY_MARKERS: Record<MobilityArea, { position: [number, number,
     position: [-0.89, 0.16, -1.14]
   },
   cameras: {
-    position: [0.40, 0.68, -1.79]
+    position: [1.245, 0.68, -2.085]
   },
   insights: {
     position: [-1.62, 1.3, -1.05]
@@ -131,13 +148,14 @@ export const CAMERA_VIEWS: Record<MobilityView, { position: [number, number, num
   // Close-up on the far sensor (-0.89, -0.78): no car parks on it during the
   // animation, unlike the near one where the grey car parks.
   sensors: {
-    position: [-0.36, 0.5, -1.56],
+    position: [-0.49, 0.38, -1.37],
     target: [-0.89, 0.03, -0.8],
     fov: 36
   },
+  // The camera at the lot entrance, with the lane cars drive in and out on.
   cameras: {
-    position: [0.8, 1.2, -3.1],
-    target: [0.4, 0.45, -1.79],
+    position: [2.3, 1.1, -3.2],
+    target: [1.05, 0.3, -2.2],
     fov: 38
   },
   // Puts the Insights panel in the upper left, clear of the product card

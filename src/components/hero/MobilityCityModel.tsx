@@ -3,9 +3,13 @@
 import { useGLTF } from "@react-three/drei";
 import { ThreeEvent, useFrame, useThree } from "@react-three/fiber";
 import { useEffect, useMemo } from "react";
-import { AnimationMixer, Color, Group, LoopRepeat, Material, Mesh, MeshStandardMaterial, Object3D, PropertyBinding } from "three";
+import { AnimationMixer, BoxGeometry, Color, Group, LoopRepeat, Material, Mesh, MeshBasicMaterial, MeshStandardMaterial, Object3D, PropertyBinding } from "three";
 import {
+  CITY_CAMERA_NODES,
+  CITY_CAMERA_OFFSET,
   CITY_COUNTER_FADE_SECONDS,
+  CITY_GRASS,
+  CITY_OLD_CAMERA_PAD,
   CITY_DATA,
   CITY_COUNTER_FADES,
   CITY_OBJECT_NAMES,
@@ -103,7 +107,43 @@ function applyMaterialState(material: Material, active: boolean, muted: boolean,
 }
 
 function namedObject(scene: Object3D, objectName: string) {
-  return scene.getObjectByName(objectName) ?? null;
+  return scene.getObjectByName(objectName) ?? scene.getObjectByName(PropertyBinding.sanitizeNodeName(objectName)) ?? null;
+}
+
+/**
+ * Moves the camera and its counters to the lot entrance. Their positions are
+ * keyed by the baked animation, so each node gets an offset parent instead of
+ * a new position: the animation keeps writing the node's local position, and
+ * the parent shifts it. A transparent box around the camera is the new hover
+ * and click target.
+ */
+function moveCamera(scene: Object3D) {
+  CITY_CAMERA_NODES.forEach((name) => {
+    const node = namedObject(scene, name);
+    const parent = node?.parent;
+    if (!node || !parent) return;
+
+    const offset = new Group();
+    offset.name = `${node.name}_offset`;
+    offset.position.set(...CITY_CAMERA_OFFSET);
+    parent.add(offset);
+    offset.add(node);
+  });
+
+  const camera = namedObject(scene, CITY_CAMERA_NODES[0]);
+  if (camera) {
+    const hit = new Mesh(
+      new BoxGeometry(0.34, 0.72, 0.3),
+      new MeshBasicMaterial({ transparent: true, opacity: 0, depthWrite: false, colorWrite: false })
+    );
+    // Named like the GLB's helpers, so it selects "cameras" but is never tinted.
+    hit.name = "PappCamera_selectable_hit";
+    hit.position.set(0.44 + CITY_CAMERA_OFFSET[0], 0.36, -1.8 + CITY_CAMERA_OFFSET[2]);
+    camera.parent?.parent?.add(hit);
+  }
+
+  const oldPad = namedObject(scene, CITY_OLD_CAMERA_PAD);
+  if (oldPad) oldPad.name = "grass_strip_end";
 }
 
 function isSelectableHelper(object: Object3D) {
@@ -144,9 +184,13 @@ export function MobilityCityModel({
         object.material = cloneMaterial(object.material);
         object.castShadow = true;
         object.receiveShadow = true;
+        eachMaterial(object.material, (material) => {
+          if (material.name === CITY_GRASS.material) (material as MeshStandardMaterial).color.set(CITY_GRASS.color);
+        });
       }
     });
 
+    moveCamera(clone);
     return clone;
   }, [gltf.scene]);
 
@@ -292,8 +336,13 @@ export function MobilityCityModel({
     invalidate();
   }, [hoveredArea, invalidate, model, selectedArea]);
 
-  function getAreaFromPointer(event: ThreeEvent<PointerEvent | MouseEvent>) {
-    return getMobilityAreaFromObject(event.object);
+  // Only the nearest thing under the pointer counts. Events also reach every
+  // object further along the ray (helper planes under the ground, the far
+  // side of a building), which used to keep a label on after the pointer had
+  // moved onto plain ground.
+  function areaUnderPointer(event: ThreeEvent<PointerEvent | MouseEvent>) {
+    const nearest = event.intersections[0];
+    return nearest ? getMobilityAreaFromObject(nearest.object) : null;
   }
 
   useFrame((_, delta) => {
@@ -341,62 +390,20 @@ export function MobilityCityModel({
     }
   });
 
-  function handlePointerEnter(event: ThreeEvent<PointerEvent>) {
-    const area = getAreaFromPointer(event);
-
-    if (!area) {
-      return;
-    }
-
+  function syncHover(event: ThreeEvent<PointerEvent>) {
     event.stopPropagation();
-    document.body.style.cursor = "pointer";
-    onAreaHover(area);
-  }
-
-  function handlePointerMove(event: ThreeEvent<PointerEvent>) {
-    const area = getAreaFromPointer(event);
-
-    if (!area || area === hoveredArea) {
-      return;
-    }
-
-    event.stopPropagation();
-    document.body.style.cursor = "pointer";
-    onAreaHover(area);
-  }
-
-  function handlePointerLeave(event: ThreeEvent<PointerEvent>) {
-    const area = getMobilityAreaFromObject(event.object);
-
-    if (!area) {
-      return;
-    }
-
-    // Only the nearest thing under the pointer counts. Checking every hit
-    // along the ray kept the label on when an area was merely behind the
-    // ground the pointer had moved onto.
-    const nearest = event.intersections.find((hit) => hit.object !== event.object);
-    if (nearest && getMobilityAreaFromObject(nearest.object) === area) {
-      return;
-    }
-
-    event.stopPropagation();
-    document.body.style.cursor = "";
-    onAreaHover(null);
+    const area = areaUnderPointer(event);
+    document.body.style.cursor = area ? "pointer" : "";
+    if (area !== hoveredArea) onAreaHover(area);
   }
 
   function handleClick(event: ThreeEvent<MouseEvent>) {
-    const area = getAreaFromPointer(event);
-
-    if (!area) {
-      return;
-    }
-
+    const area = areaUnderPointer(event);
     event.stopPropagation();
-    onAreaSelect(area);
+    if (area) onAreaSelect(area);
   }
 
-  return <primitive object={model} onPointerOver={handlePointerEnter} onPointerMove={handlePointerMove} onPointerOut={handlePointerLeave} onClick={handleClick} />;
+  return <primitive object={model} onPointerOver={syncHover} onPointerMove={syncHover} onPointerOut={syncHover} onClick={handleClick} />;
 }
 
 useGLTF.preload(MOBILITY_CITY_MODEL_URL);

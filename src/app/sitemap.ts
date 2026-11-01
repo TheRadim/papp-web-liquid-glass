@@ -11,6 +11,8 @@ const staticPaths = [
   "/products/sensors",
   "/products/cameras",
   "/products/insights",
+  "/products/api",
+  "/partnerships",
   "/services/analysis",
   "/services/consultancy",
   ...serviceTopics.map((topic) => `/services/${topic.slug}`),

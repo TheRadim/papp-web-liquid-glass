@@ -67,8 +67,12 @@ export function TestimonialsSection({ locale }: TestimonialsSectionProps) {
         <div className="testimonial-track" style={{ transform: `translateX(-${active * 100}%)` }}>
           {testimonials.map((testimonial, index) => (
             <article className={`testimonial-card ${index === active ? "is-active" : ""}`} key={testimonial.slug}>
-              <Quote aria-hidden="true" size={34} />
-              <p>{pick(locale, testimonial.quote)}</p>
+              {pick(locale, testimonial.quote) ? (
+                <>
+                  <Quote aria-hidden="true" size={34} />
+                  <p>{pick(locale, testimonial.quote)}</p>
+                </>
+              ) : null}
               <div>
                 {testimonial.organisationLogo && !failedLogos[testimonial.slug] ? <Image className="testimonial-logo" src={withBasePath(testimonial.organisationLogo)} alt={testimonial.organisation} width={200} height={72} onError={() => setFailedLogos((current) => ({ ...current, [testimonial.slug]: true }))} /> : null}
                 {!testimonial.organisationLogo || failedLogos[testimonial.slug] ? <strong>{testimonial.organisation}</strong> : null}

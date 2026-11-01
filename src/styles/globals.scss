@@ -490,7 +490,23 @@ img {
   z-index: 0;
   overflow: hidden;
   pointer-events: none;
-  opacity: 1.1;
+}
+
+.hero-traffic-map {
+  opacity: 0;
+  transition: opacity 900ms var(--ease-out);
+}
+
+.hero-traffic-map.is-ready {
+  opacity: 1;
+}
+
+/* Soft white wash behind the headline keeps the type crisp over the map. */
+.hero-traffic-map::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 46% 30% at 50% 46%, rgba(255, 255, 255, 0.82), rgba(255, 255, 255, 0) 100%);
 }
 
 .hero-wave-canvas {
@@ -1575,10 +1591,43 @@ img {
   margin-bottom: 0.7rem;
 }
 
+/* Icon, step number and title share one line so the cards stay compact. */
+.process-flow__head {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.65rem;
+}
+
+.process-flow__step .process-flow__icon {
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  width: 2.5rem;
+  height: 2.5rem;
+  margin: 0;
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--process-accent, var(--papp-blue)) 14%, #fff);
+  color: var(--process-accent, var(--papp-blue));
+  letter-spacing: 0;
+}
+
+.process-flow__step .process-flow__number {
+  margin: 0;
+}
+
+.process-flow__head h3 {
+  margin: 0;
+}
+
+.process-flow__step p {
+  margin-bottom: 0;
+}
+
 .process-timeline .process-flow__step {
   width: min(620px, 100%);
   height: auto;
-  min-height: 260px;
+  min-height: 0;
 }
 
 /* Portfolio / projects */
@@ -3437,7 +3486,7 @@ button.project-category-card {
   .process-timeline .process-flow__step {
     width: 100%;
     height: auto;
-    min-height: 220px;
+    min-height: 0;
   }
 
   .insight-dashboard__screen {
@@ -3649,10 +3698,6 @@ button.project-category-card {
 
   .hero-actions .papp-button {
     width: 100%;
-  }
-
-  .hero-motion-field {
-    transform: scale(1.2);
   }
 
   .home-solution-row,

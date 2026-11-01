@@ -14,6 +14,8 @@ const partners: Partner[] = [
   {"slug": "lyngby", "name": "Lyngby-Taarbæk Kommune", "logo": "/images/partners/lyngby.svg", "category": "client", "published": true},
   {"slug": "horsens", "name": "Horsens Kommune", "logo": "/images/partners/horsens.svg", "category": "client", "published": true},
   {"slug": "faaborg", "name": "Faaborg-Midtfyn Kommune", "logo": "/images/partners/faaborg.svg", "category": "client", "published": true},
+  // Logo to come once Ramboll approves; until then the loop shows the name.
+  {"slug": "ramboll", "name": "Ramboll", "logo": "", "category": "partner", "published": true},
   {"slug": "dtu", "name": "DTU", "logo": "/images/partners/dtu.svg", "category": "partner", "published": true},
   {"slug": "erhvervshus", "name": "Erhvervshus", "logo": "/images/partners/erhvervshus.svg", "category": "supporter", "published": true},
   {"slug": "innovationsfonden", "name": "Innovationsfonden", "logo": "/images/partners/innovationsfonden.svg", "category": "supporter", "published": true},

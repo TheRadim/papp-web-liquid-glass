@@ -2,7 +2,7 @@ import type { Locale } from "@/content/types";
 import type { HomeContent } from "@/content/home/home";
 import { Button } from "@/components/ui/Button";
 import { CapabilityStatement } from "@/components/hero/CapabilityStatement";
-import { HeroMotionField } from "@/components/hero/HeroMotionField";
+import { HeroTrafficMap } from "@/components/hero/HeroTrafficMap";
 
 interface HomepageHeroProps {
   locale: Locale;
@@ -15,7 +15,7 @@ export function HomepageHero({ locale, content }: HomepageHeroProps) {
 
   return (
     <section className="hero-section">
-      <HeroMotionField />
+      <HeroTrafficMap />
       <div className="container">
         <div className="hero-layout hero-layout--centered">
           <div className="hero-copy">
