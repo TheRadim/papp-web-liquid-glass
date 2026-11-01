@@ -131,7 +131,7 @@ const teamMembers = [
   },
   {
     name: "Radim Theiner",
-    role: { en: "Product Owner", da: "Product Owner" },
+    role: { en: "Product Lead", da: "Product Lead" },
     email: "radim.theiner@pappmobility.com",
     linkedinUrl: "https://www.linkedin.com/in/therad/",
     image: "/images/team/maxim-profile.jpg"

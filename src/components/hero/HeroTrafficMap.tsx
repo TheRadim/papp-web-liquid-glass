@@ -23,7 +23,7 @@ interface Vehicle {
   distance: number;
   speed: number;
   direction: 1 | -1;
-  color: string;
+  color: [number, number, number];
   size: number;
 }
 
@@ -45,7 +45,15 @@ const ROAD_STYLE: Record<RoadKind, { stroke: string; width: number }> = {
   local: { stroke: "rgba(0, 0, 0, 0)", width: 0 }
 };
 
-const VEHICLE_COLORS = ["rgba(0, 126, 181, 0.42)", "rgba(0, 126, 181, 0.42)", "rgba(0, 126, 181, 0.42)", "rgba(251, 134, 127, 0.5)"];
+// Vehicle colours as RGB; trails fade from the head back.
+const VEHICLE_COLORS: [number, number, number][] = [
+  [0, 140, 205],
+  [0, 140, 205],
+  [0, 140, 205],
+  [251, 120, 110]
+];
+const TRAIL_LENGTH = 16; // map units behind the head
+const TRAIL_STEPS = 6;
 
 function prepareRoads(data: TrafficMapData): Road[] {
   return data.roads.map((road) => {
@@ -152,7 +160,7 @@ export function HeroTrafficMap() {
         speed: (9 + Math.random() * 10) * fast,
         direction,
         color: VEHICLE_COLORS[Math.floor(Math.random() * VEHICLE_COLORS.length)],
-        size: kind === "major" ? 1.3 : 1
+        size: kind === "major" ? 2 : 1.6
       };
     }
 
@@ -228,6 +236,7 @@ export function HeroTrafficMap() {
       canvasElement.style.width = `${width}px`;
       canvasElement.style.height = `${height}px`;
       drawingContext.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
+      drawingContext.lineCap = "round";
 
       if (!data) {
         return;
@@ -241,9 +250,8 @@ export function HeroTrafficMap() {
       const mapHeight = maxY - minY;
 
       if (width < 760) {
-        const mainlandWidth = 650 - minX;
-        scale = Math.min((width * 0.82) / mainlandWidth, (height * 0.56) / mapHeight);
-        offsetX = (width - mainlandWidth * scale) / 2 - minX * scale;
+        scale = Math.min((width * 0.88) / mapWidth, (height * 0.56) / mapHeight);
+        offsetX = (width - mapWidth * scale) / 2 - minX * scale;
       } else {
         scale = Math.min((width * 0.56) / mapWidth, (height * 0.62) / mapHeight);
         offsetX = (width - mapWidth * scale) / 2 - minX * scale;
@@ -274,21 +282,30 @@ export function HeroTrafficMap() {
         }
 
         const current = roads[vehicle.road];
+        const [red, green, blue] = vehicle.color;
         const [x, y] = project(pointAt(current, vehicle.distance));
-        const [tailX, tailY] = project(
-          pointAt(current, Math.min(current.length, Math.max(0, vehicle.distance - vehicle.direction * 7)))
-        );
 
-        drawingContext.strokeStyle = vehicle.color;
-        drawingContext.globalAlpha = 0.3;
-        drawingContext.lineWidth = vehicle.size * 1.3;
+        // Fading trail: short segments behind the head, each fainter and thinner.
+        let [previousX, previousY] = [x, y];
+        for (let step = 1; step <= TRAIL_STEPS; step += 1) {
+          const back = Math.min(current.length, Math.max(0, vehicle.distance - vehicle.direction * (TRAIL_LENGTH * step) / TRAIL_STEPS));
+          const [trailX, trailY] = project(pointAt(current, back));
+          const fade = 1 - step / (TRAIL_STEPS + 1);
+          drawingContext.strokeStyle = `rgba(${red}, ${green}, ${blue}, ${0.5 * fade})`;
+          drawingContext.lineWidth = vehicle.size * 1.5 * fade + 0.4;
+          drawingContext.beginPath();
+          drawingContext.moveTo(previousX, previousY);
+          drawingContext.lineTo(trailX, trailY);
+          drawingContext.stroke();
+          [previousX, previousY] = [trailX, trailY];
+        }
+
+        // Soft glow, then the bright head.
+        drawingContext.fillStyle = `rgba(${red}, ${green}, ${blue}, 0.16)`;
         drawingContext.beginPath();
-        drawingContext.moveTo(tailX, tailY);
-        drawingContext.lineTo(x, y);
-        drawingContext.stroke();
-
-        drawingContext.globalAlpha = 1;
-        drawingContext.fillStyle = vehicle.color;
+        drawingContext.arc(x, y, vehicle.size * 3, 0, Math.PI * 2);
+        drawingContext.fill();
+        drawingContext.fillStyle = `rgba(${red}, ${green}, ${blue}, 0.9)`;
         drawingContext.beginPath();
         drawingContext.arc(x, y, vehicle.size, 0, Math.PI * 2);
         drawingContext.fill();

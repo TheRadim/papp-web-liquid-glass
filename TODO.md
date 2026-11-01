@@ -8,7 +8,7 @@ Things only you can decide or do. Claude keeps this list up to date: items get t
 - [ ] **Make the contact form deliver messages.** It posts to `/api/contact`, which is only a test stub and doesn't exist on GitHub Pages, so messages go nowhere today. Options: a free [Web3Forms](https://web3forms.com) key (also used by the meeting form) or an email service on the new host.
 - [ ] **Add a Web3Forms access key for meeting requests** (`NEXT_PUBLIC_WEB3FORMS_KEY`). Without it, meeting requests open the visitor's mail app instead of sending directly. HubSpot booking works already.
 - [ ] **Move the meeting calendar to Martine or Tan.** The booking calendar (HubSpot link in `src/config/meeting.ts`) is still yours; send Claude their HubSpot meeting link.
-- [ ] **New team photos** to replace Michael's portrait on the About page.
+- [ ] **Team photos**: Tan, Martine, Maxim and Felix have new studio portraits. Martin, Alfred and Radim still use the older outdoor photos, and Sarah and Henrik have none (initials shown).
 - [ ] **Confirm the meeting email address.** Requests go to `radim.theiner@papp.nu` (`src/config/meeting.ts`), while the rest of the site uses `@pappmobility.com`.
 - [ ] **Replace the privacy page placeholder** with the real privacy policy (currently says "migration placeholder").
 - [ ] **Legal review**: go through `docs/legal-review-needed.md` (privacy, camera-analytics wording, GDPR claims, partner logos, testimonials).
@@ -22,7 +22,7 @@ Things only you can decide or do. Claude keeps this list up to date: items get t
 ## Content to check
 
 - [ ] **Brøndby testimonial**: the card is on the homepage with the logo only. Send the quote (camera project) and confirm the logo is right.
-- [ ] **Ramboll in Collaborations**: shows the name as text until we have approval to use the logo. Send the logo file once they say yes.
+- [ ] **Ramboll logo**: now in the Collaborations strip (third), made black from the image you sent. That image came from a clip-art site; before launch, swap in the official file from Ramboll (`public/images/partners/ramboll.png`) and confirm they're happy to be listed.
 - [ ] **Papp API page** (`/products/api`): the capabilities, the example response and "documentation shared at onboarding" are Claude's best guess. Check what the API really offers.
 - [ ] **Partnerships page** (`/partnerships`): check the wording for consultancies, retailers (ANPR) and data companies, and whether the meeting form should go to someone else.
 - [ ] **Insights page catchment map**: the municipality numbers are illustrative demo values (a site in Herning). Municipality borders: Styrelsen for Dataforsyning og Infrastruktur (DAGI); the homepage map uses Natural Earth (public domain). Add a source line if the legal review asks for it.
