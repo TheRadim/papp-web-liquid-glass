@@ -1143,7 +1143,8 @@
    tall as the last card (set by ProcessTimeline), so they leave together. */
 @media (min-width: 576px) {
   .process-timeline {
-    --process-line: clamp(120px, 22svh, 190px);
+    /* About a third of the way down the screen, like the About timeline. */
+    --process-line: clamp(200px, 36svh, 340px);
     align-items: stretch;
   }
   .process-timeline__sticky {
@@ -1171,7 +1172,7 @@
   }
 }
 @media (min-width: 576px) and (max-width: 991.98px) {
-  .process-timeline { --process-line: clamp(96px, 18svh, 150px); }
+  .process-timeline { --process-line: clamp(150px, 30svh, 260px); }
 }
 
 /* A little salmon in the lower half of the homepage. */
@@ -1429,22 +1430,27 @@
   padding: 0;
   list-style: none;
 }
+/* Steps: plain glass cards; the step number sits in a soft tinted disc. */
 .service-topic__steps li {
   position: relative;
   padding: 1.5rem 1.4rem;
-  border-top: 3px solid var(--topic-accent);
-  border-radius: 4px 4px 24px 24px;
+  border: 1px solid rgba(255, 255, 255, 0.95);
+  border-radius: 24px;
   background: rgba(255, 255, 255, 0.94);
   box-shadow: 0 8px 26px rgba(40, 58, 90, 0.07);
 }
 .service-topic__steps li > span {
-  display: block;
-  margin-bottom: 0.5rem;
+  display: inline-grid;
+  place-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  margin-bottom: 0.9rem;
+  border-radius: 50%;
+  background: var(--topic-accent-soft);
   color: var(--topic-accent);
   font-family: var(--font-display);
-  font-size: 1.6rem;
+  font-size: 0.95rem;
   font-weight: 700;
-  opacity: 0.55;
 }
 .service-topic__steps h3 { margin: 0 0 0.4rem; font-size: 1.12rem; }
 .service-topic__steps p { margin: 0; color: var(--papp-body); }
@@ -2680,4 +2686,24 @@
     margin: clamp(1.5rem, 4vw, 3rem) 0;
     width: min(540px, 52%);
   }
+}
+
+/* Project filters: the active card is marked by tint, not a coloured top line. */
+.project-category-card.is-active {
+  box-shadow: var(--glass-shadow);
+  background: #eaf6fc;
+}
+
+/* Insights explorer: the subtitle and caption reserve their longest length,
+   so switching views never moves the chart or the page. */
+.insights-explorer__card > div:first-child p {
+  min-height: calc(2 * 1.7em);
+}
+.insights-explorer__caption {
+  min-height: calc(3 * 1.7em);
+  line-height: 1.7;
+}
+@media (max-width: 767.98px) {
+  .insights-explorer__card > div:first-child p { min-height: calc(4 * 1.7em); }
+  .insights-explorer__caption { min-height: calc(5 * 1.7em); }
 }

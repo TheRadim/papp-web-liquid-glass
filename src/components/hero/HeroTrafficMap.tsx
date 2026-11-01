@@ -131,6 +131,11 @@ export function HeroTrafficMap() {
     let frame = 0;
     let lastTime = 0;
     let isVisible = true;
+    // Pointer "lens": traffic parts around the cursor and a little more of it
+    // heads there. Mouse only, and off with reduced motion.
+    const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)");
+    const lens = { x: -9999, y: -9999, strength: 0, target: 0 };
+    const LENS_RADIUS = 90;
 
     function pickRoad() {
       const target = Math.random() * pickTotal;
@@ -269,8 +274,33 @@ export function HeroTrafficMap() {
       render(0);
     }
 
+    function displace(x: number, y: number): [number, number, number] {
+      if (lens.strength < 0.01) return [x, y, 0];
+      const dx = x - lens.x;
+      const dy = y - lens.y;
+      const distance = Math.hypot(dx, dy) || 1;
+      if (distance > LENS_RADIUS) return [x, y, 0];
+      const falloff = (1 - distance / LENS_RADIUS) ** 2 * lens.strength;
+      const push = falloff * 26;
+      return [x + (dx / distance) * push, y + (dy / distance) * push, falloff];
+    }
+
+    // When the pointer rests on the map, some new trips start on roads near it.
+    function roadNearPointer() {
+      if (lens.strength < 0.3) return -1;
+      const mapX = (lens.x - offsetX) / scale;
+      const mapY = (lens.y - offsetY) / scale;
+      const reach = (LENS_RADIUS * 1.6) / scale;
+      for (let attempt = 0; attempt < 24; attempt += 1) {
+        const candidate = pickRoad();
+        if (roads[candidate].points.some(([px, py]) => Math.abs(px - mapX) < reach && Math.abs(py - mapY) < reach)) return candidate;
+      }
+      return -1;
+    }
+
     function render(delta: number) {
       drawingContext.clearRect(0, 0, width, height);
+      lens.strength += (lens.target - lens.strength) * Math.min(1, delta * 3);
 
       if (base) {
         drawingContext.drawImage(base, 0, 0, width, height);
@@ -284,23 +314,28 @@ export function HeroTrafficMap() {
 
         if (vehicle.distance < 0 || vehicle.distance > road.length) {
           vehicle = spawn(false);
+          const near = Math.random() < 0.5 ? roadNearPointer() : -1;
+          if (near >= 0) {
+            vehicle.road = near;
+            vehicle.distance = vehicle.direction === 1 ? 0 : roads[near].length;
+          }
           vehicles[index] = vehicle;
         }
 
         const current = roads[vehicle.road];
         const [red, green, blue] = vehicle.color;
-        const [x, y] = project(pointAt(current, vehicle.distance));
+        const [x, y, lift] = displace(...project(pointAt(current, vehicle.distance)));
         const remaining = vehicle.direction === 1 ? current.length - vehicle.distance : vehicle.distance;
         const fadeIn = Math.min(1, vehicle.age / FADE_SECONDS);
         const fadeOut = Math.min(1, remaining / (vehicle.speed * FADE_SECONDS));
-        const visibility = Math.max(0, Math.min(fadeIn, fadeOut));
+        const visibility = Math.min(1, Math.max(0, Math.min(fadeIn, fadeOut)) * (1 + lift * 0.8));
         if (visibility <= 0.01) continue;
 
         // Fading trail: short segments behind the head, each fainter and thinner.
         let [previousX, previousY] = [x, y];
         for (let step = 1; step <= TRAIL_STEPS; step += 1) {
           const back = Math.min(current.length, Math.max(0, vehicle.distance - vehicle.direction * (TRAIL_LENGTH * step) / TRAIL_STEPS));
-          const [trailX, trailY] = project(pointAt(current, back));
+          const [trailX, trailY] = displace(...project(pointAt(current, back)));
           const fade = 1 - step / (TRAIL_STEPS + 1);
           drawingContext.strokeStyle = `rgba(${red}, ${green}, ${blue}, ${0.26 * fade * visibility})`;
           drawingContext.lineWidth = vehicle.size * 1.5 * fade + 0.4;
@@ -380,12 +415,29 @@ export function HeroTrafficMap() {
     resizeObserver.observe(parentElement);
     reducedMotion.addEventListener("change", start);
 
+    function onPointerMove(event: PointerEvent) {
+      if (!finePointer.matches || reducedMotion.matches) return;
+      const rect = parentElement.getBoundingClientRect();
+      const inside = event.clientX >= rect.left && event.clientX <= rect.right && event.clientY >= rect.top && event.clientY <= rect.bottom;
+      lens.target = inside ? 1 : 0;
+      if (!inside) return;
+      lens.x = event.clientX - rect.left;
+      lens.y = event.clientY - rect.top;
+    }
+    function onPointerOut(event: PointerEvent) {
+      if (!event.relatedTarget) lens.target = 0;
+    }
+    window.addEventListener("pointermove", onPointerMove, { passive: true });
+    document.addEventListener("pointerout", onPointerOut);
+
     return () => {
       abort.abort();
       window.cancelAnimationFrame(frame);
       observer.disconnect();
       resizeObserver.disconnect();
       reducedMotion.removeEventListener("change", start);
+      window.removeEventListener("pointermove", onPointerMove);
+      document.removeEventListener("pointerout", onPointerOut);
     };
   }, []);
 
