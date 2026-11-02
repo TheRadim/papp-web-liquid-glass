@@ -2707,3 +2707,11 @@
   .insights-explorer__card > div:first-child p { min-height: calc(4 * 1.7em); }
   .insights-explorer__caption { min-height: calc(5 * 1.7em); }
 }
+
+/* Team portraits: a taller 4:5 frame shows head and shoulders, not just the face. */
+.team-card__portrait {
+  aspect-ratio: 4 / 5;
+}
+.team-card__portrait img {
+  object-position: 50% 20%;
+}

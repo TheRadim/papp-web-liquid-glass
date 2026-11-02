@@ -206,7 +206,7 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
               >
                 <span className="team-card__portrait" aria-hidden="true">
                   {"image" in member && member.image ? (
-                    <Image src={withBasePath(member.image)} alt="" width={900} height={900} sizes="(max-width: 768px) 46vw, 22vw" />
+                    <Image src={withBasePath(member.image)} alt="" width={800} height={1000} sizes="(max-width: 768px) 46vw, 22vw" />
                   ) : (
                     <span>{member.initials ?? member.name.split(" ").map((part) => part[0]).slice(0, 2).join("")}</span>
                   )}
